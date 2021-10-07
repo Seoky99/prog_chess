@@ -1,0 +1,6 @@
+(** @canonical Chess.Author *)
+module Author = Chess__Author
+
+
+(** @canonical Chess.Board *)
+module Board = Chess__Board
