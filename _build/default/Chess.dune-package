@@ -14,7 +14,8 @@
    (main_module_name Chess)
    (modules
     ((name Author) (obj_name chess__Author) (visibility public) (impl) (intf))
-    ((name Board) (obj_name chess__Board) (visibility public) (impl) (intf)))
+    ((name Board) (obj_name chess__Board) (visibility public) (impl) (intf))
+    ((name Jsongen) (obj_name chess__Jsongen) (visibility public) (impl)))
    (alias_module
     (name Chess)
     (obj_name chess)

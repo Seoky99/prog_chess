@@ -1,0 +1,7 @@
+2021-10-07T04:17:48+00:00 LAPTOP-RL77O27E#02 I: Start test test suite for Chess game:1:Second test.
+2021-10-07T04:17:48+00:00 LAPTOP-RL77O27E#02 E: Test test suite for Chess game:1:Second test has failed.
+2021-10-07T04:17:48+00:00 LAPTOP-RL77O27E#02 E: not equal in test test suite for Chess game:1:Second test.
+2021-10-07T04:17:48+00:00 LAPTOP-RL77O27E#02 E: Raised at OUnitAssert.assert_failure in file "src/lib/ounit2/advanced/oUnitAssert.ml", line 45, characters 2-27
+2021-10-07T04:17:48+00:00 LAPTOP-RL77O27E#02 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2021-10-07T04:17:48+00:00 LAPTOP-RL77O27E#02 E: 
+2021-10-07T04:17:48+00:00 LAPTOP-RL77O27E#02 I: End test test suite for Chess game:1:Second test.

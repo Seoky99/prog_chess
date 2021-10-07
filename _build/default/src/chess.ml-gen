@@ -4,3 +4,7 @@ module Author = Chess__Author
 
 (** @canonical Chess.Board *)
 module Board = Chess__Board
+
+
+(** @canonical Chess.Jsongen *)
+module Jsongen = Chess__Jsongen

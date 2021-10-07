@@ -19,7 +19,11 @@ lib: [
   "_build/install/default/lib/Chess/chess__Board.cmt"
   "_build/install/default/lib/Chess/chess__Board.cmti"
   "_build/install/default/lib/Chess/chess__Board.cmx"
+  "_build/install/default/lib/Chess/chess__Jsongen.cmi"
+  "_build/install/default/lib/Chess/chess__Jsongen.cmt"
+  "_build/install/default/lib/Chess/chess__Jsongen.cmx"
   "_build/install/default/lib/Chess/dune-package"
+  "_build/install/default/lib/Chess/jsongen.ml"
   "_build/install/default/lib/Chess/opam"
 ]
 libexec: [
