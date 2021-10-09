@@ -2,7 +2,7 @@
 
 This project is a two player spinoff of chess that employs mechanics that allow progression for the player and customizations for pieces and the board.    
 
-Note to Henry and Alex: <br />
+Note to Henry and Alex: "Example here" <br />
 
 --This is for setup <br /> 
 First obviously clone your local repository (git clone <link here>) <br />
