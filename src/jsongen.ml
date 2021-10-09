@@ -1,4 +1,4 @@
-(** Helper that kills alex the individual positions *)
+(** Helper that kills alex the individual positionss *)
 let string_json r c white = 
   
   (*can change to list, pair if needed*)
