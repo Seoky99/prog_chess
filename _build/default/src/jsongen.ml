@@ -1,31 +1,48 @@
-let string_json r c black = 
+(** Helper that kills alex the individual positions *)
+let string_json r c white = 
   
   (*can change to list, pair if needed*)
   let id_as_string = string_of_int r ^ ", " ^ string_of_int c in
-  let black_or_white = if black then "black" else "white" in
+  let black_or_white = if white then "white" else "black" in
   
   "{
-      'id' : (" ^ id_as_string ^ ")
-      'obstacle': 'none'
-      'color' : " ^ black_or_white ^ "
-    },"
+      'id' : [" ^ id_as_string ^ "],
+      'obstacle': 'none',
+      'color' : '" ^ black_or_white ^ "'
+      },"
 
-(** Creates an N x N chess board json, given that N is odd*)
-let rec create_board x r c max_col = 
+(** [create_board n r c max_col] Creates an [n] x [n] chess board json, starting 
+at position ([r],[c]) with the template:
+  {
+    'name': [r, c], 
+    'positions': [
+      {
+          'id': (rxc),
+          'obstacle': 'none or some'
+          'color': 'white or black'
+      },
+      etc.
+    ]
+    }
+  Note: single string markers will be replaced by double quotes. *) 
+let rec create_board height width r c sqrn = 
 
-  if x = 0 then "" else 
+  if sqrn = 0 then "" else 
 
-  let is_even = x mod 2 = 0 in 
+  let is_even = (r + c) mod 2 = 0 in 
 
-  if c = max_col then string_json r c is_even  ^ create_board (x-1) (r+1) 1 max_col
-  else string_json r c is_even ^ create_board (x-1) r (c+1) max_col
+  if c = width then string_json r c is_even  ^ create_board height width (r+1) 1 (sqrn-1)
+  else string_json r c is_even ^ create_board height width r (c+1) (sqrn - 1)
 
-let print_board x r c = 
+(** Obviously prints out the board*)
+let print_board height width r c = 
 
-  let sqrtx = x |> float_of_int |> sqrt |> int_of_float in
-  let positions = create_board x r c sqrtx in 
+  let num_positions = height * width in 
+  let positions = create_board height width r c num_positions in 
 
-  let final_string =  " { 'name': '" ^ string_of_int sqrtx ^ "x" ^ string_of_int sqrtx ^ "', 
+  let final_string =  " { 'name': '" ^ string_of_int height ^ "x" ^ string_of_int width ^ "', 
   'positions': [ " ^ positions ^ " ]}" in
+
+
 
   print_endline (final_string)

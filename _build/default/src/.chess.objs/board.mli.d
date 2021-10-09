@@ -1,1 +1,1 @@
-src/board.mli:
+src/board.mli: Yojson

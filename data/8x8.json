@@ -1,5 +1,8 @@
 {
-  "name": "8x8",
+  "name": [
+    8,
+    8
+  ],
   "positions": [
     {
       "id": [
