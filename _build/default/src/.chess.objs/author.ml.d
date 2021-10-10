@@ -1,1 +1,1 @@
-src/author.ml: Board Chess
+src/author.ml:
