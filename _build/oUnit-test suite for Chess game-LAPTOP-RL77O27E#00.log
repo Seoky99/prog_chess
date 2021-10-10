@@ -1,0 +1,109 @@
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Runner: processes
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Chooser: simple
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration suite_name = "test suite for Chess game"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration cache_filename = "/home/seoky99/cs3110/prog_chess/_build/oUnit-$(suite_name).cache"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration run_gc_full_major = "true"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration display = "true"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration results_style_1_X = "false"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration testdata_dir = "/home/seoky99/cs3110/prog_chess/data"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration health_check_interval = "1."
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration verbose = "false"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration chooser = "simple"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration output_html_dir = "none"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration processes_kill_period = "5."
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration runner = "processes"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration shards = "6"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration processes_grace_period = "5."
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration log_encoding = "utf-8"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration output_junit_file = "none"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration ci = "false"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Configuration output_file = "/home/seoky99/cs3110/prog_chess/_build/oUnit-$(suite_name)-$(shard_id).log"
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Using 6 workers maximum.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Starting worker number LAPTOP-RL77O27E#01.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#01 started.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Starting worker number LAPTOP-RL77O27E#02.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#02 started.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Starting worker number LAPTOP-RL77O27E#03.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#03 started.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Starting worker number LAPTOP-RL77O27E#04.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#04 started.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Starting worker number LAPTOP-RL77O27E#05.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#05 started.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Starting worker number LAPTOP-RL77O27E#06.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#06 started.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Still 6 tests running : test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3, test suite for Chess game:2:Row 3 of Board 3x3, test suite for Chess game:1:Row 2 of Board 3x3, test suite for Chess game:0:Row 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 6 tests running: test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3, test suite for Chess game:2:Row 3 of Board 3x3, test suite for Chess game:1:Row 2 of Board 3x3, test suite for Chess game:0:Row 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#01 I: Start test test suite for Chess game:0:Row 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#02 I: Start test test suite for Chess game:1:Row 2 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#03 I: Start test test suite for Chess game:2:Row 3 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#04 I: Start test test suite for Chess game:3:Col 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#05 I: Start test test suite for Chess game:4:Col 2 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Still 6 tests running : test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3, test suite for Chess game:2:Row 3 of Board 3x3, test suite for Chess game:1:Row 2 of Board 3x3, test suite for Chess game:0:Row 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 6 tests running: test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3, test suite for Chess game:2:Row 3 of Board 3x3, test suite for Chess game:1:Row 2 of Board 3x3, test suite for Chess game:0:Row 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#01 I: Test test suite for Chess game:0:Row 1 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#02 I: Test test suite for Chess game:1:Row 2 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#03 I: Test test suite for Chess game:2:Row 3 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#06 I: Start test test suite for Chess game:5:Col 3 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Still 6 tests running : test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3, test suite for Chess game:2:Row 3 of Board 3x3, test suite for Chess game:1:Row 2 of Board 3x3, test suite for Chess game:0:Row 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 6 tests running: test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3, test suite for Chess game:2:Row 3 of Board 3x3, test suite for Chess game:1:Row 2 of Board 3x3, test suite for Chess game:0:Row 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#01 I: End test test suite for Chess game:0:Row 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#02 I: End test test suite for Chess game:1:Row 2 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#03 I: End test test suite for Chess game:2:Row 3 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Still 6 tests running : test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3, test suite for Chess game:2:Row 3 of Board 3x3, test suite for Chess game:1:Row 2 of Board 3x3, test suite for Chess game:0:Row 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 6 tests running: test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3, test suite for Chess game:2:Row 3 of Board 3x3, test suite for Chess game:1:Row 2 of Board 3x3, test suite for Chess game:0:Row 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Still 3 tests running : test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 3 tests running: test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#04 I: Test test suite for Chess game:3:Col 1 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Still 3 tests running : test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 3 tests running: test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#04 I: End test test suite for Chess game:3:Col 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#05 I: Test test suite for Chess game:4:Col 2 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Still 3 tests running : test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 3 tests running: test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3, test suite for Chess game:3:Col 1 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#05 I: End test test suite for Chess game:4:Col 2 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Still 2 tests running : test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 2 tests running: test suite for Chess game:5:Col 3 of Board 3x3, test suite for Chess game:4:Col 2 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Still 1 tests running : test suite for Chess game:5:Col 3 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 1 tests running: test suite for Chess game:5:Col 3 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#06 I: Test test suite for Chess game:5:Col 3 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Still 1 tests running : test suite for Chess game:5:Col 3 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 1 tests running: test suite for Chess game:5:Col 3 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#06 I: End test test suite for Chess game:5:Col 3 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Still 1 tests running : test suite for Chess game:5:Col 3 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 1 tests running: test suite for Chess game:5:Col 3 of Board 3x3.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: 0 tests running: .
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#01 has ended.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#02 has ended.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#03 has ended.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#04 has ended.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#05 has ended.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Worker LAPTOP-RL77O27E#06 has ended.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Used 6 worker during test execution.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Run 1 tests with shard LAPTOP-RL77O27E#01.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Run 1 tests with shard LAPTOP-RL77O27E#03.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Run 1 tests with shard LAPTOP-RL77O27E#06.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Run 1 tests with shard LAPTOP-RL77O27E#02.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Run 1 tests with shard LAPTOP-RL77O27E#05.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Run 1 tests with shard LAPTOP-RL77O27E#04.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Check health of shard LAPTOP-RL77O27E#01, 8 times.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Check health of shard LAPTOP-RL77O27E#03, 8 times.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Check health of shard LAPTOP-RL77O27E#06, 1 times.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Check health of shard LAPTOP-RL77O27E#02, 8 times.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Check health of shard LAPTOP-RL77O27E#05, 4 times.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Check health of shard LAPTOP-RL77O27E#04, 5 times.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: ==============
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Summary:
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Test test suite for Chess game:5:Col 3 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Test test suite for Chess game:4:Col 2 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Test test suite for Chess game:3:Col 1 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Test test suite for Chess game:2:Row 3 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Test test suite for Chess game:1:Row 2 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Test test suite for Chess game:0:Row 1 of Board 3x3 is successful.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Ran: 6 tests in: 0.10 seconds.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Cases: 6.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Tried: 6.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Errors: 0.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Failures: 0.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Skip: 0.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Todo: 0.
+2021-10-10T04:51:36+00:00 LAPTOP-RL77O27E#00 I: Timeout: 0.

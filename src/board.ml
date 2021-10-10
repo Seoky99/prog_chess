@@ -1,8 +1,11 @@
 open Yojson.Basic.Util 
 
+(** Represents where the chess board square is located*)
+type id = (int * int) 
+
 (** Represents a single chess board square*)
 type position = {
-  id : int * int; 
+  id : id; 
   obstacle : string;
   color : string;
 }
@@ -40,24 +43,41 @@ let dimensionsTuple json =
 
 (** [positions2D pos_lst c x rowacc boardacc] helps construct the positions -
 implemented as a 2D list comprised of position types*)
-let rec positions2D pos_lst c x rowacc boardacc = 
+let rec positions2D (pos_lst : position list) c x rowacc boardacc = 
   match pos_lst with 
-  | [] ->  failwith "you moron. you imbecile. you screwed up bigtime."
-  | h :: _ when x = c -> positions2D pos_lst c 1 [] ((h :: rowacc) :: boardacc)
-  | h :: _ -> positions2D pos_lst c (x + 1) (h :: rowacc) (boardacc)
+  | [] ->  List.rev(boardacc) 
+  | h :: t when x = c -> positions2D t c 1 [] ((List.rev(h :: rowacc)) :: boardacc)
+  | h :: t -> positions2D t c (x + 1) (h :: rowacc) (boardacc)
 
 let board_from_json json = 
   {
     number_of_rows = fst (dimensionsTuple json); 
     number_of_columns = snd (dimensionsTuple json);
-    positions = positions2D (positions1D json) (snd (dimensionsTuple json) ) 1 [] []
+    positions = positions2D (positions1D json) (snd (dimensionsTuple json)) 1 [] []
 } 
 
-(** TO DO: Implement nth row, nth column, finding positions
-to test if abstraction is correct 
+let rec nth_elt n lst = 
+  match lst with 
+  | [] -> failwith "fuck you"
+  | h :: _ when n <= 1 -> h 
+  | _ :: t ->  nth_elt (n-1) t 
+
+let rec lst_of_nth_elt n lst acc =
+  match lst with 
+  | [] -> List.rev acc 
+  | h :: t -> 
+      let nth = nth_elt n h in 
+      lst_of_nth_elt n t (nth :: acc)  
+
 let n_row n board = 
+  nth_elt n board.positions
 
 let n_col n board = 
-
-  *) 
+  lst_of_nth_elt n board.positions [] 
   
+let id_lst (pos_lst : position list) = 
+  List.map (fun x -> x.id) pos_lst 
+
+
+(** TO DO: INFINITE LOOP SOMEWHERE, finding positions
+to test if abstraction is correct *) 
