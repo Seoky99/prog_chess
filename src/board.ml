@@ -56,12 +56,18 @@ let board_from_json json =
     positions = positions2D (positions1D json) (snd (dimensionsTuple json)) 1 [] []
 } 
 
+(* [nth_elt n lst] is the nth element of the list (starting from index 1). 
+Raises: exception if the list is empty*)
 let rec nth_elt n lst = 
   match lst with 
   | [] -> failwith "fuck you"
   | h :: _ when n <= 1 -> h 
   | _ :: t ->  nth_elt (n-1) t 
 
+(* [lst_of_nth_elt n lst acc] takes in a 2D list and returns a list of the nth 
+element of each list within the 2D list 
+Example: 2 [[(1,2); (2,3); (3,4)]; [(3,6); (7,4); (9,9)] [] returns you
+[((2,3); (7,4))]*)
 let rec lst_of_nth_elt n lst acc =
   match lst with 
   | [] -> List.rev acc 
@@ -75,9 +81,11 @@ let n_row n board =
 let n_col n board = 
   lst_of_nth_elt n board.positions [] 
   
-let id_lst (pos_lst : position list) = 
+let id_pos_lst (pos_lst : position list) = 
   List.map (fun x -> x.id) pos_lst 
 
+let id_board (board : board) = 
+  List.map ( fun x -> id_pos_lst x) board.positions 
 
-(** TO DO: INFINITE LOOP SOMEWHERE, finding positions
-to test if abstraction is correct *) 
+
+(** Finding position to test if abstraction is correct *) 

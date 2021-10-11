@@ -20,5 +20,9 @@ val n_row : int -> board -> position list
 Requires: [n] >= 1*)
 val n_col : int -> board -> position list 
 
-(** [id_lst pos_lst] produces a list of ids from a list of positions *)
-val id_lst : position list -> id list 
+(** [id_lst id_pos_lst] produces a list of ids from a list of positions *)
+val id_pos_lst : position list -> id list 
+
+(** [id_board board]* produces a list of id lists from a board, essentially
+mapping out the whole board *)
+val id_board : board -> id list list 

@@ -8,3 +8,7 @@ module Board = Chess__Board
 
 (** @canonical Chess.Jsongen *)
 module Jsongen = Chess__Jsongen
+
+
+(** @canonical Chess.Piece *)
+module Piece = Chess__Piece

@@ -1,8 +1,9 @@
 <ol><h1>TODO LIST</h1> 
-<li> Finalize abstract type of board!!! Current implementation is defintely? not right but close. </li> 
-<li> Test abstract type!!! </li> 
-<li> Write specs / signature of .mli !!! </li>
-<li> from 1x1 to 9x9 data should have jsons </li> </ol>
+<li> Finalize abstract type of board!!! Current implementation is almost? right but close. </li> 
+  <li> Test abstract type!!! <strong> IN PARTICULAR, </strong> testing non square inputs of boards  </li> 
+<li> Finish specs / signature of .mli !!! </li>
+<li> from 1x1 to 9x9 data should have jsons in the data folder. Also make some non square chess boards. </li> 
+  <li> Start coding up pieces so we can put them into the board impl </li> </ol>
 
 <h2> Things to note </h2> <br /> 
 When referencing functions of other modules, the functions must be specified in the .mli folder. However sometimes I noticed they still would be unbound, and
