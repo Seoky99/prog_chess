@@ -4,7 +4,7 @@ type piece_info =
     possible_moves : (int * int) list; 
     team : string; 
     name : string; 
-    (* upgrade list*)
+    (* upgrade list *)
   }
 
 type piece  =  
@@ -44,6 +44,8 @@ let get_name pc =
   match pc with 
   | White_Pawn {name; _} | Black_Pawn {name; _} | Rook {name; _} | Bishop {name; _} | Knight {name; _} | King {name; _} | Queen {name; _} -> name  
   | Nothing -> "nothing"
+
+
 
 
 

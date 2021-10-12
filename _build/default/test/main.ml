@@ -54,6 +54,8 @@ let board_tests = [
 
     (* Testing pieces on board*)
     make_f_test "Board 3x3 pieces are correct" [["nothing"; "nothing"; "white_pawn"]; ["black_pawn";"nothing"; "bishop"]; ["bishop"; "king"; "king"]] (piece_board board3x3); 
+    make_f_test "Board 3x3 pieces are correct" [["nothing"; "nothing"; "white_pawn"]; ["black_pawn";"nothing"; "bishop"]; ["bishop"; "king"; "king"]] (piece_board board3x3); 
+    
     
 ]
 
