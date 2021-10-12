@@ -1,10 +1,10 @@
-# dune exec test/main.exe
+# dune build
 # OCAMLPARAM: unset
-# Workspace root: /home/seoky99/cs3110/prog_chess
-$ /usr/bin/nproc > /tmp/dune9d0546.output 2> /dev/null
-# Auto-detected concurrency: 12
+# Workspace root: /home/camel/cs3110/prog_chess
+$ /usr/bin/nproc > /tmp/dunea991c6.output 2> /dev/null
+# Auto-detected concurrency: 2
 # disable binary cache
-$ /home/seoky99/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dunebff1b7.output
+$ /home/camel/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/duned01be4.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -14,40 +14,37 @@ $ /home/seoky99/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dunebff1b7.out
 #  ; fdo_target_exe = None
 #  ; build_dir = "default"
 #  ; toplevel_path =
-#      Some External "/home/seoky99/.opam/cs3110-2021fa/lib/toplevel"
-#  ; ocaml_bin = External "/home/seoky99/.opam/cs3110-2021fa/bin"
-#  ; ocaml = Ok External "/home/seoky99/.opam/cs3110-2021fa/bin/ocaml"
-#  ; ocamlc = External "/home/seoky99/.opam/cs3110-2021fa/bin/ocamlc.opt"
-#  ; ocamlopt =
-#      Ok External "/home/seoky99/.opam/cs3110-2021fa/bin/ocamlopt.opt"
-#  ; ocamldep =
-#      Ok External "/home/seoky99/.opam/cs3110-2021fa/bin/ocamldep.opt"
+#      Some External "/home/camel/.opam/cs3110-2021fa/lib/toplevel"
+#  ; ocaml_bin = External "/home/camel/.opam/cs3110-2021fa/bin"
+#  ; ocaml = Ok External "/home/camel/.opam/cs3110-2021fa/bin/ocaml"
+#  ; ocamlc = External "/home/camel/.opam/cs3110-2021fa/bin/ocamlc.opt"
+#  ; ocamlopt = Ok External "/home/camel/.opam/cs3110-2021fa/bin/ocamlopt.opt"
+#  ; ocamldep = Ok External "/home/camel/.opam/cs3110-2021fa/bin/ocamldep.opt"
 #  ; ocamlmklib =
-#      Ok External "/home/seoky99/.opam/cs3110-2021fa/bin/ocamlmklib.opt"
+#      Ok External "/home/camel/.opam/cs3110-2021fa/bin/ocamlmklib.opt"
 #  ; env =
 #      map
-#        { "DUNE_OCAML_HARDCODED" : "/home/seoky99/.opam/cs3110-2021fa/lib"
-#        ; "DUNE_OCAML_STDLIB" : "/home/seoky99/.opam/cs3110-2021fa/lib/ocaml"
-#        ; "DUNE_SOURCEROOT" : "/home/seoky99/cs3110/prog_chess"
-#        ; "INSIDE_DUNE" : "/home/seoky99/cs3110/prog_chess/_build/default"
+#        { "DUNE_OCAML_HARDCODED" : "/home/camel/.opam/cs3110-2021fa/lib"
+#        ; "DUNE_OCAML_STDLIB" : "/home/camel/.opam/cs3110-2021fa/lib/ocaml"
+#        ; "DUNE_SOURCEROOT" : "/home/camel/cs3110/prog_chess"
+#        ; "INSIDE_DUNE" : "/home/camel/cs3110/prog_chess/_build/default"
 #        ; "OCAMLFIND_IGNORE_DUPS_IN" :
-#            "/home/seoky99/cs3110/prog_chess/_build/install/default/lib"
+#            "/home/camel/cs3110/prog_chess/_build/install/default/lib"
 #        ; "OCAMLPATH" :
-#            "/home/seoky99/cs3110/prog_chess/_build/install/default/lib"
+#            "/home/camel/cs3110/prog_chess/_build/install/default/lib"
 #        ; "OCAMLTOP_INCLUDE_PATH" :
-#            "/home/seoky99/cs3110/prog_chess/_build/install/default/lib/toplevel"
+#            "/home/camel/cs3110/prog_chess/_build/install/default/lib/toplevel"
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
-#  ; findlib_path = [ External "/home/seoky99/.opam/cs3110-2021fa/lib" ]
+#  ; findlib_path = [ External "/home/camel/.opam/cs3110-2021fa/lib" ]
 #  ; arch_sixtyfour = true
 #  ; natdynlink_supported = true
 #  ; supports_shared_libraries = true
 #  ; ocaml_config =
 #      { version = "4.12.0"
-#      ; standard_library_default =
-#          "/home/seoky99/.opam/cs3110-2021fa/lib/ocaml"
-#      ; standard_library = "/home/seoky99/.opam/cs3110-2021fa/lib/ocaml"
+#      ; standard_library_default = "/home/camel/.opam/cs3110-2021fa/lib/ocaml"
+#      ; standard_library = "/home/camel/.opam/cs3110-2021fa/lib/ocaml"
 #      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
 #      ; ccomp_type = "cc"
 #      ; c_compiler = "gcc"
@@ -114,11 +111,9 @@ $ /home/seoky99/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dunebff1b7.out
 #      ; windows_unicode = false
 #      }
 #  }
-# Workspace root: /home/seoky99/cs3110/prog_chess
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -impl src/jsongen.ml) > _build/default/src/.chess.objs/jsongen.ml.d
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I src/.chess.objs/byte -I /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal -I /home/seoky99/.opam/cs3110-2021fa/lib/biniou -I /home/seoky99/.opam/cs3110-2021fa/lib/bytes -I /home/seoky99/.opam/cs3110-2021fa/lib/easy-format -I /home/seoky99/.opam/cs3110-2021fa/lib/yojson -no-alias-deps -opaque -open Chess -o src/.chess.objs/byte/chess__Jsongen.cmo -c -impl src/jsongen.ml)
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I src/.chess.objs/byte -I src/.chess.objs/native -I /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal -I /home/seoky99/.opam/cs3110-2021fa/lib/biniou -I /home/seoky99/.opam/cs3110-2021fa/lib/bytes -I /home/seoky99/.opam/cs3110-2021fa/lib/easy-format -I /home/seoky99/.opam/cs3110-2021fa/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Chess -o src/.chess.objs/native/chess__Jsongen.cmx -c -impl src/jsongen.ml)
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o src/chess.cmxa src/.chess.objs/native/chess.cmx src/.chess.objs/native/chess__Jsongen.cmx src/.chess.objs/native/chess__Board.cmx src/.chess.objs/native/chess__Author.cmx)
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I test/.main.eobjs/byte -I /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal -I /home/seoky99/.opam/cs3110-2021fa/lib/biniou -I /home/seoky99/.opam/cs3110-2021fa/lib/bytes -I /home/seoky99/.opam/cs3110-2021fa/lib/easy-format -I /home/seoky99/.opam/cs3110-2021fa/lib/ounit2 -I /home/seoky99/.opam/cs3110-2021fa/lib/ounit2/advanced -I /home/seoky99/.opam/cs3110-2021fa/lib/stdlib-shims -I /home/seoky99/.opam/cs3110-2021fa/lib/yojson -I src/.chess.objs/byte -no-alias-deps -opaque -o test/.main.eobjs/byte/dune__exe__Main.cmo -c -impl test/main.ml)
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I test/.main.eobjs/byte -I test/.main.eobjs/native -I /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal -I /home/seoky99/.opam/cs3110-2021fa/lib/biniou -I /home/seoky99/.opam/cs3110-2021fa/lib/bytes -I /home/seoky99/.opam/cs3110-2021fa/lib/easy-format -I /home/seoky99/.opam/cs3110-2021fa/lib/ounit2 -I /home/seoky99/.opam/cs3110-2021fa/lib/ounit2/advanced -I /home/seoky99/.opam/cs3110-2021fa/lib/stdlib-shims -I /home/seoky99/.opam/cs3110-2021fa/lib/yojson -I src/.chess.objs/byte -I src/.chess.objs/native -intf-suffix .ml -no-alias-deps -opaque -o test/.main.eobjs/native/dune__exe__Main.cmx -c -impl test/main.ml)
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o test/main.exe /home/seoky99/.opam/cs3110-2021fa/lib/easy-format/easy_format.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/biniou/biniou.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/yojson/yojson.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/ocaml/unix.cmxa -I /home/seoky99/.opam/cs3110-2021fa/lib/ocaml /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal/ANSITerminal.cmxa -I /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal src/chess.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/stdlib-shims/stdlib_shims.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/ounit2/advanced/oUnitAdvanced.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/ounit2/oUnit.cmxa test/.main.eobjs/native/dune__exe__Main.cmx)
+$ (cd _build/default && /home/camel/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -impl src/board.ml) > _build/default/src/.chess.objs/board.ml.d
+> File "src/board.ml", line 9, characters 18-19:
+> 9 |   position : (x,y);
+>                       ^
+> Error: Syntax error
+[2]

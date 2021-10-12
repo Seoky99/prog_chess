@@ -6,7 +6,5 @@ Two dimensional list for each of the positions. *)
 (*TESTING GITHUB*)
 
 type position = {
-  position : (x,y); 
-  
-
+  position : (x,y);
 }
