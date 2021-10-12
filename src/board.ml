@@ -1,4 +1,5 @@
 open Yojson.Basic.Util 
+open Piece 
 
 (** Represents where the chess board square is located*)
 type id = (int * int) 
@@ -8,6 +9,7 @@ type position = {
   id : id; 
   obstacle : string;
   color : string;
+  piece : piece 
 }
 
 (** Keeps track of dimensions of board, and positions as 2D list. *)
@@ -30,6 +32,7 @@ let position_from_json json =
       id = json |> member "id" |> to_list |> yojsonlist_to_tuple; 
       obstacle = json |> member "obstacle" |> to_string;
       color = json |> member "color" |> to_string;
+      piece = json |> member "piece" |> to_string |> make_piece
   }
 
 (** [positions1D json] is the list of all the squares on the board.
@@ -87,5 +90,10 @@ let id_pos_lst (pos_lst : position list) =
 let id_board (board : board) = 
   List.map ( fun x -> id_pos_lst x) board.positions 
 
+let piece_pos_lst (pos_lst : position list) = 
+    List.map (fun x -> get_name(x.piece)) pos_lst 
+
+let piece_board board = 
+  List.map (fun x -> piece_pos_lst x) board.positions
 
 (** Finding position to test if abstraction is correct *) 

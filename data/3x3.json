@@ -10,7 +10,8 @@
         1
       ],
       "obstacle": "none",
-      "color": "white"
+      "color": "white",
+      "piece": "nothing"
     },
     {
       "id": [
@@ -18,7 +19,8 @@
         2
       ],
       "obstacle": "none",
-      "color": "black"
+      "color": "black",
+      "piece": "nothing"
     },
     {
       "id": [
@@ -26,7 +28,8 @@
         3
       ],
       "obstacle": "none",
-      "color": "white"
+      "color": "white",
+      "piece": "white_pawn"
     },
     {
       "id": [
@@ -34,7 +37,8 @@
         1
       ],
       "obstacle": "none",
-      "color": "black"
+      "color": "black",
+      "piece": "black_pawn"
     },
     {
       "id": [
@@ -42,7 +46,8 @@
         2
       ],
       "obstacle": "none",
-      "color": "white"
+      "color": "white",
+      "piece": "nothing"
     },
     {
       "id": [
@@ -50,7 +55,8 @@
         3
       ],
       "obstacle": "none",
-      "color": "black"
+      "color": "black",
+      "piece": "black_bishop"
     },
     {
       "id": [
@@ -58,7 +64,8 @@
         1
       ],
       "obstacle": "none",
-      "color": "white"
+      "color": "white",
+      "piece": "white_bishop"
     },
     {
       "id": [
@@ -66,7 +73,8 @@
         2
       ],
       "obstacle": "none",
-      "color": "black"
+      "color": "black",
+      "piece": "white_king"
     },
     {
       "id": [
@@ -74,7 +82,8 @@
         3
       ],
       "obstacle": "none",
-      "color": "white"
+      "color": "white",
+      "piece": "black_king"
     }
   ]
 }

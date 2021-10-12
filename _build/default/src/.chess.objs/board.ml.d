@@ -1,1 +1,1 @@
-src/board.ml: List Yojson
+src/board.ml: List Piece Yojson
