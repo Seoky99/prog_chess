@@ -26,3 +26,7 @@ val id_pos_lst : position list -> id list
 (** [id_board board]* produces a list of id lists from a board, essentially
 mapping out the whole board *)
 val id_board : board -> id list list 
+
+(** [get_color board id] the ouput is the color of the board at that board with the given id
+Requires: id is a valid location on the board*)
+val get_color: board-> id -> string

@@ -88,4 +88,15 @@ let id_board (board : board) =
   List.map ( fun x -> id_pos_lst x) board.positions 
 
 
+let rec get_color_helper lst (id:id):string= match 
+lst with
+| []->failwith "Invalid id given"
+|h::t-> if (h.id=id) then h.color else get_color_helper t (id)
+
+let get_color (board:board) (id:id):string= 
+match  (List.flatten board.positions) with 
+| [] -> failwith "Invalid Id given"
+| h::t -> if (h.id=id) then h.color else get_color_helper t id
+
+
 (** Finding position to test if abstraction is correct *) 

@@ -1,18 +1,10 @@
-# dune build
+# dune exec test/main.exe
 # OCAMLPARAM: unset
-<<<<<<< HEAD
 # Workspace root: /home/camel/cs3110/prog_chess
-$ /usr/bin/nproc > /tmp/dunea991c6.output 2> /dev/null
+$ /usr/bin/nproc > /tmp/dunedd344f.output 2> /dev/null
 # Auto-detected concurrency: 2
 # disable binary cache
-$ /home/camel/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/duned01be4.output
-=======
-# Workspace root: /home/seoky99/cs3110/prog_chess
-$ /usr/bin/nproc > /tmp/dune5cb600.output 2> /dev/null
-# Auto-detected concurrency: 12
-# disable binary cache
-$ /home/seoky99/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune84d00d.output
->>>>>>> main
+$ /home/camel/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune2d284a.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -119,21 +111,4 @@ $ /home/seoky99/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune84d00d.out
 #      ; windows_unicode = false
 #      }
 #  }
-<<<<<<< HEAD
-$ (cd _build/default && /home/camel/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -impl src/board.ml) > _build/default/src/.chess.objs/board.ml.d
-> File "src/board.ml", line 9, characters 18-19:
-> 9 |   position : (x,y);
->                       ^
-> Error: Syntax error
-[2]
-=======
-# Workspace root: /home/seoky99/cs3110/prog_chess
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -intf src/piece.mli) > _build/default/src/.chess.objs/piece.mli.d
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -impl src/piece.ml) > _build/default/src/.chess.objs/piece.ml.d
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I src/.chess.objs/byte -I /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal -I /home/seoky99/.opam/cs3110-2021fa/lib/biniou -I /home/seoky99/.opam/cs3110-2021fa/lib/bytes -I /home/seoky99/.opam/cs3110-2021fa/lib/easy-format -I /home/seoky99/.opam/cs3110-2021fa/lib/yojson -no-alias-deps -opaque -open Chess -o src/.chess.objs/byte/chess__Piece.cmi -c -intf src/piece.mli)
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I src/.chess.objs/byte -I src/.chess.objs/native -I /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal -I /home/seoky99/.opam/cs3110-2021fa/lib/biniou -I /home/seoky99/.opam/cs3110-2021fa/lib/bytes -I /home/seoky99/.opam/cs3110-2021fa/lib/easy-format -I /home/seoky99/.opam/cs3110-2021fa/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Chess -o src/.chess.objs/native/chess__Piece.cmx -c -impl src/piece.ml)
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o src/chess.cmxa src/.chess.objs/native/chess.cmx src/.chess.objs/native/chess__Piece.cmx src/.chess.objs/native/chess__Jsongen.cmx src/.chess.objs/native/chess__Board.cmx src/.chess.objs/native/chess__Author.cmx)
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I test/.main.eobjs/byte -I /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal -I /home/seoky99/.opam/cs3110-2021fa/lib/biniou -I /home/seoky99/.opam/cs3110-2021fa/lib/bytes -I /home/seoky99/.opam/cs3110-2021fa/lib/easy-format -I /home/seoky99/.opam/cs3110-2021fa/lib/ounit2 -I /home/seoky99/.opam/cs3110-2021fa/lib/ounit2/advanced -I /home/seoky99/.opam/cs3110-2021fa/lib/stdlib-shims -I /home/seoky99/.opam/cs3110-2021fa/lib/yojson -I src/.chess.objs/byte -no-alias-deps -opaque -o test/.main.eobjs/byte/dune__exe__Main.cmo -c -impl test/main.ml)
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I test/.main.eobjs/byte -I test/.main.eobjs/native -I /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal -I /home/seoky99/.opam/cs3110-2021fa/lib/biniou -I /home/seoky99/.opam/cs3110-2021fa/lib/bytes -I /home/seoky99/.opam/cs3110-2021fa/lib/easy-format -I /home/seoky99/.opam/cs3110-2021fa/lib/ounit2 -I /home/seoky99/.opam/cs3110-2021fa/lib/ounit2/advanced -I /home/seoky99/.opam/cs3110-2021fa/lib/stdlib-shims -I /home/seoky99/.opam/cs3110-2021fa/lib/yojson -I src/.chess.objs/byte -I src/.chess.objs/native -intf-suffix .ml -no-alias-deps -opaque -o test/.main.eobjs/native/dune__exe__Main.cmx -c -impl test/main.ml)
-$ (cd _build/default && /home/seoky99/.opam/cs3110-2021fa/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o test/main.exe /home/seoky99/.opam/cs3110-2021fa/lib/easy-format/easy_format.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/biniou/biniou.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/yojson/yojson.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/ocaml/unix.cmxa -I /home/seoky99/.opam/cs3110-2021fa/lib/ocaml /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal/ANSITerminal.cmxa -I /home/seoky99/.opam/cs3110-2021fa/lib/ANSITerminal src/chess.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/stdlib-shims/stdlib_shims.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/ounit2/advanced/oUnitAdvanced.cmxa /home/seoky99/.opam/cs3110-2021fa/lib/ounit2/oUnit.cmxa test/.main.eobjs/native/dune__exe__Main.cmx)
->>>>>>> main
+# Workspace root: /home/camel/cs3110/prog_chess

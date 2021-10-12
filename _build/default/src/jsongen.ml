@@ -14,11 +14,7 @@ let string_json r c white =
 (** [create_board n r c max_col] Creates an [n] x [n] chess board json, starting 
 at position ([r],[c]) with the template:
   {
-<<<<<<< HEAD
-    'name': 'nxn', 
-=======
     'name': [r, c], 
->>>>>>> main
     'positions': [
       {
           'id': (rxc),
@@ -29,28 +25,12 @@ at position ([r],[c]) with the template:
     ]
     }
   Note: single string markers will be replaced by double quotes. *) 
-<<<<<<< HEAD
-let rec create_board n r c sqrn = 
-=======
 let rec create_board height width r c sqrn = 
->>>>>>> main
 
   if sqrn = 0 then "" else 
 
   let is_even = (r + c) mod 2 = 0 in 
 
-<<<<<<< HEAD
-  if c = n then string_json r c is_even  ^ create_board n (r+1) 1 (sqrn-1)
-  else string_json r c is_even ^ create_board n r (c+1) (sqrn - 1)
-
-(** Obviously prints out the board*)
-let print_board n r c = 
-
-  let sqrn = n * n in 
-  let positions = create_board n r c sqrn in 
-
-  let final_string =  " { 'name': '" ^ string_of_int n ^ "x" ^ string_of_int n ^ "', 
-=======
   if c = width then string_json r c is_even  ^ create_board height width (r+1) 1 (sqrn-1)
   else string_json r c is_even ^ create_board height width r (c+1) (sqrn - 1)
 
@@ -61,7 +41,6 @@ let print_board height width r c =
   let positions = create_board height width r c num_positions in 
 
   let final_string =  " { 'name': '" ^ string_of_int height ^ "x" ^ string_of_int width ^ "', 
->>>>>>> main
   'positions': [ " ^ positions ^ " ]}" in
 
 
