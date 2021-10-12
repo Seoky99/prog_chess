@@ -35,4 +35,8 @@ git checkout main <br />
 git pull <br />
 git checkout (name of branch) <br />
 git merge main <br />
+
+Clearing your build cache <br />
+git rm -rf --cached . <br/> 
+git add .
   
