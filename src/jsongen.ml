@@ -42,7 +42,4 @@ let print_board height width r c =
 
   let final_string =  " { 'name': '" ^ string_of_int height ^ "x" ^ string_of_int width ^ "', 
   'positions': [ " ^ positions ^ " ]}" in
-
-
-
   print_endline (final_string)
