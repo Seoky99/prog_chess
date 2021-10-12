@@ -12,6 +12,7 @@ type position = {
   piece : piece 
 }
 
+(** SDSDSDDS*)
 (** Keeps track of dimensions of board, and positions as 2D list. *)
 type board = {
   number_of_rows : int;
