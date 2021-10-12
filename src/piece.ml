@@ -4,7 +4,7 @@ type piece_info =
     possible_moves : (int * int) list; 
     team : string; 
     name : string; 
-    (* upgrade list*)
+    (* upgrade list *)
   }
 
 type piece  =  
