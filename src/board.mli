@@ -27,6 +27,10 @@ val id_pos_lst : position list -> id list
 mapping out the whole board *)
 val id_board : board -> id list list 
 
+(** [piece_pos_lst pos_lst] produces a list of names of the pieces
+from the position lists.*)
 val piece_pos_lst : position list -> string list 
 
+(** [piece_board pos_lst] produces a list of names of the pieces
+on the board.*)
 val piece_board : board -> string list list 
