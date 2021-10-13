@@ -1,4 +1,0 @@
-(library
- (name chess)
- (public_name Chess)
- (libraries yojson ANSITerminal graphics))
