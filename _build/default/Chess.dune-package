@@ -6,7 +6,7 @@
  (archives (byte chess.cma) (native chess.cmxa))
  (plugins (byte chess.cma) (native chess.cmxs))
  (native_archives chess.a)
- (requires yojson ANSITerminal)
+ (requires yojson ANSITerminal graphics)
  (main_module_name Chess)
  (modes byte native)
  (modules
@@ -15,6 +15,7 @@
    (modules
     ((name Author) (obj_name chess__Author) (visibility public) (impl) (intf))
     ((name Board) (obj_name chess__Board) (visibility public) (impl) (intf))
+    ((name Gui) (obj_name chess__Gui) (visibility public) (impl))
     ((name Jsongen) (obj_name chess__Jsongen) (visibility public) (impl))
     ((name Piece) (obj_name chess__Piece) (visibility public) (impl) (intf)))
    (alias_module

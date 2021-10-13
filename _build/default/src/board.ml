@@ -87,5 +87,9 @@ let id_pos_lst (pos_lst : position list) =
 let id_board (board : board) = 
   List.map ( fun x -> id_pos_lst x) board.positions 
 
+let num_rows (board : board) : int = 
+  board.number_of_rows
 
+let num_cols (board : board) : int = 
+  board.number_of_columns
 (** Finding position to test if abstraction is correct *) 
