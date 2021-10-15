@@ -30,3 +30,7 @@ val id_board : board -> id list list
 (** [get_color board id] the ouput is the color of the board at that board with the given id
 Requires: id is a valid location on the board*)
 val get_color: board-> id -> string
+
+(** [get_obstacle board id ] the output is the obstacle of the board at the specified id
+Requires: id is a valid location on the board*)
+val get_obstacle: board ->id ->string

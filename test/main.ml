@@ -28,6 +28,8 @@ let make_f_test name expected_output input =
   
 let make_color_test name expected_output input = name>:: fun _ -> assert_equal expected_output input ~printer: String.escaped
 
+let make_obstacle_test name expected_output input =name>:: fun _ -> assert_equal expected_output input ~printer: String.escaped
+
 let board_tests = [
 
     (* Testing id_pos_lst, n_row, and n_col *)
@@ -71,6 +73,15 @@ let board_tests = [
     make_color_test "Testing Board 3x3 and location (3,1)" "white" (get_color board3x3 (3,1));
     make_color_test "Testing Board 3x3 and location (2,3)" "black" (get_color board3x3 (2,3));
     make_color_test "Testing Board 3x3 and location (3,2)" "black" (get_color board3x3 (3,2));
+
+    (*Testing the function get_obstacles*)
+
+    make_obstacle_test "Testing board 3x3 and location (1,1)" "none" (get_obstacle board3x3 (1,1));
+    make_obstacle_test "Testing board 3x3 and location (3,3)" "none" (get_obstacle board3x3 (3,3));
+    make_obstacle_test "Testing board 3x3 and location (1,3)" "none" (get_obstacle board3x3 (1,3));
+    make_obstacle_test "Testing board 3x3 and location (3,1)" "none" (get_obstacle board3x3 (3,1));
+    make_obstacle_test "Testing board 3x3 and location (2,3)" "none" (get_obstacle board3x3 (2,3));
+    make_obstacle_test "Testing board 3x3 and location (3,2)" "none" (get_obstacle board3x3 (3,2));
 ]
 
 let suite = 
