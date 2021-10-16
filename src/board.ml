@@ -1,4 +1,5 @@
 open Yojson.Basic.Util 
+open Piece 
 
 (** Represents where the chess board square is located*)
 type id = (int * int) 
@@ -8,6 +9,7 @@ type position = {
   id : id; 
   obstacle : string;
   color : string;
+  piece : piece 
 }
 
 (** Keeps track of dimensions of board, and positions as 2D list. *)
@@ -30,6 +32,7 @@ let position_from_json json =
       id = json |> member "id" |> to_list |> yojsonlist_to_tuple; 
       obstacle = json |> member "obstacle" |> to_string;
       color = json |> member "color" |> to_string;
+      piece = json |> member "piece" |> to_string |> make_piece
   }
 
 (** [positions1D json] is the list of all the squares on the board.
@@ -65,7 +68,7 @@ let rec nth_elt n lst =
   | _ :: t ->  nth_elt (n-1) t 
 
 (* [lst_of_nth_elt n lst acc] takes in a 2D list and returns a list of the nth 
-element of each list within the 2D list 
+element of each list within the 2D lists 
 Example: 2 [[(1,2); (2,3); (3,4)]; [(3,6); (7,4); (9,9)] [] returns you
 [((2,3); (7,4))]*)
 let rec lst_of_nth_elt n lst acc =
@@ -87,6 +90,11 @@ let id_pos_lst (pos_lst : position list) =
 let id_board (board : board) = 
   List.map ( fun x -> id_pos_lst x) board.positions 
 
+let piece_pos_lst (pos_lst : position list) = 
+    List.map (fun x -> get_name (x.piece)) pos_lst 
+
+let piece_board board = 
+  List.map (fun x -> piece_pos_lst x) board.positions
 
 (* [get_color_helper lst id ] is a helper function to the get_color function 
 that returns the color at a specified id location on the board 
