@@ -22,6 +22,11 @@ let rec tuple_printer tlst =
   | [] -> ""
   | (x,y) :: t -> "(" ^ (string_of_int x) ^ "," ^ (string_of_int y) ^ ") " ^ tuple_printer t
 
+<<<<<<< HEAD
+=======
+let x = Piece.test 
+
+>>>>>>> main
 
 let rec one_d_printer str_list = 
   match str_list with 

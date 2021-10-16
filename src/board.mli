@@ -28,17 +28,24 @@ mapping out the whole board *)
 val id_board : board -> id list list 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 (** [num_rows board] returns the number of rows from a board*)
 val num_rows : board -> int
 
 (** [num_cols board] returns the number of columns from a board*)
 val num_cols : board -> int
 =======
+=======
+>>>>>>> main
 (** [piece_pos_lst pos_lst] produces a list of names of the pieces
 from the position lists.*)
 val piece_pos_lst : position list -> string list 
 
 (** [piece_board pos_lst] produces a list of names of the pieces
 on the board.*)
+<<<<<<< HEAD
+val piece_board : board -> string list list 
+>>>>>>> main
+=======
 val piece_board : board -> string list list 
 >>>>>>> main

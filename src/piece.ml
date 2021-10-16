@@ -16,6 +16,7 @@ type piece  =
 | King of piece_info 
 | Queen of piece_info 
 | Nothing 
+<<<<<<< HEAD
 
 let recordify input team = 
   {
@@ -48,5 +49,37 @@ let get_name pc =
 
 
 
+=======
+>>>>>>> main
 
+let recordify input team = 
+  {
+    possible_moves = []; 
+    team = team; 
+    name = input; 
+  }
 
+let make_piece name =
+  match name with 
+  | "white_pawn" -> White_Pawn (recordify "white_pawn" "white") 
+  | "black_pawn" -> Black_Pawn (recordify "black_pawn" "black")
+  | "white_rook" -> Rook (recordify "rook" "black")
+  | "black_rook" -> Rook (recordify "rook" "black")
+  | "white_knight" -> Knight (recordify "knight" "white")
+  | "black_knight" -> Knight (recordify "knight" "black")
+  | "white_bishop" -> Bishop (recordify "bishop" "white")
+  | "black_bishop" -> Bishop (recordify "bishop" "black")
+  | "white_king" -> King (recordify "king" "white")
+  | "black_king" -> King (recordify "king" "black")
+  | "white_queen" -> Queen (recordify "queen" "white")
+  | "black_queen" -> Queen (recordify "queen" "black")
+  | _ -> Nothing 
+
+let get_name pc =
+  match pc with 
+  | Nothing -> "nothing"
+  | White_Pawn {name; _} | Black_Pawn {name; _} | Rook {name; _} | Bishop {name; _} | Knight {name; _} | King {name; _} | Queen {name; _} -> name  
+ 
+
+(** let set_moves pc board? id list? = 
+  returns a list of valid tuples to go to based on the position*)
