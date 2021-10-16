@@ -48,3 +48,4 @@ val piece_pos_lst : position list -> string list
 on the board.*)
 
 val piece_board : board -> string list list 
+

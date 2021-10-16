@@ -103,13 +103,10 @@ let piece_pos_lst (pos_lst : position list) =
 let piece_board board = 
   List.map (fun x -> piece_pos_lst x) board.positions
 
-
-let piece_board board = 
-  List.map (fun x -> piece_pos_lst x) board.positions
-
 let num_cols (board : board) : int = 
   board.number_of_columns
 (** Finding position to test if abstraction is correct *) 
+
 (* [get_color_helper lst id ] is a helper function to the get_color function 
 that returns the color at a specified id location on the board 
 Requires: The id is a valid id on the given board.*)
