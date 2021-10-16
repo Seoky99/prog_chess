@@ -25,9 +25,6 @@ let rec tuple_printer tlst =
   | [] -> ""
   | (x,y) :: t -> "(" ^ (string_of_int x) ^ "," ^ (string_of_int y) ^ ") " ^ tuple_printer t
 
-let x = Piece.test 
-
-
 let rec one_d_printer str_list = 
   match str_list with 
   | [] -> "" 
@@ -105,7 +102,7 @@ let board_tests = [
 ]
 
 let suite = 
-  "test suite for Chess game"
+  "test suite for Chess game 123"
   >::: List.flatten [board_tests]
 
 let _ = run_test_tt_main suite 

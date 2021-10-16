@@ -23,9 +23,15 @@ val n_col : int -> board -> position list
 (** [id_lst id_pos_lst] produces a list of ids from a list of positions *)
 val id_pos_lst : position list -> id list 
 
-(** [id_board board]* produces a list of id lists from a board, essentially
+(** [id_board board] produces a list of id lists from a board, essentially
 mapping out the whole board *)
 val id_board : board -> id list list 
+
+(** [num_rows board] returns the number of rows from a board*)
+val num_rows : board -> int
+
+(** [num_cols board] returns the number of columns from a board*)
+val num_cols : board -> int
 
 (** [get_color board id] the ouput is the color of the board at that board with the given id
 Requires: id is a valid location on the board*)
@@ -40,4 +46,6 @@ val piece_pos_lst : position list -> string list
 
 (** [piece_board pos_lst] produces a list of names of the pieces
 on the board.*)
+
 val piece_board : board -> string list list 
+
