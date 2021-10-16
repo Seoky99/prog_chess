@@ -2,6 +2,8 @@ open OUnit2
 open Chess 
 open Board 
 
+(* Random comment*)
+
 (* TODO: Test board to check for correctness *)
 (* TODO: Create helpful printer function for testing output of board*)
 let board3x3 = board_from_json (Yojson.Basic.from_file "data/3x3.json")
