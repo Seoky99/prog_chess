@@ -102,7 +102,7 @@ let board_tests = [
 ]
 
 let suite = 
-  "test suite for Chess game"
+  "test suite for Chess game 123"
   >::: List.flatten [board_tests]
 
 let _ = run_test_tt_main suite 
