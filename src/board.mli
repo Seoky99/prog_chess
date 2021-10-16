@@ -27,6 +27,13 @@ val id_pos_lst : position list -> id list
 mapping out the whole board *)
 val id_board : board -> id list list 
 
+(** [get_color board id] the ouput is the color of the board at that board with the given id
+Requires: id is a valid location on the board*)
+val get_color: board-> id -> string
+
+(** [get_obstacle board id ] the output is the obstacle of the board at the specified id
+Requires: id is a valid location on the board*)
+val get_obstacle: board ->id ->string
 (** [piece_pos_lst pos_lst] produces a list of names of the pieces
 from the position lists.*)
 val piece_pos_lst : position list -> string list 

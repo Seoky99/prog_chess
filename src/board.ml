@@ -68,7 +68,7 @@ let rec nth_elt n lst =
   | _ :: t ->  nth_elt (n-1) t 
 
 (* [lst_of_nth_elt n lst acc] takes in a 2D list and returns a list of the nth 
-element of each list within the 2D list 
+element of each list within the 2D lists 
 Example: 2 [[(1,2); (2,3); (3,4)]; [(3,6); (7,4); (9,9)] [] returns you
 [((2,3); (7,4))]*)
 let rec lst_of_nth_elt n lst acc =
@@ -95,5 +95,44 @@ let piece_pos_lst (pos_lst : position list) =
 
 let piece_board board = 
   List.map (fun x -> piece_pos_lst x) board.positions
+
+(* [get_color_helper lst id ] is a helper function to the get_color function 
+that returns the color at a specified id location on the board 
+Requires: The id is a valid id on the given board.*)
+let rec get_color_helper lst (id:id):string= match 
+lst with
+| []->failwith "Invalid id given"
+|h::t-> if (h.id=id) then h.color else get_color_helper t (id)
+
+(*[get_helper lst id f ] is a higher order function that takes a get_helper function and applies it 
+Requires: the input id is a valid id on the baord*)
+let get_helper lst (id:id) f :string = match lst with 
+| []-> failwith "Invalid id given"
+|h::t -> f (h::t) id 
+
+(*[get_color board id lst] outputs the color of the board at the given id location
+Requires:id is a valid id on the given board*)
+let get_color (board:board) (id:id):string= 
+match  (List.flatten board.positions) with 
+| [] -> failwith "Invalid Id given"
+| h::t -> if (h.id=id) then h.color else get_helper (t) id get_color_helper
+
+(*[get_obstacle_helper lst id] is a helper function for the get_obstacles function
+and output is the obstacle at the id location of the board. Requires: id is a 
+valid id location on the given board*)
+let rec get_obstacle_helper lst (id:id):string =match lst with 
+| [] -> failwith "Invalid id given" 
+| h::t -> if (h.id=id) then h.obstacle else get_obstacle_helper t id
+
+(*[get_obstacle board id lst] outputs the obstacle at the specified id location 
+on the board. Requires: id is a valid id location the given board.*)
+let get_obstacle (board:board) (id:id):string =
+  match (List.flatten board.positions) with 
+  | [] -> failwith "Invalid id given"
+  | h::t -> if (h.id=id) then h.obstacle else get_helper t id get_obstacle_helper
+
+
+
+
 
 (** Finding position to test if abstraction is correct *) 
