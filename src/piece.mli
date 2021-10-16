@@ -6,3 +6,4 @@ type piece
 val make_piece : string -> piece 
 
 val get_name : piece -> string 
+
