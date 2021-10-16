@@ -42,11 +42,9 @@ let make_piece name =
 
 let get_name pc =
   match pc with 
-  | White_Pawn {name; _} | Black_Pawn {name; _} | Rook {name; _} | Bishop {name; _} | Knight {name; _} | King {name; _} | Queen {name; _} -> name  
   | Nothing -> "nothing"
+  | White_Pawn {name; _} | Black_Pawn {name; _} | Rook {name; _} | Bishop {name; _} | Knight {name; _} | King {name; _} | Queen {name; _} -> name  
+ 
 
-
-
-
-
-
+(** let set_moves pc board? id list? = 
+  returns a list of valid tuples to go to based on the position*)
