@@ -10,7 +10,7 @@ test:
 	OCAMLRUNPARAM=b dune exec test/main.exe
 
 play:
-	OCAMLRUNPARAM=b dune exec bin/main.exe
+	OCAMLRUNPARAM=b dune exec gui/gui.exe
 
 check:
 	@bash check.sh
@@ -20,7 +20,7 @@ finalcheck:
 
 zip:
 	rm -f chessfinal.zip
-	zip -r chessfinal.zip . -x@exclude.lst
+	zip -r chessfinal.zip . -x _build/\* .git/\*
 
 clean:
 	dune clean
@@ -28,3 +28,4 @@ clean:
 
 doc:
 	dune build @doc
+

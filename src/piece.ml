@@ -23,7 +23,7 @@ team = team;
 name = input;
 }
 
-let make_piece name = 
+let make_piece name =
 match name with
 | "white_pawn" -> White_Pawn (recordify "white_pawn" "white")
 | "black_pawn" -> Black_Pawn (recordify "black_pawn" "black")
