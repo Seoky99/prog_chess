@@ -39,7 +39,7 @@ val get_color: board-> id -> string
 
 (** [get_obstacle board id ] the output is the obstacle of the board at the specified id
 Requires: id is a valid location on the board*)
-val get_obstacle: board ->id ->string
+val get_obstacle: board ->id -> string
 
 (** [piece_pos_lst pos_lst] produces a list of names of the pieces
 from the position lists.*)

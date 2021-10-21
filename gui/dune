@@ -1,0 +1,3 @@
+(executable
+ (name gui)
+ (libraries graphics raylib raygui Chess))
