@@ -1,5 +1,4 @@
-(** Abstract type of values representing a chess board.
-NOTE: REPLACE NAME TO t once we are familiar with it*)
+(** Abstract type of values representing a chess board. *)
 type board 
 
 (**Abstract type of values representing a chess square*)
@@ -48,7 +47,3 @@ val piece_pos_lst : position list -> string list
 (** [piece_board pos_lst] produces a list of names of the pieces
 on the board.*)
 val piece_board : board -> string list list 
-
-(**[put_piece id piece board] returns a new board with the [piece] added
-to the square with id [id]*)
-val put_piece : id -> Piece.piece -> board  

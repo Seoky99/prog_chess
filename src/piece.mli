@@ -1,6 +1,4 @@
-(** Abstract type of values representing a chess piece.
-NOTE: Replace name to t once we are familiar with it.
-type piece *) 
+(** Abstract type of values representing a chess piece. *)
 type piece 
 
 val make_piece : string -> piece 

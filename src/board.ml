@@ -63,7 +63,7 @@ let board_from_json json =
 Raises: exception if the list is empty*)
 let rec nth_elt n lst = 
   match lst with 
-  | [] -> failwith "fuck you"
+  | [] -> failwith "Nth element not found"
   | h :: _ when n <= 1 -> h 
   | _ :: t ->  nth_elt (n-1) t 
 

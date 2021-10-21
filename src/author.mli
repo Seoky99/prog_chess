@@ -4,8 +4,8 @@
 
 (** CS 3110 Final Project 
 
-    @author Seokyoung Hong, Alex Whitehead, 
-    Luke Zitella, Kevin Something*)
+    @author Seokyoung Hong (sh845), Alex Whitehead (asw236), 
+    Luke Zitella (lez22), Henry Chen (hc659)*)
 
 (************************************************************
 
