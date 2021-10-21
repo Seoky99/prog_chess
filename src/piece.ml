@@ -43,7 +43,8 @@ let get_name pc =
 match pc with
 | Nothing -> "nothing"
 | White_Pawn {name; _} | Black_Pawn {name; _} | Rook {name; _} | Bishop {name; _} | Knight {name; _} | King {name; _} |
-Queen {name; _} -> name
+Queen {name; _} -> name  
+
 
 
 (** let set_moves pc board? id list? =

@@ -138,8 +138,4 @@ let get_obstacle (board:board) (id:id):string =
   | [] -> failwith "Invalid id given"
   | h::t -> if (h.id=id) then h.obstacle else get_helper t id get_obstacle_helper
 
-
-
-
-
 (** Finding position to test if abstraction is correct *) 
