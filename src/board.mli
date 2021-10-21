@@ -49,3 +49,6 @@ val piece_pos_lst : position list -> string list
 on the board.*)
 val piece_board : board -> string list list 
 
+(**[put_piece id piece board] returns a new board with the [piece] added
+to the square with id [id]*)
+val put_piece : id -> Piece.piece -> board  
