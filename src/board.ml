@@ -94,7 +94,7 @@ let num_rows (board : board) : int =
   board.number_of_rows
 
 let piece_pos_lst (pos_lst : position list) = 
-    List.map (fun x -> get_name (x.piece)) pos_lst
+    List.map (fun x -> get_name (x.piece)) pos_lst 
 
 let piece_board board = 
   List.map (fun x -> piece_pos_lst x) board.positions
@@ -138,4 +138,9 @@ let get_obstacle (board:board) (id:id):string =
   | [] -> failwith "Invalid id given"
   | h::t -> if (h.id=id) then h.obstacle else get_helper t id get_obstacle_helper
 
-(** Finding position to test if abstraction is correct *) 
+(* TODO: Doc comment*)
+
+(*
+let put_piece id piece board =
+  board.positions  *)
+
