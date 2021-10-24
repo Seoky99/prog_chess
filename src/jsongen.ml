@@ -1,20 +1,37 @@
-let string_json r c white = 
-  
-  (*can change to list, pair if needed*)
+let position_maker height width r c white is_last = 
+  let board_even = width mod 2 = 0 in 
   let id_as_string = string_of_int r ^ ", " ^ string_of_int c in
-  let black_or_white = if white then "white" else "black" in
-  
-  "{
-      'id' : [" ^ id_as_string ^ "],
-      'obstacle': 'none',
-      'color' : '" ^ black_or_white ^ "'
-      },"
+  let is_white = if white then "white" else "black" in
+  let comma_except_last = if is_last then "" else "," in 
+
+  (*Looks ugly you can't pattern match against constants w/ variable expr :p *)
+  let piece = 
+    if r = 2 then "black_pawn" 
+    else if r = height - 1 then "white_pawn"
+    else if r = 1 || r = height then 
+      let start_pos = 
+        if board_even then ((width - 8) / 2) + 1 else (width - 8 - 1) / 2 + 1 in 
+      if c = start_pos then is_white ^ "_rook" 
+      else if c = start_pos + 1 then is_white ^ "_knight"
+      else if c = start_pos + 2 then is_white ^ "_bishop"
+      else if c = start_pos + 3 then is_white ^ "_queen" 
+      else if c = start_pos + 4 then is_white ^ "_king"
+      else if c = start_pos + 5 then is_white ^ "_bishop"
+      else if c = start_pos + 6 then is_white ^ "_knight"
+      else if c = start_pos + 7 then is_white ^ "_rook"
+      else "nothing" 
+    else "nothing" in 
+
+  "{ \"id\" : [" ^ id_as_string ^ "], 
+  \"obstacle\": \"none\",
+   \"color\" : \"" ^ is_white ^ "\", 
+   \"piece\": \"" ^ piece ^ "\"" ^ "}" ^ comma_except_last
 
 (** [create_board n r c max_col] Creates an [n] x [n] chess board json, starting 
 at position ([r],[c]) with the template:
   {
-    'name': [r, c], 
-    'positions': [
+    "name": [r, c], 
+    "positions": [
       {
           'id': (rxc),
           'obstacle': 'none or some'
@@ -24,21 +41,22 @@ at position ([r],[c]) with the template:
     ]
     }
   Note: single string markers will be replaced by double quotes. *) 
-let rec create_board height width r c sqrn = 
+let rec create_board_helper height width r c sqrn = 
 
   if sqrn = 0 then "" else 
 
   let is_even = (r + c) mod 2 = 0 in 
+  let is_last = 
+    r = height && c = width in 
 
-  if c = width then string_json r c is_even  ^ create_board height width (r+1) 1 (sqrn-1)
-  else string_json r c is_even ^ create_board height width r (c+1) (sqrn - 1)
+  if c = width then position_maker height width r c is_even is_last ^ create_board_helper height width (r+1) 1 (sqrn-1)
+  else position_maker height width r c is_even is_last ^ create_board_helper height width r (c+1) (sqrn - 1)
 
 (** Obviously prints out the board*)
-let print_board height width r c = 
+let create_board height width r c = 
 
   let num_positions = height * width in 
-  let positions = create_board height width r c num_positions in 
+  let positions = create_board_helper height width r c num_positions in 
 
-  let final_string =  " { 'name': '" ^ string_of_int height ^ "x" ^ string_of_int width ^ "', 
-  'positions': [ " ^ positions ^ " ]}" in
-  print_endline (final_string)
+  " { \"name\": [" ^ string_of_int height ^ "," ^ string_of_int width ^ "],
+   \"positions\": [ " ^ positions ^ " ]}" 
