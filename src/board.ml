@@ -99,6 +99,19 @@ let piece_pos_lst (pos_lst : position list) =
 let piece_board board = 
   List.map (fun x -> piece_pos_lst x) board.positions
 
+  
+let rec pos_helper board num=
+  if num=0 then [] else
+    (n_row num board) :: pos_helper board (num-1)
+
+let position_board board=
+    pos_helper board (num_rows board)
+
+let piece_of_position pos lst=
+  match (nth_elt (snd pos) (nth_elt (fst pos) lst)) with 
+  {piece;_} -> piece
+
+
 let num_cols (board : board) : int = 
   board.number_of_columns
 (** Finding position to test if abstraction is correct *) 
@@ -144,3 +157,6 @@ let get_obstacle (board:board) (id:id):string =
 let put_piece id piece board =
   board.positions  *)
 
+let id_from_position pos=
+match pos with
+|{id;_}->id

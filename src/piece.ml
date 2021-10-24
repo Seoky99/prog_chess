@@ -45,7 +45,10 @@ match pc with
 | White_Pawn {name; _} | Black_Pawn {name; _} | Rook {name; _} | Bishop {name; _} | Knight {name; _} | King {name; _} |
 Queen {name; _} -> name  
 
+let team_of piece= 
+match piece with
+| Nothing -> "nothing"
+| White_Pawn {team; _} | Black_Pawn {team; _} | Rook {team; _} | Bishop {team; _} | Knight {team; _} | King {team; _} |
+Queen {team; _} -> team  
 
 
-(** let set_moves pc board? id list? =
-returns a list of valid tuples to go to based on the position*)
