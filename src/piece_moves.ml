@@ -95,5 +95,5 @@ match pos_lst with
 |h::t->determine_possibles board t ((determine_possibles_row board h num_rows num_cols) :: acc) num_cols num_rows
 
 let calc_possible_moves board=
-  let pos_lst=(Board.position_board board) in 
+  let pos_lst=Board.positions_from_board board in 
   determine_possibles pos_lst pos_lst [] (Board.num_cols board) (Board.num_rows board)

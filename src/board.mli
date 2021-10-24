@@ -58,3 +58,6 @@ val piece_board : board -> string list list
 
 (** [id_from_position] of position is the id of that position. *)
 val id_from_position : position -> id
+
+(** [positions_from_board board] is the position list list of board *)
+val positions_from_board : board -> position list list

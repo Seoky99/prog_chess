@@ -111,6 +111,9 @@ let piece_of_position pos lst=
   match (nth_elt (snd pos) (nth_elt (fst pos) lst)) with 
   {piece;_} -> piece
 
+let positions_from_board board=
+match board with
+|{positions;_}->positions
 
 let num_cols (board : board) : int = 
   board.number_of_columns
