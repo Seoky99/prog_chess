@@ -67,6 +67,9 @@ let rec nth_elt n lst =
   | h :: _ when n <= 1 -> h 
   | _ :: t ->  nth_elt (n-1) t 
 
+let replace_element l (index : int) x =
+    List.mapi (fun i_index el -> if index = i_index then x else el) l
+
 (* [lst_of_nth_elt n lst acc] takes in a 2D list and returns a list of the nth 
 element of each list within the 2D lists 
 Example: 2 [[(1,2); (2,3); (3,4)]; [(3,6); (7,4); (9,9)] [] returns you
@@ -99,7 +102,6 @@ let piece_pos_lst (pos_lst : position list) =
 let piece_board board = 
   List.map (fun x -> piece_pos_lst x) board.positions
 
-  
 let rec pos_helper board num=
   if num=0 then [] else
     (n_row num board) :: pos_helper board (num-1)
@@ -156,9 +158,19 @@ let get_obstacle (board:board) (id:id):string =
 
 (* TODO: Doc comment*)
 
-(*
 let put_piece id piece board =
-  board.positions  *)
+  let piece_from_board = piece_of_position id board.positions in 
+
+  (*please abstract here*)
+  let position_at_id = nth_elt (snd id) (n_row (fst id) board) in 
+
+  let new_position = replace_element (n_row (fst id) board) (snd id) {position_at_id with piece = piece} in 
+  
+  let new_2dlst = replace_element board.positions (fst id) new_position in
+
+  match piece_from_board with 
+  | Nothing -> {board with positions = new_2dlst}
+  | _ -> failwith "Piece already exists there"
 
 let id_from_position pos=
 match pos with
