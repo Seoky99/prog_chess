@@ -1,14 +1,17 @@
 
 (*Board starts from 1 index?*)
 let two_white_pawn pos pos_lst=
-
   if fst pos=2 then 
-    match Board.piece_of_position (fst pos + 2,snd pos) pos_lst with
-    |Piece.Nothing -> [fst pos + 2,snd pos]
-    |_ -> []
+    match Board.piece_of_position (fst pos + 1, snd pos) pos_lst with
+      |Piece.Nothing->
+        (match Board.piece_of_position (fst pos + 2,snd pos) pos_lst with
+          |Piece.Nothing -> [fst pos + 2,snd pos]
+          |_ -> [])
+      |_->[]
 else []
 
-let one_white_pawn pos pos_lst=
+let one_white_pawn pos pos_lst num_rows=
+  if fst pos >= num_rows then [] else
   match Board.piece_of_position (fst pos + 1,snd pos) pos_lst with
     |Piece.Nothing -> [fst pos + 1,snd pos]
     |_ -> []
@@ -30,22 +33,26 @@ let left=
         left @ right
   
 
-let white_pawn_det pos pos_lst num_cols=
-    (two_white_pawn pos pos_lst) @ (one_white_pawn pos pos_lst) @ (right_left_white_pawn pos pos_lst num_cols)
+let white_pawn_det pos pos_lst num_cols num_rows=
+    (two_white_pawn pos pos_lst) @ (one_white_pawn pos pos_lst num_rows) @ (right_left_white_pawn pos pos_lst num_cols)
 
 
-let white_pawn_moves pos board num_cols=
-  white_pawn_det pos board num_cols
+let white_pawn_moves pos board num_cols num_rows=
+  white_pawn_det pos board num_cols num_rows
 
 
-  let two_black_pawn pos pos_lst num_rows=
+let two_black_pawn pos pos_lst num_rows=
   if fst pos=num_rows-1 then 
-    match Board.piece_of_position (fst pos - 2,snd pos) pos_lst with
-    |Piece.Nothing -> [fst pos - 2,snd pos]
+    match Board.piece_of_position (fst pos - 1,snd pos) pos_lst with
+    |Nothing->
+      (match Board.piece_of_position (fst pos - 2,snd pos) pos_lst with
+        |Piece.Nothing -> [fst pos - 2,snd pos]
+        |_ -> [])
     |_ -> []
-else []
+  else []
 
 let one_black_pawn pos pos_lst=
+  if fst pos <= 1 then [] else 
   match Board.piece_of_position (fst pos - 1,snd pos) pos_lst with
     |Piece.Nothing -> [fst pos - 1,snd pos]
     |_ -> []
@@ -77,13 +84,13 @@ let black_pawn_moves pos board num_cols num_rows=
 let determine_piece_possible piece pos pos_lst num_cols num_rows=
 match piece with
 | Piece.Nothing -> []
-| Piece.White_Pawn _ -> white_pawn_moves pos pos_lst num_cols
+| Piece.White_Pawn _ -> white_pawn_moves pos pos_lst num_cols num_rows
 | Piece.Black_Pawn _ -> black_pawn_moves pos pos_lst num_cols num_rows
-| Piece.Rook _ -> white_pawn_moves pos pos_lst num_cols
-| Piece.Bishop _ -> white_pawn_moves pos pos_lst num_cols
-| Piece.Knight _ -> white_pawn_moves pos pos_lst num_cols
-| Piece.King _ -> white_pawn_moves pos pos_lst num_cols
-| Piece.Queen _ -> white_pawn_moves pos pos_lst num_cols
+| Piece.Rook _ -> white_pawn_moves pos pos_lst num_cols num_rows
+| Piece.Bishop _ -> white_pawn_moves pos pos_lst num_cols num_rows
+| Piece.Knight _ -> white_pawn_moves pos pos_lst num_cols num_rows
+| Piece.King _ -> white_pawn_moves pos pos_lst num_cols num_rows
+| Piece.Queen _ -> white_pawn_moves pos pos_lst num_cols num_rows
 
 let rec determine_possibles_row board row num_rows num_cols=
 match row with
