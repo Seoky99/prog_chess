@@ -165,7 +165,7 @@ let move_piece_tests = [
   make_tuple_test "Moving c2 black pawn" [(5,2); (6,2)] (determine_piece_possible c1black_pawn (7,2) (positions_from_board board8x8) 8 8);
 
   (*White pawn moves test*)
-  make_tuple_test "White pawns" [(4,1); (3,1)] (white_pawn_moves (2,1) (positions_from_board board8x8) 8);
+  make_tuple_test "White pawns" [(4,1); (3,1)] (white_pawn_moves (2,1) (positions_from_board board8x8) 8 8);
 
   (*Black pawn moves test*)
   make_tuple_test "Black pawns" [(5,1); (6,1)] (black_pawn_moves (7,1) (positions_from_board board8x8) 8 8);

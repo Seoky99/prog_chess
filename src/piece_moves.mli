@@ -1,7 +1,7 @@
 (** [white_pawn_moves pos board num_cols] is the list of id of 
 possible spaces for a white pawn to move give the position list board
 and the number of columns num_cols *)
-val white_pawn_moves : (int*int) -> Board.position list list->  int -> (int*int) list
+val white_pawn_moves : (int*int) -> Board.position list list->  int -> int ->(int*int) list
 
 (** [black_pawn_moves pos pos_list num_cols num_rows] is the list of 
 (int*int) locations that a black pawn on the given board can move to.*)
