@@ -2,6 +2,8 @@ open OUnit2
 open Chess 
 open Board 
 open Jsongen
+open Piece 
+open Piece_moves
 
  (*Now outdated, can keep if we ever decide to support smaller boards. *)
 let board3x3 = board_from_json (Yojson.Basic.from_file "data/3x3.json")
@@ -16,6 +18,11 @@ let board8x10 = board_from_json (Yojson.Basic.from_string (create_board 8 10 1 1
 let board8x11 = board_from_json (Yojson.Basic.from_string (create_board 8 11 1 1))
 
 let board11x8 = board_from_json (Yojson.Basic.from_string (create_board 11 8 1 1))
+
+(* Modified boards*)
+let modified8x8 = put_piece (3,3) (make_piece "white_pawn") board8x8
+
+
 
 (*TODO: Store these somewhere else?*)
 let row1board3x3 = n_row 1 board3x3  
@@ -51,10 +58,14 @@ let rec two_d_printer str_lst =
 let make_f_test name expected_output input =
   name >:: fun _ -> assert_equal expected_output input
   
+let make_tuple_test name expected_output input =
+  name >:: fun _ -> assert_equal expected_output input ~printer:tuple_printer
+
 let make_color_test name expected_output input = name>:: fun _ -> assert_equal expected_output input ~printer: String.escaped
 
 let make_obstacle_test name expected_output input =name>:: fun _ -> assert_equal expected_output input ~printer: String.escaped
 
+let make_1d_test  name expected_output input =name>:: fun _ -> assert_equal expected_output input ~printer: one_d_printer
 let make_2d_test name expected_output input =name>:: fun _ -> assert_equal expected_output input ~printer: two_d_printer
 
 let board_tests = [
@@ -123,10 +134,49 @@ let board_tests = [
     make_obstacle_test "Testing board 3x3 and location (3,1)" "none" (get_obstacle board3x3 (3,1));
     make_obstacle_test "Testing board 3x3 and location (2,3)" "none" (get_obstacle board3x3 (2,3));
     make_obstacle_test "Testing board 3x3 and location (3,2)" "none" (get_obstacle board3x3 (3,2));
+
+    
+  (*Testing function piece_of_position*)
+  make_color_test "(2,1) of Board 8x8 is White pawn" "white_pawn" (get_name(piece_of_position (2,1) (position_board board8x8)));
+  make_color_test "(1,1) of Board 8x8 is rook" "rook" (get_name(piece_of_position (1,1) (position_board board8x8)));
+  make_color_test "(1,2) of Board 8x8 is knight" "knight" (get_name(piece_of_position (1,2) (position_board board8x8)));
+  make_color_test "(1,3) of Board 8x8 is bishop" "bishop" (get_name(piece_of_position (1,3) (position_board board8x8)));
+  make_color_test "(1,4) of Board 8x8 is queen" "queen" (get_name(piece_of_position (1,4) (position_board board8x8)));
+
+(*
+  (*Testing function put_piece*)
+  make_color_test "A white pawn is placed in (3x3)" "white_pawn" (get_name (piece_of_position (3,3) (position_board modified8x8))); *)
 ]
+
+let c1white_pawn = piece_of_position (2,1) (position_board board8x8) 
+let c2white_pawn = piece_of_position (2,2) (position_board board8x8) 
+let c1black_pawn = piece_of_position (7,1) (position_board board8x8) 
+let c2black_pawn = piece_of_position (7,2) (position_board board8x8) 
+
+
+let move_piece_tests = [
+
+  (*Testing the individual white pawn moveset *)
+  make_tuple_test "Moving left white pawn" [(4,1); (3,1)] (determine_piece_possible c1white_pawn (2,1) (positions_from_board board8x8) 8 8);
+  make_tuple_test "Moving c2 white pawn" [(4,2); (3,2)] (determine_piece_possible c1white_pawn (2,2) (positions_from_board board8x8) 8 8);
+
+  (*Testing the individual black pawn moveset *)
+  make_tuple_test "Moving left black pawn" [(5,1); (6,1)] (determine_piece_possible c1black_pawn (7,1) (positions_from_board board8x8) 8 8);
+  make_tuple_test "Moving c2 black pawn" [(5,2); (6,2)] (determine_piece_possible c1black_pawn (7,2) (positions_from_board board8x8) 8 8);
+
+  (*White pawn moves test*)
+  make_tuple_test "White pawns" [(4,1); (3,1)] (white_pawn_moves (2,1) (positions_from_board board8x8) 8);
+
+  (*Black pawn moves test*)
+  make_tuple_test "Black pawns" [(5,1); (6,1)] (black_pawn_moves (7,1) (positions_from_board board8x8) 8 8);
+
+  (* Uncomment once calc possible moves is done
+  make_f_test "All possible moves" calc_possible_moves board8x8;  *)
+
+] 
 
 let suite = 
   "test suite for Chess game 123"
-  >::: List.flatten [board_tests]
+  >::: List.flatten [board_tests; move_piece_tests]
 
 let _ = run_test_tt_main suite 

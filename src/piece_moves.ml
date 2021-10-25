@@ -1,6 +1,8 @@
 
+(*Board starts from 1 index?*)
 let two_white_pawn pos pos_lst=
-  if fst pos=1 then 
+
+  if fst pos=2 then 
     match Board.piece_of_position (fst pos + 2,snd pos) pos_lst with
     |Piece.Nothing -> [fst pos + 2,snd pos]
     |_ -> []
@@ -37,7 +39,7 @@ let white_pawn_moves pos board num_cols=
 
 
   let two_black_pawn pos pos_lst num_rows=
-  if fst pos=num_rows then 
+  if fst pos=num_rows-1 then 
     match Board.piece_of_position (fst pos - 2,snd pos) pos_lst with
     |Piece.Nothing -> [fst pos - 2,snd pos]
     |_ -> []
