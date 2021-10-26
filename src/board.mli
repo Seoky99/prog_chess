@@ -26,7 +26,7 @@ val id_pos_lst : position list -> id list
 mapping out the whole board *)
 val id_board : board -> id list list 
 
-(* [piece_of_position pos lst ] is the piece at the position pos in 
+(* [piece_of_position pos lst] is the piece at the position pos in 
   a position list lst*)
 val piece_of_position: (int*int) -> position list list-> Piece.piece
 
@@ -44,6 +44,9 @@ val get_color: board-> id -> string
 state*)
 val position_board: board -> position list list
 
+(** [positions_from_board board] is the position list list of board *)
+val positions_from_board : board -> position list list
+
 (** [get_obstacle board id ] the output is the obstacle of the board at the specified id
 Requires: id is a valid location on the board*)
 val get_obstacle: board ->id -> string
@@ -58,9 +61,6 @@ val piece_board : board -> string list list
 
 (** [id_from_position] of position is the id of that position. *)
 val id_from_position : position -> id
-
-(** [positions_from_board board] is the position list list of board *)
-val positions_from_board : board -> position list list
 
 (** [put_piece id piece board] puts the [piece] on the [board] at [id]. 
 Raises: Exception when there is already a piece there *)
