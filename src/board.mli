@@ -40,13 +40,6 @@ val num_cols : board -> int
 Requires: id is a valid location on the board*)
 val get_color: board-> id -> string
 
-(** [position_board board] is the 2D position list that represents the game
-state*)
-val position_board: board -> position list list
-
-(** [positions_from_board board] is the position list list of board *)
-val positions_from_board : board -> position list list
-
 (** [get_obstacle board id ] the output is the obstacle of the board at the specified id
 Requires: id is a valid location on the board*)
 val get_obstacle: board ->id -> string
@@ -55,6 +48,9 @@ val get_obstacle: board ->id -> string
 from the position lists.*)
 val piece_pos_lst : position list -> string list 
 
+(** [positions_from_board board] is the position list list of board *)
+val positions_from_board : board -> position list list
+
 (** [piece_board pos_lst] produces a list of names of the pieces
 on the board.*)
 val piece_board : board -> string list list 
@@ -62,6 +58,12 @@ val piece_board : board -> string list list
 (** [id_from_position] of position is the id of that position. *)
 val id_from_position : position -> id
 
+(** [position_from_id id board] returns the [position] at [id] of [board]*)
+val position_from_id : id -> board -> position 
+
 (** [put_piece id piece board] puts the [piece] on the [board] at [id]. 
 Raises: Exception when there is already a piece there *)
 val put_piece : id -> Piece.piece -> board -> board
+
+(** [remove_piece id board] removes a piece from the [board] at [id]*)
+val remove_piece : id -> board -> board

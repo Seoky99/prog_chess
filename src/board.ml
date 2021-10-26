@@ -119,32 +119,13 @@ let piece_pos_lst (pos_lst : position list) =
 let piece_board board = 
   List.map (fun x -> piece_pos_lst x) board.positions
 
-  
-let rec pos_helper board num=
-  if num=0 then [] else
-    (n_row num board) :: pos_helper board (num-1)
-
-let position_board board=
-    pos_helper board (num_rows board) 
-
-
-(*let tuple_printer t =
-      match t with 
-      | (x,y) -> "(" ^ (string_of_int x) ^ "," ^ (string_of_int y) ^ ")" *)
-
 let piece_of_position pos lst=
-
-  (*
-  let () = print_endline (tuple_printer (id_from_position position)) in 
-  let () = print_endline (tuple_printer (List.hd (nth_elt (fst pos) lst)).id) in *) 
-
   match (nth_elt (snd pos) (nth_elt (fst pos) lst)) with 
-  
   {piece;_} -> piece 
   
 let positions_from_board board=
 match board with
-|{positions;_}->positions
+| {positions;_} ->positions
 
 let num_cols (board : board) : int = 
   board.number_of_columns
@@ -186,37 +167,14 @@ let get_obstacle (board:board) (id:id):string =
   | h::t -> if (h.id=id) then h.obstacle else get_helper t id get_obstacle_helper
 
 (* PIECE HANDLING *)
-
-(*
-let tuple_to_str t =
-  match t with 
-  | (x,y) -> "(" ^ (string_of_int x) ^ "," ^ (string_of_int y) ^ "), "
-
-let rec position_printer plst = 
-  match plst with 
-  | [] -> ""
-  | h :: t -> 
-    match h with 
-    | {id; _} -> tuple_to_str id ^ position_printer t *)
+let position_from_id id board= 
+  nth_elt (snd id) (n_row (fst id) board) 
 
 let put_piece id piece board =
-  (*let piece_from_board = piece_of_position id board.positions in *) 
-
-  (*please abstract here*)
-  let position_at_id = nth_elt (snd id) (n_row (fst id) board) in 
- (* let () = print_endline (string_of_int (fst position_at_id.id)) in 
-  let () = print_endline (string_of_int (snd position_at_id.id)) in  *)
-
-  let new_position = replace_element (n_row (fst id) board) (snd id) {position_at_id with piece = piece} in 
-  (*let () = print_endline (tuple_printer(id_pos_lst (n_row (fst id) board))) in 
-  let () = print_endline (tuple_printer(id_pos_lst new_position)) in *)
-
+  let position_id = position_from_id id board in 
+  let new_position = replace_element (n_row (fst id) board) (snd id) {position_id with piece = piece} in 
   let new_2dlst = replace_element board.positions (fst id) new_position in
-  
   {board with positions = new_2dlst}
-  
 
-
-  (*match piece_from_board with 
-  | Nothing -> {board with positions = new_2dlst}
-  | _ -> failwith "Piece already exists there"*) 
+let remove_piece id board = 
+  put_piece id Nothing board 

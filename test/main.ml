@@ -3,7 +3,7 @@ open Chess
 open Board 
 open Jsongen
 open Piece 
-(*open Piece_moves *)
+open Piece_moves 
 
  (*Now outdated, can keep if we ever decide to support smaller boards. *)
 let board3x3 = board_from_json (Yojson.Basic.from_file "data/3x3.json")
@@ -19,9 +19,19 @@ let board8x11 = board_from_json (Yojson.Basic.from_string (create_board 8 11 1 1
 
 let board11x8 = board_from_json (Yojson.Basic.from_string (create_board 11 8 1 1))
 
-(* Modified boards*)
+(*This 8x8 board is modified by: 
+first, white_pawn placed in (3,3) 
+then, white_queen is placed on (2,1)
+then, a white_pawn is removed from (7,1)*)
 let modified8x8 = 
-  put_piece (2,1) (make_piece "white_queen") (put_piece (3,3) (make_piece "white_pawn") board8x8)
+  put_piece (3,3) (make_piece "white_pawn") board8x8 |> put_piece (2,1) (make_piece "white_queen")
+  |> remove_piece (7,1) 
+
+(*This 8x8 is modified by:
+first, white_queen is placed on (3,3)
+then, white_queen is removed on (3,3)*)
+let placeandremove8x8 =  put_piece (3,3) (make_piece "white_queen") board8x8 |> remove_piece (3,3)
+
 
 (*TODO: Store these somewhere else?*)
 let row1board3x3 = n_row 1 board3x3  
@@ -64,22 +74,15 @@ let make_f_test name expected_output input =
 let make_tuple_lst_test name expected_output input =
   name >:: fun _ -> assert_equal expected_output input ~printer:tuple_lst_printer
 
-  let make_tuple_test name expected_output input =
+let make_tuple_test name expected_output input =
     name >:: fun _ -> assert_equal expected_output input ~printer:tuple_printer
 
-let make_color_test name expected_output input = name>:: fun _ -> assert_equal expected_output input ~printer: String.escaped
-
-let make_obstacle_test name expected_output input =name>:: fun _ -> assert_equal expected_output input ~printer: String.escaped
+let make_string_test name expected_output input = name>:: fun _ -> assert_equal expected_output input ~printer: String.escaped
 
 let make_1d_test  name expected_output input =name>:: fun _ -> assert_equal expected_output input ~printer: one_d_printer
 let make_2d_test name expected_output input =name>:: fun _ -> assert_equal expected_output input ~printer: two_d_printer
 
-let positionTest = List.nth (position_board board8x8) 0
-
-
-
 let board_tests = [
-
 
     (*Move these around later, testing json generator completely.*)
     make_f_test "Row 1 of Board 8x8" [(1,1); (1,2); (1,3); (1,4); (1,5); (1,6); (1,7); (1,8)] (id_pos_lst row1board8x8); 
@@ -135,34 +138,36 @@ let board_tests = [
     make_f_test "First element of 2nd row of 8x8 is (2,1)" (2,1) (id_from_position (List.hd row2board8x8));
 
     (* Testing the function get_color *)
-    make_color_test "Testing Board 3x3 and location (1,1)" "white" (get_color board3x3 (1,1));
-    make_color_test "Testing Board 3x3 and location (3,3)" "white" (get_color board3x3 (3,3));
-    make_color_test "Testing Board 3x3 and location (1,3)" "white" (get_color board3x3 (1,3));
-    make_color_test "Testing Board 3x3 and location (3,1)" "white" (get_color board3x3 (3,1));
-    make_color_test "Testing Board 3x3 and location (2,3)" "black" (get_color board3x3 (2,3));
-    make_color_test "Testing Board 3x3 and location (3,2)" "black" (get_color board3x3 (3,2));
+    make_string_test "Testing Board 3x3 and location (1,1)" "white" (get_color board3x3 (1,1));
+    make_string_test "Testing Board 3x3 and location (3,3)" "white" (get_color board3x3 (3,3));
+    make_string_test "Testing Board 3x3 and location (1,3)" "white" (get_color board3x3 (1,3));
+    make_string_test "Testing Board 3x3 and location (3,1)" "white" (get_color board3x3 (3,1));
+    make_string_test "Testing Board 3x3 and location (2,3)" "black" (get_color board3x3 (2,3));
+    make_string_test "Testing Board 3x3 and location (3,2)" "black" (get_color board3x3 (3,2));
 
     (*Testing the function get_obstacles*)
-
-    make_obstacle_test "Testing board 3x3 and location (1,1)" "none" (get_obstacle board3x3 (1,1));
-    make_obstacle_test "Testing board 3x3 and location (3,3)" "none" (get_obstacle board3x3 (3,3));
-    make_obstacle_test "Testing board 3x3 and location (1,3)" "none" (get_obstacle board3x3 (1,3));
-    make_obstacle_test "Testing board 3x3 and location (3,1)" "none" (get_obstacle board3x3 (3,1));
-    make_obstacle_test "Testing board 3x3 and location (2,3)" "none" (get_obstacle board3x3 (2,3));
-    make_obstacle_test "Testing board 3x3 and location (3,2)" "none" (get_obstacle board3x3 (3,2));
+    make_string_test "Testing board 3x3 and location (1,1)" "none" (get_obstacle board3x3 (1,1));
+    make_string_test "Testing board 3x3 and location (3,3)" "none" (get_obstacle board3x3 (3,3));
+    make_string_test "Testing board 3x3 and location (1,3)" "none" (get_obstacle board3x3 (1,3));
+    make_string_test "Testing board 3x3 and location (3,1)" "none" (get_obstacle board3x3 (3,1));
+    make_string_test "Testing board 3x3 and location (2,3)" "none" (get_obstacle board3x3 (2,3));
+    make_string_test "Testing board 3x3 and location (3,2)" "none" (get_obstacle board3x3 (3,2));
     
-
     (*Testing function piece_of_position*)
-    make_color_test "(2,1) of Board 8x8 is black pawn" "black_pawn" (get_name(piece_of_position (2,1) (positions_from_board board8x8)));
-    make_color_test "(7,1) of Board 8x8 is white pawn" "white_pawn" (get_name(piece_of_position (7,1) (positions_from_board board8x8)));
-    make_color_test "(1,1) of Board 8x8 is rook" "rook" (get_name(piece_of_position (1,1) (positions_from_board board8x8)));
-    make_color_test "(1,2) of Board 8x8 is knight" "knight" (get_name(piece_of_position (1,2) (positions_from_board board8x8)));
-    make_color_test "(1,3) of Board 8x8 is bishop" "bishop" (get_name(piece_of_position (1,3) (positions_from_board board8x8)));
-    make_color_test "(1,4) of Board 8x8 is queen" "queen" (get_name(piece_of_position (1,4) (positions_from_board board8x8)));
+    make_string_test "(2,1) of Board 8x8 is black pawn" "black_pawn" (get_name(piece_of_position (2,1) (positions_from_board board8x8)));
+    make_string_test "(7,1) of Board 8x8 is white pawn" "white_pawn" (get_name(piece_of_position (7,1) (positions_from_board board8x8)));
+    make_string_test "(1,1) of Board 8x8 is rook" "rook" (get_name(piece_of_position (1,1) (positions_from_board board8x8)));
+    make_string_test "(1,2) of Board 8x8 is knight" "knight" (get_name(piece_of_position (1,2) (positions_from_board board8x8)));
+    make_string_test "(1,3) of Board 8x8 is bishop" "bishop" (get_name(piece_of_position (1,3) (positions_from_board board8x8)));
+    make_string_test "(1,4) of Board 8x8 is queen" "queen" (get_name(piece_of_position (1,4) (positions_from_board board8x8)));
 
-    make_color_test "A white pawn is placed in (3x3)" "white_pawn" (get_name (piece_of_position (3,3) (positions_from_board modified8x8))); 
-    make_color_test "A white queen is placed on (2x1), where a black pawn is" "queen" (get_name (piece_of_position (2,1) (positions_from_board modified8x8))); 
+    (*Testing function put_piece*)
+    make_string_test "A white pawn is placed in (3x3)" "white_pawn" (get_name (piece_of_position (3,3) (positions_from_board modified8x8))); 
+    make_string_test "A white queen is placed on (2x1), where a black pawn is" "queen" (get_name (piece_of_position (2,1) (positions_from_board modified8x8))); 
 
+    (*Testing function remove_piece*)
+    make_string_test "A white pawn is removed on (7,1)" "nothing" (get_name (piece_of_position (7,1) (positions_from_board modified8x8))); 
+    make_string_test "A white queen is added then removed on (3,3)" "nothing" (get_name (piece_of_position (3,3) (positions_from_board placeandremove8x8))); 
 ]
 
 let c1black_pawn = piece_of_position (2,1) (positions_from_board board8x8) 
@@ -173,26 +178,23 @@ let c2white_pawn = piece_of_position (7,2) (positions_from_board board8x8)
 
 let move_piece_tests = [
 
-  (*
-
-  (*Testing the individual white pawn moveset *)
-  make_tuple_test "Moving left white pawn" [(4,1); (3,1)] (determine_piece_possible c1white_pawn (2,1) (positions_from_board board8x8) 8 8);
-  make_tuple_test "Moving c2 white pawn" [(4,2); (3,2)] (determine_piece_possible c1white_pawn (2,2) (positions_from_board board8x8) 8 8);
+  make_tuple_lst_test "Moving left white pawn" [(4,1); (3,1)] (determine_piece_possible c1white_pawn (2,1) (positions_from_board board8x8) 8 8);
+  make_tuple_lst_test "Moving c2 white pawn" [(4,2); (3,2)] (determine_piece_possible c1white_pawn (2,2) (positions_from_board board8x8) 8 8);
 
   (*Testing the individual black pawn moveset *)
-  make_tuple_test "Moving left black pawn" [(5,1); (6,1)] (determine_piece_possible c1black_pawn (7,1) (positions_from_board board8x8) 8 8);
-  make_tuple_test "Moving c2 black pawn" [(5,2); (6,2)] (determine_piece_possible c1black_pawn (7,2) (positions_from_board board8x8) 8 8);
+  make_tuple_lst_test "Moving left black pawn" [(5,1); (6,1)] (determine_piece_possible c1black_pawn (7,1) (positions_from_board board8x8) 8 8);
+  make_tuple_lst_test "Moving c2 black pawn" [(5,2); (6,2)] (determine_piece_possible c1black_pawn (7,2) (positions_from_board board8x8) 8 8);
 
   (*White pawn moves test*)
-  make_tuple_test "White pawns" [(4,1); (3,1)] (white_pawn_moves (2,1) (positions_from_board board8x8) 8);
+  make_tuple_lst_test "White pawns" [(4,1); (3,1)] (white_pawn_moves (2,1) (positions_from_board board8x8) 8);
 
   (*Black pawn moves test*)
-  make_tuple_test "Black pawns" [(5,1); (6,1)] (black_pawn_moves (7,1) (positions_from_board board8x8) 8 8);
+  make_tuple_lst_test "Black pawns" [(5,1); (6,1)] (black_pawn_moves (7,1) (positions_from_board board8x8) 8 8);
 
   (* Uncomment once calc possible moves is done
   make_f_test "All possible moves" calc_possible_moves board8x8;  *)
 
-*) 
+
 
 ] 
 
