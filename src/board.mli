@@ -28,7 +28,7 @@ val id_board : board -> id list list
 
 (* [piece_of_position pos lst] is the piece at the position pos in a
    position list lst*)
-val piece_of_position : int * int -> position list list -> Piece.piece
+val piece_of_position : id -> position list list -> Piece.piece
 
 val num_rows : board -> int
 (** [num_rows board] returns the number of rows from a board*)
@@ -63,5 +63,6 @@ val piece_board : board -> string list list
 val id_from_position : position -> id
 (** [id_from_position] of position is the id of that position. *)
 
-val put_piece : id -> Piece.piece -> board -> board(** [put_piece id piece board] puts the [piece] on the [board] at [id].
+val put_piece : id -> Piece.piece -> board -> board
+(** [put_piece id piece board] puts the [piece] on the [board] at [id].
     Raises: Exception when there is already a piece there *)
