@@ -1,6 +1,8 @@
 open Yojson.Basic.Util 
 open Piece 
 
+(*TYPES*)
+
 (** Represents where the chess board square is located*)
 type id = (int * int) 
 
@@ -18,6 +20,41 @@ type board = {
   number_of_columns : int;
   positions : position list list;
 }
+
+(*MISC HELPERS*)
+
+(* [nth_elt n lst] is the nth element of the list (starting from index 1). 
+Raises: exception if the list is empty*)
+  let rec nth_elt n lst = 
+    match lst with 
+    | [] -> failwith "Nth element not found"
+    | h :: _ when n <= 1 -> h 
+    | _ :: t ->  nth_elt (n-1) t 
+  
+  (* [lst_of_nth_elt n lst acc] takes in a 2D list and returns a list of the nth 
+  element of each list within the 2D lists 
+  Example: 2 [[(1,2); (2,3); (3,4)]; [(3,6); (7,4); (9,9)] [] returns you
+  [((2,3); (7,4))]*)
+  let rec lst_of_nth_elt n lst acc =
+    match lst with 
+    | [] -> List.rev acc 
+    | h :: t -> 
+        let nth = nth_elt n h in 
+        lst_of_nth_elt n t (nth :: acc)  
+  
+  (** [replace_element lst n x] replaces the nth element of the list with 
+  x. SOMEHOW not a library function wtf
+  Note: INDEX BASED OF ONE FOR N*)
+  let replace_element lst n x =
+      List.mapi (fun index el -> if (n - 1) = index then x else el) lst
+
+  
+let id_from_position pos=
+match pos with
+|{id;_}->id
+
+  
+(*JSON HANDLING*)
 
 (** Converts a yojson list to a pair 
 Requires: the json list you pass in must have two elements 
@@ -59,27 +96,7 @@ let board_from_json json =
     positions = positions2D (positions1D json) (snd (dimensionsTuple json)) 1 [] []
 } 
 
-(* [nth_elt n lst] is the nth element of the list (starting from index 1). 
-Raises: exception if the list is empty*)
-let rec nth_elt n lst = 
-  match lst with 
-  | [] -> failwith "Nth element not found"
-  | h :: _ when n <= 1 -> h 
-  | _ :: t ->  nth_elt (n-1) t 
-
-let replace_element l (index : int) x =
-    List.mapi (fun i_index el -> if index = i_index then x else el) l
-
-(* [lst_of_nth_elt n lst acc] takes in a 2D list and returns a list of the nth 
-element of each list within the 2D lists 
-Example: 2 [[(1,2); (2,3); (3,4)]; [(3,6); (7,4); (9,9)] [] returns you
-[((2,3); (7,4))]*)
-let rec lst_of_nth_elt n lst acc =
-  match lst with 
-  | [] -> List.rev acc 
-  | h :: t -> 
-      let nth = nth_elt n h in 
-      lst_of_nth_elt n t (nth :: acc)  
+(*BOARD HANDLING*)
 
 let n_row n board = 
   nth_elt n board.positions
@@ -102,17 +119,29 @@ let piece_pos_lst (pos_lst : position list) =
 let piece_board board = 
   List.map (fun x -> piece_pos_lst x) board.positions
 
+  
 let rec pos_helper board num=
   if num=0 then [] else
     (n_row num board) :: pos_helper board (num-1)
 
 let position_board board=
-    pos_helper board (num_rows board)
+    pos_helper board (num_rows board) 
+
+
+(*let tuple_printer t =
+      match t with 
+      | (x,y) -> "(" ^ (string_of_int x) ^ "," ^ (string_of_int y) ^ ")" *)
 
 let piece_of_position pos lst=
-  match (nth_elt (snd pos) (nth_elt (fst pos) lst)) with 
-  {piece;_} -> piece
 
+  (*
+  let () = print_endline (tuple_printer (id_from_position position)) in 
+  let () = print_endline (tuple_printer (List.hd (nth_elt (fst pos) lst)).id) in *) 
+
+  match (nth_elt (snd pos) (nth_elt (fst pos) lst)) with 
+  
+  {piece;_} -> piece 
+  
 let positions_from_board board=
 match board with
 |{positions;_}->positions
@@ -156,22 +185,38 @@ let get_obstacle (board:board) (id:id):string =
   | [] -> failwith "Invalid id given"
   | h::t -> if (h.id=id) then h.obstacle else get_helper t id get_obstacle_helper
 
-(* TODO: Doc comment*)
+(* PIECE HANDLING *)
+
+(*
+let tuple_to_str t =
+  match t with 
+  | (x,y) -> "(" ^ (string_of_int x) ^ "," ^ (string_of_int y) ^ "), "
+
+let rec position_printer plst = 
+  match plst with 
+  | [] -> ""
+  | h :: t -> 
+    match h with 
+    | {id; _} -> tuple_to_str id ^ position_printer t *)
 
 let put_piece id piece board =
-  let piece_from_board = piece_of_position id board.positions in 
+  (*let piece_from_board = piece_of_position id board.positions in *) 
 
   (*please abstract here*)
   let position_at_id = nth_elt (snd id) (n_row (fst id) board) in 
+ (* let () = print_endline (string_of_int (fst position_at_id.id)) in 
+  let () = print_endline (string_of_int (snd position_at_id.id)) in  *)
 
   let new_position = replace_element (n_row (fst id) board) (snd id) {position_at_id with piece = piece} in 
-  
+  (*let () = print_endline (tuple_printer(id_pos_lst (n_row (fst id) board))) in 
+  let () = print_endline (tuple_printer(id_pos_lst new_position)) in *)
+
   let new_2dlst = replace_element board.positions (fst id) new_position in
+  
+  {board with positions = new_2dlst}
+  
 
-  match piece_from_board with 
+
+  (*match piece_from_board with 
   | Nothing -> {board with positions = new_2dlst}
-  | _ -> failwith "Piece already exists there"
-
-let id_from_position pos=
-match pos with
-|{id;_}->id
+  | _ -> failwith "Piece already exists there"*) 

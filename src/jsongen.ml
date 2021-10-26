@@ -1,7 +1,8 @@
 let position_maker height width r c white is_last = 
   let board_even = width mod 2 = 0 in 
   let id_as_string = string_of_int r ^ ", " ^ string_of_int c in
-  let is_white = if white then "white" else "black" in
+  let is_white_square = if white then "white" else "black" in
+  let is_white_piece = if r = 1 || r = 2 then "black" else "white" in
   let comma_except_last = if is_last then "" else "," in 
 
   (*Looks ugly you can't pattern match against constants w/ variable expr :p *)
@@ -11,20 +12,20 @@ let position_maker height width r c white is_last =
     else if r = 1 || r = height then 
       let start_pos = 
         if board_even then ((width - 8) / 2) + 1 else (width - 8 - 1) / 2 + 1 in 
-      if c = start_pos then is_white ^ "_rook" 
-      else if c = start_pos + 1 then is_white ^ "_knight"
-      else if c = start_pos + 2 then is_white ^ "_bishop"
-      else if c = start_pos + 3 then is_white ^ "_queen" 
-      else if c = start_pos + 4 then is_white ^ "_king"
-      else if c = start_pos + 5 then is_white ^ "_bishop"
-      else if c = start_pos + 6 then is_white ^ "_knight"
-      else if c = start_pos + 7 then is_white ^ "_rook"
+      if c = start_pos then is_white_piece ^ "_rook" 
+      else if c = start_pos + 1 then is_white_piece ^ "_knight"
+      else if c = start_pos + 2 then is_white_piece ^ "_bishop"
+      else if c = start_pos + 3 then is_white_piece ^ "_queen" 
+      else if c = start_pos + 4 then is_white_piece ^ "_king"
+      else if c = start_pos + 5 then is_white_piece ^ "_bishop"
+      else if c = start_pos + 6 then is_white_piece ^ "_knight"
+      else if c = start_pos + 7 then is_white_piece ^ "_rook"
       else "nothing" 
     else "nothing" in 
 
   "{ \"id\" : [" ^ id_as_string ^ "], 
   \"obstacle\": \"none\",
-   \"color\" : \"" ^ is_white ^ "\", 
+   \"color\" : \"" ^ is_white_square ^ "\", 
    \"piece\": \"" ^ piece ^ "\"" ^ "}" ^ comma_except_last
 
 (** [create_board n r c max_col] Creates an [n] x [n] chess board json, starting 
