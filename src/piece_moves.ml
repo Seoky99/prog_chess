@@ -8,15 +8,18 @@ let is_bounds id num_cols num_rows =
   else true
 
 let good_move board pos team num_cols num_rows =
-  match Board.piece_of_position pos board with
-  | Piece.Nothing -> true
-  | x ->
-      if Piece.team_of x = team then false
-      else is_bounds pos num_cols num_rows
+  if is_bounds pos num_cols num_rows then
+    match Board.piece_of_position pos board with
+    | Piece.Nothing -> (true, false)
+    | x ->
+        if Piece.team_of x = team then (false, false) else (true, true)
+  else (false, false)
 
 let rec horizontal_helper board pos team direction num_cols num_rows =
   let next = add_tuple pos direction in
-  if good_move board next team num_cols num_rows then
+  let bool = good_move board next team num_cols num_rows in
+  if fst bool && snd bool then [ next ]
+  else if fst bool = true && snd bool = false then
     next
     :: horizontal_helper board next team direction num_cols num_rows
   else []
@@ -130,10 +133,8 @@ let black_pawn_moves pos board num_cols num_rows =
   black_pawn_det pos board num_cols num_rows
 
 let rook_moves piece pos board num_cols num_rows =
-  horivertical piece board pos num_cols num_rows (0, 1)
-  @ horivertical piece board pos num_cols num_rows (0, -1)
-  @ horivertical piece board pos num_cols num_rows (1, 0)
-  @ horivertical piece board pos num_cols num_rows (-1, 0)
+  let x = horivertical piece board pos num_cols num_rows in
+  x (0, 1) @ x (0, -1) @ x (1, 0) @ x (-1, 0)
 
 let determine_piece_possible piece pos pos_lst num_cols num_rows =
   match piece with
