@@ -20,7 +20,7 @@ let make_piece name =
   match name with
   | "white_pawn" -> White_Pawn (recordify "white_pawn" "white")
   | "black_pawn" -> Black_Pawn (recordify "black_pawn" "black")
-  | "white_rook" -> Rook (recordify "rook" "black")
+  | "white_rook" -> Rook (recordify "rook" "white")
   | "black_rook" -> Rook (recordify "rook" "black")
   | "white_knight" -> Knight (recordify "knight" "white")
   | "black_knight" -> Knight (recordify "knight" "black")
@@ -47,11 +47,10 @@ let get_name pc =
 let team_of piece =
   match piece with
   | Nothing -> "nothing"
-  | White_Pawn { team; _ }
-  | Black_Pawn { team; _ }
-  | Rook { team; _ }
-  | Bishop { team; _ }
-  | Knight { team; _ }
-  | King { team; _ }
-  | Queen { team; _ } ->
-      team
+  | White_Pawn _ -> "white"
+  | Black_Pawn _ -> "black"
+  | Rook { team; _ } -> team
+  | Bishop { team; _ } -> team
+  | Knight { team; _ } -> team
+  | King { team; _ } -> team
+  | Queen { team; _ } -> team
