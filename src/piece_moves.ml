@@ -136,16 +136,22 @@ let rook_moves piece pos board num_cols num_rows =
   let x = horivertical piece board pos num_cols num_rows in
   x (0, 1) @ x (0, -1) @ x (1, 0) @ x (-1, 0)
 
+let bishop_moves piece pos board num_cols num_rows =
+  let x = horivertical piece board pos num_cols num_rows in
+  x (1, 1) @ x (1, -1) @ x (-1, 1) @ x (-1, -1)
+
 let determine_piece_possible piece pos pos_lst num_cols num_rows =
   match piece with
   | Piece.Nothing -> []
   | Piece.White_Pawn _ -> white_pawn_moves pos pos_lst num_cols num_rows
   | Piece.Black_Pawn _ -> black_pawn_moves pos pos_lst num_cols num_rows
   | Piece.Rook _ -> rook_moves piece pos pos_lst num_cols num_rows
-  | Piece.Bishop _ -> white_pawn_moves pos pos_lst num_cols num_rows
+  | Piece.Bishop _ -> bishop_moves piece pos pos_lst num_cols num_rows
   | Piece.Knight _ -> white_pawn_moves pos pos_lst num_cols num_rows
   | Piece.King _ -> white_pawn_moves pos pos_lst num_cols num_rows
-  | Piece.Queen _ -> white_pawn_moves pos pos_lst num_cols num_rows
+  | Piece.Queen _ ->
+      rook_moves piece pos pos_lst num_cols num_rows
+      @ bishop_moves piece pos pos_lst num_cols num_rows
 
 let rec determine_possibles_row board row num_rows num_cols =
   match row with
