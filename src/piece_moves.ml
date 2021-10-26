@@ -1,4 +1,31 @@
 (*Board starts from 1 index?*)
+let add_tuple (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)
+
+let is_bounds id num_cols num_rows =
+  if fst id > num_rows then false
+  else if fst id < 1 then false
+  else if snd id > num_cols then false
+  else if snd id < 1 then false
+  else true
+
+let good_move board pos team num_cols num_rows =
+  match Board.piece_of_position pos board with
+  | Piece.Nothing -> true
+  | x ->
+      if Piece.team_of x = team then false
+      else is_bounds pos num_cols num_rows
+
+let rec horizontal_helper board pos team direction num_cols num_rows =
+  let next = add_tuple pos direction in
+  if good_move board next team num_cols num_rows then
+    next
+    :: horizontal_helper board next team direction num_cols num_rows
+  else []
+
+let horivertical piece board pos num_cols num_rows direction =
+  let team = Piece.team_of piece in
+  horizontal_helper board pos team direction num_cols num_rows
+
 let two_white_pawn pos pos_lst num_rows =
   if fst pos = num_rows - 1 then
     match Board.piece_of_position (fst pos - 1, snd pos) pos_lst with
@@ -103,12 +130,18 @@ let black_pawn_det pos pos_lst num_cols num_rows =
 let black_pawn_moves pos board num_cols num_rows =
   black_pawn_det pos board num_cols num_rows
 
+let rook_moves piece pos board num_cols num_rows =
+  horivertical piece board pos num_cols num_rows (0, 1)
+  @ horivertical piece board pos num_cols num_rows (0, -1)
+  @ horivertical piece board pos num_cols num_rows (1, 0)
+  @ horivertical piece board pos num_cols num_rows (-1, 0)
+
 let determine_piece_possible piece pos pos_lst num_cols num_rows =
   match piece with
   | Piece.Nothing -> []
   | Piece.White_Pawn _ -> white_pawn_moves pos pos_lst num_cols num_rows
   | Piece.Black_Pawn _ -> black_pawn_moves pos pos_lst num_cols num_rows
-  | Piece.Rook _ -> white_pawn_moves pos pos_lst num_cols num_rows
+  | Piece.Rook _ -> rook_moves piece pos pos_lst num_cols num_rows
   | Piece.Bishop _ -> white_pawn_moves pos pos_lst num_cols num_rows
   | Piece.Knight _ -> white_pawn_moves pos pos_lst num_cols num_rows
   | Piece.King _ -> white_pawn_moves pos pos_lst num_cols num_rows
