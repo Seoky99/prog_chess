@@ -1,4 +1,3 @@
-(*Board starts from 1 index?*)
 let add_tuple (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)
 
 let is_bounds id num_cols num_rows =

@@ -18,6 +18,17 @@ val black_pawn_moves :
     (int*int) locations that a black pawn on the given board can move
     to.*)
 
+val rook_moves :
+  Piece.piece ->
+  int * int ->
+  Board.position list list ->
+  int ->
+  int ->
+  (int * int) list
+(** [rook_moves piece pos board num_cols num_rows] returns the possible
+    positions that the [piece] (which is a rook) can move at an [id] in
+    some [board]*)
+
 val determine_piece_possible :
   Piece.piece ->
   int * int ->
