@@ -770,46 +770,21 @@ let move_piece_tests =
     make_tuple_lst_test "Black pawns" [ (4, 1); (3, 1) ]
       (black_pawn_moves (2, 1) (positions_from_board board8x8) 8 8);
     (*TESTING ROOKS*)
+    make_string_test "rook on (8,1)" "rook" (get_name rook81);
     make_tuple_lst_test "Make sure left white rook cannot move" []
       (determine_piece_possible rook81 (8, 1)
          (positions_from_board board8x8)
          8 8);
-    (*watch out for order of move set*)
-    make_tuple_lst_test "Move set for rook 33"
-      [ (3, 1); (3, 2); (3, 4); (2, 3); (4, 3); (5, 3) ]
-      (determine_piece_possible rook33 (3, 3)
-         (positions_from_board board8x8)
-         8 8);
-    make_tuple_lst_test "Move set for rook 34"
-      [
-        (3, 3);
-        (3, 5);
-        (3, 6);
-        (3, 7);
-        (3, 8);
-        (4, 4);
-        (5, 4);
-        (6, 4);
-        (7, 4);
-      ]
-      (determine_piece_possible rook34 (3, 4)
-         (positions_from_board board8x8)
-         8 8);
-    make_tuple_lst_test "Move set for rook 63"
-      [
-        (6, 1);
-        (6, 2);
-        (6, 4);
-        (6, 5);
-        (6, 6);
-        (6, 7);
-        (6, 8);
-        (4, 3);
-        (5, 3);
-      ]
-      (determine_piece_possible rook63 (6, 3)
-         (positions_from_board board8x8)
-         8 8);
+    (* (*watch out for order of move set*) make_tuple_lst_test "Move set
+       for rook 33" [ (3, 1); (3, 2); (3, 4); (2, 3); (4, 3); (5, 3) ]
+       (determine_piece_possible rook33 (3, 3) (positions_from_board
+       rooktestingboard) 8 8); make_tuple_lst_test "Move set for rook
+       34" [ (3, 3); (3, 5); (3, 6); (3, 7); (3, 8); (4, 4); (5, 4); (6,
+       4); (7, 4); ] (determine_piece_possible rook34 (3, 4)
+       (positions_from_board rooktestingboard) 8 8); make_tuple_lst_test
+       "Move set for rook 63" [ (6, 1); (6, 2); (6, 4); (6, 5); (6, 6);
+       (6, 7); (6, 8); (4, 3); (5, 3); ] (determine_piece_possible
+       rook63 (6, 3) (positions_from_board rooktestingboard) 8 8); *)
   ]
 
 let suite =
