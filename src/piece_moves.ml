@@ -140,6 +140,67 @@ let bishop_moves piece pos board num_cols num_rows =
   let x = horivertical piece board pos num_cols num_rows in
   x (1, 1) @ x (1, -1) @ x (-1, 1) @ x (-1, -1)
 
+let good_move_helper board pos add team num_cols num_rows =
+  let x = add_tuple pos add in
+  if fst (good_move board x team num_cols num_rows) then [ x ] else []
+
+let knight_helper pos board num_cols num_rows team operator =
+  let uptwo =
+    good_move_helper board pos (-2, operator 0 1) team num_cols num_rows
+  in
+
+  let upone =
+    good_move_helper board pos (-1, operator 0 2) team num_cols num_rows
+  in
+  let downone =
+    good_move_helper board pos (1, operator 0 2) team num_cols num_rows
+  in
+  let downtwo =
+    good_move_helper board pos (2, operator 0 1) team num_cols num_rows
+  in
+  uptwo @ upone @ downone @ downtwo
+
+let knight_moves piece pos board num_cols num_rows =
+  let x =
+    knight_helper pos board num_cols num_rows (Piece.team_of piece)
+  in
+  x ( + ) @ x ( - )
+
+let cardinal_helper pos board num_cols num_rows team =
+  let up = good_move_helper board pos (-1, 0) team num_cols num_rows in
+  let down = good_move_helper board pos (1, 0) team num_cols num_rows in
+  let left =
+    good_move_helper board pos (0, -1) team num_cols num_rows
+  in
+  let right =
+    good_move_helper board pos (0, 1) team num_cols num_rows
+  in
+  up @ left @ down @ right
+
+let diagonal_helper pos board num_cols num_rows team =
+  let upright =
+    good_move_helper board pos (-1, 1) team num_cols num_rows
+  in
+  let upleft =
+    good_move_helper board pos (-1, -1) team num_cols num_rows
+  in
+  let downleft =
+    good_move_helper board pos (1, -1) team num_cols num_rows
+  in
+  let downright =
+    good_move_helper board pos (1, 1) team num_cols num_rows
+  in
+  upright @ upleft @ downleft @ downright
+
+let king_moves piece pos board num_cols num_rows =
+  let team = Piece.team_of piece in
+  cardinal_helper pos board num_cols num_rows team
+  @ diagonal_helper pos board num_cols num_rows team
+
+let queen_moves piece pos board num_cols num_rows =
+  rook_moves piece pos board num_cols num_rows
+  @ bishop_moves piece pos board num_cols num_rows
+
 let determine_piece_possible piece pos pos_lst num_cols num_rows =
   match piece with
   | Piece.Nothing -> []
@@ -147,11 +208,9 @@ let determine_piece_possible piece pos pos_lst num_cols num_rows =
   | Piece.Black_Pawn _ -> black_pawn_moves pos pos_lst num_cols num_rows
   | Piece.Rook _ -> rook_moves piece pos pos_lst num_cols num_rows
   | Piece.Bishop _ -> bishop_moves piece pos pos_lst num_cols num_rows
-  | Piece.Knight _ -> white_pawn_moves pos pos_lst num_cols num_rows
-  | Piece.King _ -> white_pawn_moves pos pos_lst num_cols num_rows
-  | Piece.Queen _ ->
-      rook_moves piece pos pos_lst num_cols num_rows
-      @ bishop_moves piece pos pos_lst num_cols num_rows
+  | Piece.Knight _ -> knight_moves piece pos pos_lst num_cols num_rows
+  | Piece.King _ -> king_moves piece pos pos_lst num_cols num_rows
+  | Piece.Queen _ -> queen_moves piece pos pos_lst num_cols num_rows
 
 let rec determine_possibles_row board row num_rows num_cols =
   match row with
