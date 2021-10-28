@@ -39,6 +39,22 @@ let placeandremove8x8 =
   put_piece (3, 3) (make_piece "white_queen") board8x8
   |> remove_piece (3, 3)
 
+let rooktestingboard =
+  put_piece (3, 3) (make_piece "white_rook") board8x8
+  |> put_piece (3, 4) (make_piece "black_rook")
+  |> put_piece (6, 3) (make_piece "black_rook")
+
+let bishoptestingboard =
+  put_piece (3, 2) (make_piece "black_bishop") board8x8
+  |> put_piece (4, 4) (make_piece "black_bishop")
+  |> put_piece (5, 4) (make_piece "black_bishop")
+  |> put_piece (5, 5) (make_piece "white_bishop")
+
+let queentestingboard =
+  put_piece (3, 1) (make_piece "black_queen") board8x8
+  |> put_piece (5, 3) (make_piece "white_queen")
+  |> put_piece (5, 5) (make_piece "white_queen")
+
 (*TODO: Store these somewhere else?*)
 let row1board3x3 = n_row 1 board3x3
 
@@ -714,6 +730,7 @@ let board_tests =
             (positions_from_board placeandremove8x8)));
   ]
 
+(* Pieces for testing movement *)
 let c1black_pawn =
   piece_of_position (2, 1) (positions_from_board board8x8)
 
@@ -726,11 +743,6 @@ let c1white_pawn =
 let c2white_pawn =
   piece_of_position (7, 2) (positions_from_board board8x8)
 
-let rooktestingboard =
-  put_piece (3, 3) (make_piece "white_rook") board8x8
-  |> put_piece (3, 4) (make_piece "black_rook")
-  |> put_piece (6, 3) (make_piece "black_rook")
-
 let rook81 = piece_of_position (8, 1) (positions_from_board board8x8)
 
 let rook33 =
@@ -741,6 +753,31 @@ let rook34 =
 
 let rook63 =
   piece_of_position (6, 3) (positions_from_board rooktestingboard)
+
+let bishop83 = piece_of_position (8, 3) (positions_from_board board8x8)
+
+let bishop32 =
+  piece_of_position (3, 2) (positions_from_board bishoptestingboard)
+
+let bishop44 =
+  piece_of_position (4, 4) (positions_from_board bishoptestingboard)
+
+let bishop54 =
+  piece_of_position (5, 4) (positions_from_board bishoptestingboard)
+
+let bishop55 =
+  piece_of_position (5, 5) (positions_from_board bishoptestingboard)
+
+let queen84 = piece_of_position (8, 4) (positions_from_board board8x8)
+
+let queen31 =
+  piece_of_position (3, 1) (positions_from_board queentestingboard)
+
+let queen53 =
+  piece_of_position (5, 3) (positions_from_board queentestingboard)
+
+let queen55 =
+  piece_of_position (5, 5) (positions_from_board queentestingboard)
 
 let move_piece_tests =
   [
@@ -774,41 +811,133 @@ let move_piece_tests =
       (determine_piece_possible rook81 (8, 1)
          (positions_from_board board8x8)
          8 8);
-    (*watch out for order of move set*)
     make_tuple_lst_test "Move set for rook 33"
-      [ (3, 1); (3, 2); (3, 4); (2, 3); (4, 3); (5, 3) ]
+      [ (3, 4); (3, 2); (3, 1); (4, 3); (5, 3); (6, 3); (2, 3) ]
       (determine_piece_possible rook33 (3, 3)
-         (positions_from_board board8x8)
+         (positions_from_board rooktestingboard)
          8 8);
-    make_tuple_lst_test "Move set for rook 34"
+    make_tuple_lst_test "Move set rook 34"
       [
-        (3, 3);
         (3, 5);
         (3, 6);
         (3, 7);
         (3, 8);
+        (3, 3);
         (4, 4);
         (5, 4);
         (6, 4);
         (7, 4);
       ]
       (determine_piece_possible rook34 (3, 4)
-         (positions_from_board board8x8)
+         (positions_from_board rooktestingboard)
          8 8);
     make_tuple_lst_test "Move set for rook 63"
       [
-        (6, 1);
-        (6, 2);
         (6, 4);
         (6, 5);
         (6, 6);
         (6, 7);
         (6, 8);
-        (4, 3);
+        (6, 2);
+        (6, 1);
+        (7, 3);
         (5, 3);
+        (4, 3);
+        (3, 3);
       ]
       (determine_piece_possible rook63 (6, 3)
+         (positions_from_board rooktestingboard)
+         8 8);
+    (*TESTING BISHOPS*)
+    make_tuple_lst_test "Make sure left white bishop cannot move" []
+      (determine_piece_possible bishop83 (8, 3)
          (positions_from_board board8x8)
+         8 8);
+    make_tuple_lst_test "Move set for bishop at (3,2)"
+      [ (4, 3); (4, 1) ]
+      (determine_piece_possible bishop32 (3, 2)
+         (positions_from_board bishoptestingboard)
+         8 8);
+    make_tuple_lst_test "Move set for bishop at (4,4)"
+      [ (5, 5); (5, 3); (6, 2); (7, 1); (3, 5); (3, 3) ]
+      (determine_piece_possible bishop44 (4, 4)
+         (positions_from_board bishoptestingboard)
+         8 8);
+    make_tuple_lst_test "Move set for bishop at (5,4)"
+      [ (6, 5); (7, 6); (6, 3); (7, 2); (4, 5); (3, 6); (4, 3) ]
+      (determine_piece_possible bishop54 (5, 4)
+         (positions_from_board bishoptestingboard)
+         8 8);
+    make_tuple_lst_test "Move set for bishop at (5,5)"
+      [ (6, 6); (6, 4); (4, 6); (3, 7); (2, 8); (4, 4) ]
+      (determine_piece_possible bishop55 (5, 5)
+         (positions_from_board bishoptestingboard)
+         8 8);
+    (*TESTING QUEENS*)
+    make_tuple_lst_test "Make sure left white queen cannot move" []
+      (determine_piece_possible queen84 (8, 4)
+         (positions_from_board board8x8)
+         8 8);
+    make_tuple_lst_test "Move set for queen at (3,1)"
+      [
+        (3, 2);
+        (3, 3);
+        (3, 4);
+        (3, 5);
+        (3, 6);
+        (3, 7);
+        (3, 8);
+        (4, 1);
+        (5, 1);
+        (6, 1);
+        (7, 1);
+        (4, 2);
+        (5, 3);
+      ]
+      (determine_piece_possible queen31 (3, 1)
+         (positions_from_board queentestingboard)
+         8 8);
+    make_tuple_lst_test "Move set for queen at (5,3)"
+      [
+        (5, 4);
+        (5, 2);
+        (5, 1);
+        (6, 3);
+        (4, 3);
+        (3, 3);
+        (2, 3);
+        (6, 4);
+        (6, 2);
+        (4, 4);
+        (3, 5);
+        (2, 6);
+        (4, 2);
+        (3, 1);
+      ]
+      (determine_piece_possible queen53 (5, 3)
+         (positions_from_board queentestingboard)
+         8 8);
+    make_tuple_lst_test "Move set for queen at (5,5)"
+      [
+        (5, 6);
+        (5, 7);
+        (5, 8);
+        (5, 4);
+        (6, 5);
+        (4, 5);
+        (3, 5);
+        (2, 5);
+        (6, 6);
+        (6, 4);
+        (4, 6);
+        (3, 7);
+        (2, 8);
+        (4, 4);
+        (3, 3);
+        (2, 2);
+      ]
+      (determine_piece_possible queen55 (5, 5)
+         (positions_from_board queentestingboard)
          8 8);
   ]
 
