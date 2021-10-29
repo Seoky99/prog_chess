@@ -1,7 +1,9 @@
 type piece_info = {
   possible_moves : (int * int) list;
   team : string;
-  name : string; (* upgrade list *)
+  name : string;
+  (*TODO: Implement upgrade list*)
+  value : int;
 }
 
 type piece =
@@ -14,23 +16,25 @@ type piece =
   | Queen of piece_info
   | Nothing
 
-let recordify input team = { possible_moves = []; team; name = input }
+let recordify name team value =
+  { possible_moves = []; name; team; value }
 
 let make_piece name =
   match name with
-  | "white_pawn" -> White_Pawn (recordify "white_pawn" "white")
-  | "black_pawn" -> Black_Pawn (recordify "black_pawn" "black")
-  | "white_rook" -> Rook (recordify "rook" "white")
-  | "black_rook" -> Rook (recordify "rook" "black")
-  | "white_knight" -> Knight (recordify "knight" "white")
-  | "black_knight" -> Knight (recordify "knight" "black")
-  | "white_bishop" -> Bishop (recordify "bishop" "white")
-  | "black_bishop" -> Bishop (recordify "bishop" "black")
-  | "white_king" -> King (recordify "king" "white")
-  | "black_king" -> King (recordify "king" "black")
-  | "white_queen" -> Queen (recordify "queen" "white")
-  | "black_queen" -> Queen (recordify "queen" "black")
-  | _ -> Nothing
+  | "white_pawn" -> White_Pawn (recordify "white_pawn" "white" 1)
+  | "black_pawn" -> Black_Pawn (recordify "black_pawn" "black" 1)
+  | "white_rook" -> Rook (recordify "rook" "white" 5)
+  | "black_rook" -> Rook (recordify "rook" "black" 5)
+  | "white_knight" -> Knight (recordify "knight" "white" 3)
+  | "black_knight" -> Knight (recordify "knight" "black" 3)
+  | "white_bishop" -> Bishop (recordify "bishop" "white" 3)
+  | "black_bishop" -> Bishop (recordify "bishop" "black" 3)
+  | "white_king" -> King (recordify "king" "white" 0)
+  | "black_king" -> King (recordify "king" "black" 0)
+  | "white_queen" -> Queen (recordify "queen" "white" 9)
+  | "black_queen" -> Queen (recordify "queen" "black" 9)
+  | "nothing" -> Nothing
+  | _ -> failwith "Not valid piece name"
 
 let get_name pc =
   match pc with
@@ -43,6 +47,18 @@ let get_name pc =
   | King { name; _ }
   | Queen { name; _ } ->
       name
+
+let get_value pc =
+  match pc with
+  | Nothing -> 0
+  | White_Pawn { value; _ }
+  | Black_Pawn { value; _ }
+  | Rook { value; _ }
+  | Bishop { value; _ }
+  | Knight { value; _ }
+  | King { value; _ }
+  | Queen { value; _ } ->
+      value
 
 let team_of piece =
   match piece with

@@ -51,7 +51,7 @@ let rec create_board_helper height width r c sqrn =
       ^ create_board_helper height width r (c + 1) (sqrn - 1)
 
 (** Obviously prints out the board*)
-let create_board height width r c =
+let create_board_string height width r c =
   let num_positions = height * width in
   let positions = create_board_helper height width r c num_positions in
 

@@ -1,5 +1,6 @@
 open Yojson.Basic.Util
 open Piece
+open Jsongen
 
 (*TYPES*)
 
@@ -8,9 +9,9 @@ type id = int * int
 
 type position = {
   id : id;
-  obstacle : string;
+  mutable obstacle : string;
   color : string;
-  piece : piece;
+  mutable piece : piece;
 }
 (** Represents a single chess board square*)
 
@@ -44,8 +45,8 @@ let rec lst_of_nth_elt n lst acc =
 
 (** [replace_element lst n x] replaces the nth element of the list with
     x. SOMEHOW not a library function wtf Note: INDEX BASED OF ONE FOR N*)
-let replace_element lst n x =
-  List.mapi (fun index el -> if n - 1 = index then x else el) lst
+(*let replace_element lst n x = List.mapi (fun index el -> if n - 1 =
+  index then x else el) lst *)
 
 let id_from_position pos =
   match pos with
@@ -98,6 +99,10 @@ let board_from_json json =
         (snd (dimensionsTuple json))
         1 [] [];
   }
+
+let create_board height width =
+  board_from_json
+    (Yojson.Basic.from_string (create_board_string height width 1 1))
 
 (*BOARD HANDLING*)
 
@@ -175,17 +180,26 @@ let get_obstacle (board : board) (id : id) : string =
 (* PIECE HANDLING *)
 let position_from_id id board = nth_elt (snd id) (n_row (fst id) board)
 
-let put_piece id piece board =
-  let position_id = position_from_id id board in
-  let new_position =
-    replace_element
-      (n_row (fst id) board)
-      (snd id)
-      { position_id with piece }
-  in
-  let new_2dlst =
-    replace_element board.positions (fst id) new_position
-  in
-  { board with positions = new_2dlst }
+(* DELETE: We can keep old non mutable function just in case a problem
+   comes up but delete later. *)
+(*let put_piece id piece board = let position_id = position_from_id id
+  board in let new_position = replace_element (n_row (fst id) board)
+  (snd id) { position_id with piece } in let new_2dlst = replace_element
+  board.positions (fst id) new_position in { board with positions =
+  new_2dlst }
+
+  let remove_piece id board = put_piece id Nothing board *)
+
+let put_piece id new_piece board =
+  (position_from_id id board).piece <- new_piece
 
 let remove_piece id board = put_piece id Nothing board
+
+(* OBSTACLE HANDLING*)
+
+(*Once we implement obstacles, change doc to reflect it's not just a
+  string*)
+let put_obstacle id obstacle board =
+  (position_from_id id board).obstacle <- obstacle
+
+let remove_obstacle id board = put_obstacle id "none" board
