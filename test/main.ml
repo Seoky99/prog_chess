@@ -88,6 +88,13 @@ let obstacletestingboard =
   let () = put_obstacle (5, 4) "Wizard" new_board in
   new_board
 
+let checkmovelst =
+  let new_board = create_board 8 8 in
+  put_piece (5, 5) (make_piece "white_rook") new_board;
+  put_piece (4, 4) (make_piece "black_rook") new_board;
+  put_piece (5, 7) (make_piece "black_pawn") new_board;
+  positions_from_board new_board
+
 (*TODO: Store these somewhere else?*)
 let row1board3x3 = n_row 1 board3x3
 
@@ -841,6 +848,16 @@ let king32 =
 let king55 =
   piece_of_position (5, 5) (positions_from_board kingtestingboard)
 
+let checkwhitemove =
+  check_move
+    (piece_of_position (5, 5) checkmovelst)
+    (5, 5) (5, 7) checkmovelst
+
+let checkblackmove =
+  check_move
+    (piece_of_position (4, 4) checkmovelst)
+    (4, 4) (4, 5) checkmovelst
+
 let move_piece_tests =
   [
     (*TESTING PAWNS*)
@@ -1042,6 +1059,21 @@ let move_piece_tests =
       (determine_piece_possible king55 (5, 5)
          (positions_from_board kingtestingboard)
          8 8);
+    (* TESTING CHECK_MOVE*)
+    make_string_test "Testing white rook moved to (5,7)" "rook"
+      (get_name (piece_of_position (5, 7) checkmovelst));
+    make_string_test "Testing nothing at original look location"
+      "nothing"
+      (get_name (piece_of_position (5, 5) checkmovelst));
+    make_string_test "Testing functon returned black_pawn" "black_pawn"
+      (get_name checkwhitemove);
+    make_string_test "Testing white rook moved to (4,5)" "rook"
+      (get_name (piece_of_position (4, 5) checkmovelst));
+    make_string_test "Testing nothing at original look location"
+      "nothing"
+      (get_name (piece_of_position (4, 4) checkmovelst));
+    make_string_test "Testing functon returned black_pawn" "nothing"
+      (get_name checkblackmove);
   ]
 
 let suite =
