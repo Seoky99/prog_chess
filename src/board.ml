@@ -180,6 +180,9 @@ let get_obstacle (board : board) (id : id) : string =
 (* PIECE HANDLING *)
 let position_from_id id board = nth_elt (snd id) (n_row (fst id) board)
 
+let position_from_pos_lst id (pos_lst : position list list) =
+  nth_elt (snd id) (nth_elt (fst id) pos_lst)
+
 (* DELETE: We can keep old non mutable function just in case a problem
    comes up but delete later. *)
 (*let put_piece id piece board = let position_id = position_from_id id
@@ -195,6 +198,11 @@ let put_piece id new_piece board =
 
 let remove_piece id board = put_piece id Nothing board
 
+let put_piece_pos_lst id new_piece pos_lst =
+  (position_from_pos_lst id pos_lst).piece <- new_piece
+
+let remove_piece_pos_lst id pos_lst = put_piece id Nothing pos_lst
+
 (* OBSTACLE HANDLING*)
 
 (*Once we implement obstacles, change doc to reflect it's not just a
@@ -203,3 +211,14 @@ let put_obstacle id obstacle board =
   (position_from_id id board).obstacle <- obstacle
 
 let remove_obstacle id board = put_obstacle id "none" board
+
+(*MOVING HANDLING*)
+let check_move piece id pos_lst =
+  let piece_at_id = piece_of_position id pos_lst in
+  match piece_at_id with
+  | Nothing ->
+      let () = put_piece_pos_lst id piece pos_lst in
+      Nothing
+  | pc ->
+      let () = put_piece_pos_lst id piece pos_lst in
+      pc
