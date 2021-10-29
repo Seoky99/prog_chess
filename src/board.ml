@@ -121,6 +121,8 @@ let num_rows (board : board) : int = board.number_of_rows
 let piece_pos_lst (pos_lst : position list) =
   List.map (fun x -> get_name x.piece) pos_lst
 
+let piece_position pos_lst = List.map (fun x -> piece_pos_lst x) pos_lst
+
 let piece_board board =
   List.map (fun x -> piece_pos_lst x) board.positions
 
@@ -201,7 +203,8 @@ let remove_piece id board = put_piece id Nothing board
 let put_piece_pos_lst id new_piece pos_lst =
   (position_from_pos_lst id pos_lst).piece <- new_piece
 
-let remove_piece_pos_lst id pos_lst = put_piece id Nothing pos_lst
+let remove_piece_pos_lst id pos_lst =
+  put_piece_pos_lst id Nothing pos_lst
 
 (* OBSTACLE HANDLING*)
 
@@ -213,12 +216,14 @@ let put_obstacle id obstacle board =
 let remove_obstacle id board = put_obstacle id "none" board
 
 (*MOVING HANDLING*)
-let check_move piece id pos_lst =
-  let piece_at_id = piece_of_position id pos_lst in
+let check_move piece move_from_id move_to_id pos_lst =
+  let piece_at_id = piece_of_position move_to_id pos_lst in
   match piece_at_id with
   | Nothing ->
-      let () = put_piece_pos_lst id piece pos_lst in
+      put_piece_pos_lst move_to_id piece pos_lst;
+      remove_piece_pos_lst move_from_id pos_lst;
       Nothing
   | pc ->
-      let () = put_piece_pos_lst id piece pos_lst in
+      put_piece_pos_lst move_to_id piece pos_lst;
+      remove_piece_pos_lst move_from_id pos_lst;
       pc
