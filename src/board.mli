@@ -67,11 +67,21 @@ val position_from_id : id -> board -> position
 (** [position_from_id id board] returns the [position] at [id] of
     [board]*)
 
+val position_from_pos_lst : id -> position list list -> position
+(** [position_from_id id board] returns the [position] at [id] of
+    [pos_lst]*)
+
 val put_piece : id -> Piece.piece -> board -> unit
 (** [put_piece id piece board] puts the [piece] on the [board] at [id]. *)
 
 val remove_piece : id -> board -> unit
 (** [remove_piece id board] removes a piece from the [board] at [id]*)
+
+val put_piece_pos_lst : id -> Piece.piece -> position list list -> unit
+(** [put_piece id piece board] puts the [piece] on the [board] at [id]. *)
+
+val remove_piece_pos_lst : id -> position list list -> unit
+(** [remove_piece id board] removes a piece from the [pos_lst] at [id]*)
 
 val put_obstacle : id -> string -> board -> unit
 (** [put_obstacle id obstacle board] puts the [obstacle] on the [board]
@@ -80,3 +90,8 @@ val put_obstacle : id -> string -> board -> unit
 val remove_obstacle : id -> board -> unit
 (** [remove_obstacle id board] removes the obstacle on the [board] at
     [id]. *)
+
+val check_move : Piece.piece -> id -> position list list -> Piece.piece
+(** [check_move piece id pos_lst] returns the piece located at [id]. If
+    there is nothing there, then moves the piece there and returns
+    Nothing, else if there is a piece there it returns the piece there.*)
