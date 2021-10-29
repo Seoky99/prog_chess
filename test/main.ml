@@ -55,6 +55,21 @@ let queentestingboard =
   |> put_piece (5, 3) (make_piece "white_queen")
   |> put_piece (5, 5) (make_piece "white_queen")
 
+let knighttestingboard =
+  put_piece (4, 3) (make_piece "black_pawn") board8x8
+  |> put_piece (4, 6) (make_piece "black_pawn")
+  |> put_piece (3, 5) (make_piece "white_knight")
+  |> put_piece (5, 8) (make_piece "white_knight")
+  |> put_piece (6, 6) (make_piece "white_knight")
+  |> put_piece (5, 4) (make_piece "black_knight")
+
+let kingtestingboard =
+  put_piece (4, 4) (make_piece "black_pawn") board8x8
+  |> put_piece (4, 5) (make_piece "black_pawn")
+  |> put_piece (4, 6) (make_piece "black_pawn")
+  |> put_piece (5, 5) (make_piece "white_king")
+  |> put_piece (3, 2) (make_piece "black_king")
+
 (*TODO: Store these somewhere else?*)
 let row1board3x3 = n_row 1 board3x3
 
@@ -68,7 +83,6 @@ let col2board3x3 = n_col 2 board3x3
 
 let col3board3x3 = n_col 3 board3x3
 
-(*DELETE MUCH LATER*)
 let row1board8x8 = n_row 1 board8x8
 
 let row2board8x8 = n_row 2 board8x8
@@ -779,6 +793,28 @@ let queen53 =
 let queen55 =
   piece_of_position (5, 5) (positions_from_board queentestingboard)
 
+let knight82 = piece_of_position (8, 2) (positions_from_board board8x8)
+
+let knight35 =
+  piece_of_position (3, 5) (positions_from_board knighttestingboard)
+
+let knight54 =
+  piece_of_position (5, 4) (positions_from_board knighttestingboard)
+
+let knight58 =
+  piece_of_position (5, 8) (positions_from_board knighttestingboard)
+
+let knight66 =
+  piece_of_position (6, 6) (positions_from_board knighttestingboard)
+
+let king85 = piece_of_position (8, 5) (positions_from_board board8x8)
+
+let king32 =
+  piece_of_position (3, 2) (positions_from_board kingtestingboard)
+
+let king55 =
+  piece_of_position (5, 5) (positions_from_board kingtestingboard)
+
 let move_piece_tests =
   [
     (*TESTING PAWNS*)
@@ -938,6 +974,47 @@ let move_piece_tests =
       ]
       (determine_piece_possible queen55 (5, 5)
          (positions_from_board queentestingboard)
+         8 8);
+    (* TESTING KNIGHT *)
+    make_tuple_lst_test "Make sure left white knight has two moves"
+      [ (6, 3); (6, 1) ]
+      (determine_piece_possible knight82 (8, 2)
+         (positions_from_board board8x8)
+         8 8);
+    make_tuple_lst_test "Move set for knight at (3,5)"
+      [ (1, 6); (2, 7); (4, 7); (5, 6); (1, 4); (2, 3); (4, 3); (5, 4) ]
+      (determine_piece_possible knight35 (3, 5)
+         (positions_from_board knighttestingboard)
+         8 8);
+    make_tuple_lst_test "Move set for knight at (5,4)"
+      [ (3, 5); (6, 6); (7, 5); (3, 3); (4, 2); (6, 2); (7, 3) ]
+      (determine_piece_possible knight54 (5, 4)
+         (positions_from_board knighttestingboard)
+         8 8);
+    make_tuple_lst_test "Move set for knight at (6,6)"
+      [ (4, 7); (4, 5); (5, 4) ]
+      (determine_piece_possible knight66 (6, 6)
+         (positions_from_board knighttestingboard)
+         8 8);
+    make_tuple_lst_test "Move set for knight at (5,8)"
+      [ (3, 7); (4, 6) ]
+      (determine_piece_possible knight58 (5, 8)
+         (positions_from_board knighttestingboard)
+         8 8);
+    (* TESTING KING WITHOUT CHECKS *)
+    make_tuple_lst_test "Make sure white king has no moves" []
+      (determine_piece_possible king85 (8, 5)
+         (positions_from_board board8x8)
+         8 8);
+    make_tuple_lst_test "Move set for king at (3,2)"
+      [ (3, 1); (4, 2); (3, 3); (4, 1); (4, 3) ]
+      (determine_piece_possible king32 (3, 2)
+         (positions_from_board kingtestingboard)
+         8 8);
+    make_tuple_lst_test "Move set for king at (5,5)"
+      [ (4, 5); (5, 4); (6, 5); (5, 6); (4, 6); (4, 4); (6, 4); (6, 6) ]
+      (determine_piece_possible king55 (5, 5)
+         (positions_from_board kingtestingboard)
          8 8);
   ]
 
