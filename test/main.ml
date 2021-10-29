@@ -1,7 +1,6 @@
 open OUnit2
 open Chess
 open Board
-open Jsongen
 open Piece
 open Piece_moves
 
@@ -13,62 +12,81 @@ let board3x4 = board_from_json (Yojson.Basic.from_file "data/3x4.json")
 let board4x3 = board_from_json (Yojson.Basic.from_file "data/4x3.json")
 
 (*Board tests*)
-let board8x8 =
-  board_from_json (Yojson.Basic.from_string (create_board 8 8 1 1))
+let board8x8 = create_board 8 8
 
-let board8x10 =
-  board_from_json (Yojson.Basic.from_string (create_board 8 10 1 1))
+let board8x10 = create_board 8 10
 
-let board8x11 =
-  board_from_json (Yojson.Basic.from_string (create_board 8 11 1 1))
+let board8x11 = create_board 8 11
 
-let board11x8 =
-  board_from_json (Yojson.Basic.from_string (create_board 11 8 1 1))
+let board11x8 = create_board 11 8
 
 (*This 8x8 board is modified by: first, white_pawn placed in (3,3) then,
   white_queen is placed on (2,1) then, a white_pawn is removed from
   (7,1)*)
+
 let modified8x8 =
-  put_piece (3, 3) (make_piece "white_pawn") board8x8
-  |> put_piece (2, 1) (make_piece "white_queen")
-  |> remove_piece (7, 1)
+  let new_board = create_board 8 8 in
+  let () = put_piece (3, 3) (make_piece "white_pawn") new_board in
+  let () = put_piece (2, 1) (make_piece "white_queen") new_board in
+  let () = remove_piece (7, 1) new_board in
+  new_board
 
 (*This 8x8 is modified by: first, white_queen is placed on (3,3) then,
   white_queen is removed on (3,3)*)
 let placeandremove8x8 =
-  put_piece (3, 3) (make_piece "white_queen") board8x8
-  |> remove_piece (3, 3)
+  let new_board = create_board 8 8 in
+  let () = put_piece (3, 3) (make_piece "white_queen") new_board in
+  let () = remove_piece (3, 3) new_board in
+  new_board
 
 let rooktestingboard =
-  put_piece (3, 3) (make_piece "white_rook") board8x8
-  |> put_piece (3, 4) (make_piece "black_rook")
-  |> put_piece (6, 3) (make_piece "black_rook")
+  let new_board = create_board 8 8 in
+  let () = put_piece (3, 3) (make_piece "white_rook") new_board in
+  let () = put_piece (3, 4) (make_piece "black_rook") new_board in
+  let () = put_piece (6, 3) (make_piece "black_rook") new_board in
+  new_board
 
 let bishoptestingboard =
-  put_piece (3, 2) (make_piece "black_bishop") board8x8
-  |> put_piece (4, 4) (make_piece "black_bishop")
-  |> put_piece (5, 4) (make_piece "black_bishop")
-  |> put_piece (5, 5) (make_piece "white_bishop")
+  let new_board = create_board 8 8 in
+  let () = put_piece (3, 2) (make_piece "black_bishop") new_board in
+  let () = put_piece (4, 4) (make_piece "black_bishop") new_board in
+  let () = put_piece (5, 4) (make_piece "black_bishop") new_board in
+  let () = put_piece (5, 5) (make_piece "white_bishop") new_board in
+  new_board
 
 let queentestingboard =
-  put_piece (3, 1) (make_piece "black_queen") board8x8
-  |> put_piece (5, 3) (make_piece "white_queen")
-  |> put_piece (5, 5) (make_piece "white_queen")
+  let new_board = create_board 8 8 in
+  let () = put_piece (3, 1) (make_piece "black_queen") new_board in
+  let () = put_piece (5, 3) (make_piece "white_queen") new_board in
+  let () = put_piece (5, 5) (make_piece "white_queen") new_board in
+  new_board
 
 let knighttestingboard =
-  put_piece (4, 3) (make_piece "black_pawn") board8x8
-  |> put_piece (4, 6) (make_piece "black_pawn")
-  |> put_piece (3, 5) (make_piece "white_knight")
-  |> put_piece (5, 8) (make_piece "white_knight")
-  |> put_piece (6, 6) (make_piece "white_knight")
-  |> put_piece (5, 4) (make_piece "black_knight")
+  let new_board = create_board 8 8 in
+  let () = put_piece (4, 3) (make_piece "black_pawn") new_board in
+  let () = put_piece (4, 6) (make_piece "black_pawn") new_board in
+  let () = put_piece (3, 5) (make_piece "white_knight") new_board in
+  let () = put_piece (5, 8) (make_piece "white_knight") new_board in
+  let () = put_piece (6, 6) (make_piece "white_knight") new_board in
+  let () = put_piece (5, 4) (make_piece "black_knight") new_board in
+  new_board
 
 let kingtestingboard =
-  put_piece (4, 4) (make_piece "black_pawn") board8x8
-  |> put_piece (4, 5) (make_piece "black_pawn")
-  |> put_piece (4, 6) (make_piece "black_pawn")
-  |> put_piece (5, 5) (make_piece "white_king")
-  |> put_piece (3, 2) (make_piece "black_king")
+  let new_board = create_board 8 8 in
+  let () = put_piece (4, 4) (make_piece "black_pawn") new_board in
+  let () = put_piece (4, 5) (make_piece "black_pawn") new_board in
+  let () = put_piece (4, 6) (make_piece "black_pawn") new_board in
+  let () = put_piece (5, 5) (make_piece "white_king") new_board in
+  let () = put_piece (3, 2) (make_piece "black_king") new_board in
+  new_board
+
+let obstacletestingboard =
+  let new_board = create_board 8 8 in
+  let () = put_obstacle (4, 4) "Removed thing" new_board in
+  let () = remove_obstacle (4, 4) new_board in
+  let () = put_obstacle (4, 5) "Manticore" new_board in
+  let () = put_obstacle (5, 4) "Wizard" new_board in
+  new_board
 
 (*TODO: Store these somewhere else?*)
 let row1board3x3 = n_row 1 board3x3
@@ -742,6 +760,14 @@ let board_tests =
       (get_name
          (piece_of_position (3, 3)
             (positions_from_board placeandremove8x8)));
+    (*Testing function put, remove obstacle*)
+    make_string_test "Obstacle at 4,4 after being put, removed is none"
+      "none"
+      (get_obstacle obstacletestingboard (4, 4));
+    make_string_test "Obstacle at 4,5 is Manticore" "Manticore"
+      (get_obstacle obstacletestingboard (4, 5));
+    make_string_test "Obstacle at 5,4 is Wizard" "Wizard"
+      (get_obstacle obstacletestingboard (5, 4));
   ]
 
 (* Pieces for testing movement *)
