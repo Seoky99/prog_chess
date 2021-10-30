@@ -11,31 +11,26 @@ let horivertical piece board pos num_cols num_rows direction =
   let team = Piece.team_of piece in
   horizontal_helper board pos team direction num_cols num_rows
 
-let two_white_pawn pos pos_lst num_cols num_rows =
+let two_white_pawn pos pos_lst num_rows =
   if fst pos = num_rows - 1 then
     match Board.piece_of_position (fst pos - 1, snd pos) pos_lst with
     | Piece.Nothing -> (
         match
           Board.piece_of_position (fst pos - 2, snd pos) pos_lst
         with
-        | Piece.Nothing ->
-            if Check.check pos_lst "white" num_cols num_rows then []
-            else [ (fst pos - 2, snd pos) ]
+        | Piece.Nothing -> [ (fst pos - 2, snd pos) ]
         | _ -> [])
     | _ -> []
   else []
 
-let one_white_pawn pos pos_lst num_cols num_rows =
+let one_white_pawn pos pos_lst =
   if fst pos <= 0 then []
   else
-    let next = (fst pos - 1, snd pos) in
-    match Board.piece_of_position next pos_lst with
-    | Piece.Nothing ->
-        if Check.check pos_lst "white" num_cols num_rows then []
-        else [ next ]
+    match Board.piece_of_position (fst pos - 1, snd pos) pos_lst with
+    | Piece.Nothing -> [ (fst pos - 1, snd pos) ]
     | _ -> []
 
-let right_left_white_pawn pos pos_lst num_cols num_rows =
+let right_left_white_pawn pos pos_lst num_cols =
   let left =
     if snd pos = 1 then []
     else
@@ -45,7 +40,6 @@ let right_left_white_pawn pos pos_lst num_cols num_rows =
       | Piece.Nothing -> []
       | piece ->
           if Piece.team_of piece = "white" then []
-          else if Check.check pos_lst "white" num_cols num_rows then []
           else [ (fst pos - 1, snd pos - 1) ]
   in
   let right =
@@ -57,15 +51,14 @@ let right_left_white_pawn pos pos_lst num_cols num_rows =
       | Piece.Nothing -> []
       | piece ->
           if Piece.team_of piece = "white" then []
-          else if Check.check pos_lst "white" num_cols num_rows then []
           else [ (fst pos - 1, snd pos + 1) ]
   in
   left @ right
 
 let white_pawn_det pos pos_lst num_cols num_rows =
-  two_white_pawn pos pos_lst num_cols num_rows
-  @ one_white_pawn pos pos_lst num_cols num_rows
-  @ right_left_white_pawn pos pos_lst num_cols num_rows
+  two_white_pawn pos pos_lst num_rows
+  @ one_white_pawn pos pos_lst
+  @ right_left_white_pawn pos pos_lst num_cols
 
 let white_pawn_moves pos board num_cols num_rows =
   white_pawn_det pos board num_cols num_rows
@@ -224,3 +217,44 @@ let rec determine_possibles board pos_lst acc num_cols num_rows =
 
 let calc_possible_moves board num_cols num_rows =
   determine_possibles board board [] num_cols num_rows
+
+type spot =
+  | Spot of (int * int)
+  | Nuttin
+
+let rec find_king_helper row team =
+  match row with
+  | [] -> Nuttin
+  | h :: t -> (
+      match Board.piece_direct h with
+      | Piece.King pi ->
+          if Piece.piece_info_team pi = team then
+            Spot (Board.id_from_position h)
+          else find_king_helper t team
+      | _ -> find_king_helper t team)
+
+let rec find_king board team =
+  match board with
+  | [] -> failwith "king not found"
+  | h :: t -> (
+      match find_king_helper h team with
+      | Nuttin -> find_king t team
+      | Spot h -> h)
+
+let rec check_helper_row row king_pos =
+  match row with
+  | h :: t ->
+      if List.mem king_pos h then true else check_helper_row t king_pos
+  | [] -> false
+
+let rec check_helper moves king_pos =
+  match moves with
+  | [] -> false
+  | h :: t ->
+      if check_helper_row h king_pos then true
+      else check_helper t king_pos
+
+let check board team num_cols num_rows =
+  let king_pos = find_king board team in
+  let moves = calc_possible_moves board num_cols num_rows in
+  check_helper moves king_pos

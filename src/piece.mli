@@ -24,3 +24,6 @@ val get_value : piece -> int
 
 val team_of : piece -> string
 (** [team_of piece] is the team of piece, either "white" or "black" *)
+
+val piece_info_team : piece_info -> string
+(** [piece_info_team pi] is the team of that piece_info *)

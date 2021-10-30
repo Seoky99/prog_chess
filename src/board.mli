@@ -80,3 +80,11 @@ val put_obstacle : id -> string -> board -> unit
 val remove_obstacle : id -> board -> unit
 (** [remove_obstacle id board] removes the obstacle on the [board] at
     [id]. *)
+
+val piece_direct : position -> Piece.piece
+(** [piece_direct pos] is the piece at that position *)
+
+val add_tuple : int * int -> int * int -> int * int
+
+val good_move :
+  position list list -> id -> string -> int -> int -> bool * bool

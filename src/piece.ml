@@ -70,3 +70,7 @@ let team_of piece =
   | Knight { team; _ } -> team
   | King { team; _ } -> team
   | Queen { team; _ } -> team
+
+let piece_info_team pi =
+  match pi with
+  | { team; _ } -> team
