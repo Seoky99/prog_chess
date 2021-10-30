@@ -121,6 +121,8 @@ let num_rows (board : board) : int = board.number_of_rows
 let piece_pos_lst (pos_lst : position list) =
   List.map (fun x -> get_name x.piece) pos_lst
 
+let piece_position pos_lst = List.map (fun x -> piece_pos_lst x) pos_lst
+
 let piece_board board =
   List.map (fun x -> piece_pos_lst x) board.positions
 
@@ -180,6 +182,9 @@ let get_obstacle (board : board) (id : id) : string =
 (* PIECE HANDLING *)
 let position_from_id id board = nth_elt (snd id) (n_row (fst id) board)
 
+let position_from_pos_lst id (pos_lst : position list list) =
+  nth_elt (snd id) (nth_elt (fst id) pos_lst)
+
 (* DELETE: We can keep old non mutable function just in case a problem
    comes up but delete later. *)
 (*let put_piece id piece board = let position_id = position_from_id id
@@ -194,6 +199,12 @@ let put_piece id new_piece board =
   (position_from_id id board).piece <- new_piece
 
 let remove_piece id board = put_piece id Nothing board
+
+let put_piece_pos_lst id new_piece pos_lst =
+  (position_from_pos_lst id pos_lst).piece <- new_piece
+
+let remove_piece_pos_lst id pos_lst =
+  put_piece_pos_lst id Nothing pos_lst
 
 (* OBSTACLE HANDLING*)
 
@@ -223,3 +234,16 @@ let good_move board pos team num_cols num_rows =
     | Piece.Nothing -> (true, false)
     | x -> if team_of x = team then (false, false) else (true, true)
   else (false, false)
+
+(*MOVING HANDLING*)
+let check_move piece move_from_id move_to_id pos_lst =
+  let piece_at_id = piece_of_position move_to_id pos_lst in
+  match piece_at_id with
+  | Nothing ->
+      put_piece_pos_lst move_to_id piece pos_lst;
+      remove_piece_pos_lst move_from_id pos_lst;
+      Nothing
+  | pc ->
+      put_piece_pos_lst move_to_id piece pos_lst;
+      remove_piece_pos_lst move_from_id pos_lst;
+      pc

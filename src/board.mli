@@ -60,6 +60,10 @@ val piece_board : board -> string list list
 (** [piece_board pos_lst] produces a list of names of the pieces on the
     board.*)
 
+val piece_position : position list list -> string list list
+(** [piece_position pos_lst] produces a list of names of piece of the
+    position list.*)
+
 val id_from_position : position -> id
 (** [id_from_position] of position is the id of that position. *)
 
@@ -67,11 +71,21 @@ val position_from_id : id -> board -> position
 (** [position_from_id id board] returns the [position] at [id] of
     [board]*)
 
+val position_from_pos_lst : id -> position list list -> position
+(** [position_from_id id board] returns the [position] at [id] of
+    [pos_lst]*)
+
 val put_piece : id -> Piece.piece -> board -> unit
 (** [put_piece id piece board] puts the [piece] on the [board] at [id]. *)
 
 val remove_piece : id -> board -> unit
 (** [remove_piece id board] removes a piece from the [board] at [id]*)
+
+val put_piece_pos_lst : id -> Piece.piece -> position list list -> unit
+(** [put_piece id piece board] puts the [piece] on the [board] at [id]. *)
+
+val remove_piece_pos_lst : id -> position list list -> unit
+(** [remove_piece id board] removes a piece from the [pos_lst] at [id]*)
 
 val put_obstacle : id -> string -> board -> unit
 (** [put_obstacle id obstacle board] puts the [obstacle] on the [board]
@@ -88,3 +102,9 @@ val add_tuple : int * int -> int * int -> int * int
 
 val good_move :
   position list list -> id -> string -> int -> int -> bool * bool
+
+val check_move :
+  Piece.piece -> id -> id -> position list list -> Piece.piece
+(** [check_move piece move_from_id move_to_id pos_lst] returns the piece
+    located at [move_to_id]. In addition, it moves the piece from
+    [move_from_id] to [move_to_id]*)
