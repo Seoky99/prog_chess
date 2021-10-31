@@ -1,4 +1,5 @@
 val white_pawn_moves :
+  Piece.piece ->
   int * int ->
   Board.position list list ->
   int ->
@@ -9,6 +10,7 @@ val white_pawn_moves :
     number of columns num_cols *)
 
 val black_pawn_moves :
+  Piece.piece ->
   int * int ->
   Board.position list list ->
   int ->

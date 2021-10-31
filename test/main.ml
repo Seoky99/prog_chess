@@ -881,10 +881,14 @@ let move_piece_tests =
          8 8);
     (*White pawn moves test*)
     make_tuple_lst_test "White pawns" [ (5, 1); (6, 1) ]
-      (white_pawn_moves (7, 1) (positions_from_board board8x8) 8 8);
+      (white_pawn_moves c1white_pawn (7, 1)
+         (positions_from_board board8x8)
+         8 8);
     (*Black pawn moves test*)
     make_tuple_lst_test "Black pawns" [ (4, 1); (3, 1) ]
-      (black_pawn_moves (2, 1) (positions_from_board board8x8) 8 8);
+      (black_pawn_moves c1black_pawn (2, 1)
+         (positions_from_board board8x8)
+         8 8);
     (*TESTING ROOKS*)
     make_tuple_lst_test "Make sure left white rook cannot move" []
       (determine_piece_possible rook81 (8, 1)
