@@ -1,4 +1,5 @@
 val white_pawn_moves :
+  Piece.piece ->
   int * int ->
   Board.position list list ->
   int ->
@@ -9,6 +10,7 @@ val white_pawn_moves :
     number of columns num_cols *)
 
 val black_pawn_moves :
+  Piece.piece ->
   int * int ->
   Board.position list list ->
   int ->
@@ -40,7 +42,40 @@ val determine_piece_possible :
    (int*int)list of possible moves of the piece at that space. If there
    are are none, then the method evaluates to []*)
 
-val calc_possible_moves : Board.board -> (int * int) list list list
+val calc_possible_moves :
+  Board.position list list -> int -> int -> (int * int) list list list
 (** [calc_possible_moves board] is a 2D list of possible moves for each
     space on the board, where each space is either [] or a list of
     (int*int) tuples that dictate that space's possible moves. *)
+
+val bishop_moves :
+  Piece.piece ->
+  int * int ->
+  Board.position list list ->
+  int ->
+  int ->
+  (int * int) list
+
+val knight_moves :
+  Piece.piece ->
+  int * int ->
+  Board.position list list ->
+  int ->
+  int ->
+  (int * int) list
+
+val king_moves :
+  Piece.piece ->
+  int * int ->
+  Board.position list list ->
+  int ->
+  int ->
+  (int * int) list
+
+val queen_moves :
+  Piece.piece ->
+  int * int ->
+  Board.position list list ->
+  int ->
+  int ->
+  (int * int) list

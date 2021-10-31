@@ -215,6 +215,26 @@ let put_obstacle id obstacle board =
 
 let remove_obstacle id board = put_obstacle id "none" board
 
+let piece_direct position =
+  match position with
+  | { piece; _ } -> piece
+
+let add_tuple (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)
+
+let is_bounds id num_cols num_rows =
+  if fst id > num_rows then false
+  else if fst id < 1 then false
+  else if snd id > num_cols then false
+  else if snd id < 1 then false
+  else true
+
+let good_move board pos team num_cols num_rows =
+  if is_bounds pos num_cols num_rows then
+    match piece_of_position pos board with
+    | Piece.Nothing -> (true, false)
+    | x -> if team_of x = team then (false, false) else (true, true)
+  else (false, false)
+
 (*MOVING HANDLING*)
 let check_move piece move_from_id move_to_id pos_lst =
   let piece_at_id = piece_of_position move_to_id pos_lst in
