@@ -5,6 +5,7 @@ let move_back board original removed org_pos next_pos =
 let rec horizontal_helper
     piece
     board
+    original
     pos
     team
     direction
@@ -13,30 +14,30 @@ let rec horizontal_helper
   let next = Board.add_tuple pos direction in
   let bool = Board.good_move board next team num_cols num_rows in
   if fst bool && snd bool then
-    let spot = Board.check_move piece pos next board in
+    let spot = Board.check_move piece original next board in
     if Check.check board team num_cols num_rows then
-      let _ = move_back board piece spot pos next in
+      let _ = move_back board piece spot original next in
       []
     else
-      let _ = move_back board piece spot pos next in
+      let _ = move_back board piece spot original next in
       [ next ]
   else if fst bool = true && snd bool = false then
     let spot = Board.check_move piece pos next board in
     if Check.check board team num_cols num_rows then
-      let _ = move_back board piece spot pos next in
+      let _ = move_back board piece spot original next in
       []
-      @ horizontal_helper piece board next team direction num_cols
-          num_rows
+      @ horizontal_helper piece board original next team direction
+          num_cols num_rows
     else
-      let _ = move_back board piece spot pos next in
+      let _ = move_back board piece spot original next in
       next
-      :: horizontal_helper piece board next team direction num_cols
-           num_rows
+      :: horizontal_helper piece board original next team direction
+           num_cols num_rows
   else []
 
 let horivertical piece board pos num_cols num_rows direction =
   let team = Piece.team_of piece in
-  horizontal_helper piece board pos team direction num_cols num_rows
+  horizontal_helper piece board pos pos team direction num_cols num_rows
 
 let two_white_pawn piece pos pos_lst num_cols num_rows =
   if fst pos = num_rows - 1 then
