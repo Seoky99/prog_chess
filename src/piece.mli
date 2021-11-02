@@ -27,3 +27,5 @@ val team_of : piece -> string
 
 val piece_info_team : piece_info -> string
 (** [piece_info_team pi] is the team of that piece_info *)
+
+val money_increment_get : piece -> string -> int
