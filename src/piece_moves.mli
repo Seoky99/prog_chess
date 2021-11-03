@@ -79,3 +79,18 @@ val queen_moves :
   int ->
   int ->
   (int * int) list
+
+val team_moves :
+  'a list list ->
+  Board.position list list ->
+  string ->
+  'a list list ->
+  int ->
+  'a list list
+(** [team_moves moves board team acc row] is the list of moves for a
+    team *)
+
+val any_moves :
+  'a list list -> Board.position list list -> string -> bool
+(** [any_moves moves board team] is true if a team has moves and false
+    if not*)
