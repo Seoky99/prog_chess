@@ -319,7 +319,7 @@ let rec determine_possibles board pos_lst acc num_cols num_rows =
 
 let calc_possible_moves board num_cols num_rows =
   determine_possibles board board [] num_cols num_rows
-
+  
 let team_of_space id board =
   Piece.team_of (Board.piece_of_position id board)
 
