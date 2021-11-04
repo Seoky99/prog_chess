@@ -2,23 +2,6 @@ open Raylib
 open Raygui
 open Chess
 open Board
-open Loaded_images
-
-(** This code is temporarility here which allows the code to be built
-    and rendered.*)
-let image_pawn = black_pawn_image
-
-(*Allow for hexagons, squares, rectangles BUT min width is reg. chess
-  board*)
-
-(*An object of type tile which contains a rectangle and a position*)
-type tile = {
-  rect : Rectangle.t;
-  pos : Board.position;
-}
-
-(*A row of tiles*)
-type row = { tiles : tile list }
 
 (*The height of the window*)
 let height = 1000
