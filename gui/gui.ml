@@ -2,6 +2,11 @@ open Raylib
 open Raygui
 open Chess
 open Board
+open Loaded_images
+
+(** This code is temporarility here which allows the code to be built
+    and rendered.*)
+let image_pawn = black_pawn_image
 
 (*An object of type tile which contains a rectangle and a position*)
 type tile = {
