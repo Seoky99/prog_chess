@@ -46,7 +46,8 @@ val calc_possible_moves :
   Board.position list list -> int -> int -> (int * int) list list list
 (** [calc_possible_moves board] is a 2D list of possible moves for each
     space on the board, where each space is either [] or a list of
-    (int*int) tuples that dictate that space's possible moves. *)
+    (int*int) tuples that dictate that space's possible moves. List
+    starts from position (8,1) and ends at (1,8)*)
 
 val bishop_moves :
   Piece.piece ->
