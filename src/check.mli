@@ -1,0 +1,1 @@
+val check : Board.position list list -> string -> int -> int -> bool

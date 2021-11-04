@@ -1,0 +1,48 @@
+For windows machine (Linux is preferred, we noticed less errors there)
+
+Go to https://www.putty.org/ 
+Click on the link in "download putty here" 
+Based on your version probably (x64) click on the download link 
+Run through the installer with default settings 
+
+Go to https://sourceforge.net/projects/vcxsrv/
+Click on the download button 
+Run through installer with default settings 
+
+Go to your search bar, search "XLaunch" 
+Go through setup with default settings 
+
+Click the button that expands app icons. Right click 
+the Xfactor icon and click show log 
+Scroll down the log file until you see 
+"winClipboardThreadProc - DISPLAY=<your number>". 
+Copy that number and open Putty in your search bar. 
+
+Paste the number into host name
+In the left hand bar, expand SSH -> X11 
+Make sure 'enable X11 forwarding' is checked 
+and 'MIT-Magic-Cookie-1' is selected. 
+
+Now go to your command line (in Linux) and type
+(note when it prompts you to press Y and enter, do so.)
+opam update
+opam upgrade 
+opam depext raylib 
+opam install raylib 
+opam install raygui  
+
+Go to putty again
+Press the open button (in the bottom right)
+
+run make play in the Putty window 
+
+IF YOU GET ERRORS HERE:
+TRY THE LINUX VERSION! (Use the 3110 virtual machine where the configurations were
+were already set up) 
+
+Linux (PREFERRED)
+
+opam update 
+opam upgrade 
+opam install raylib (install any admin request shown in the terminal using sudo apt-get install -y <name of download here>)
+opam install raygui (install any admin request shown in the terminal using sudo apt-get install -y <name of download here>)
