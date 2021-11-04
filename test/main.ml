@@ -3,6 +3,7 @@ open Chess
 open Board
 open Piece
 open Piece_moves
+open Check
 
 (*Now outdated, can keep if we ever decide to support smaller boards. *)
 let board3x3 = board_from_json (Yojson.Basic.from_file "data/3x3.json")
@@ -131,6 +132,16 @@ let rec tuple_lst_printer tlst =
       "(" ^ string_of_int x ^ "," ^ string_of_int y ^ ") "
       ^ tuple_lst_printer t
 
+let rec two_d_tupl_printer (tupl_lst : (int * int) list list) =
+  match tupl_lst with
+  | [] -> ""
+  | h :: t -> "[" ^ tuple_lst_printer h ^ "];" ^ two_d_tupl_printer t
+
+let rec det_printer (tup_lst : (int * int) list list list) =
+  match tup_lst with
+  | [] -> ""
+  | h :: t -> "[" ^ two_d_tupl_printer h ^ "]; \n" ^ det_printer t
+
 let rec one_d_printer str_list =
   match str_list with
   | [] -> ""
@@ -139,7 +150,7 @@ let rec one_d_printer str_list =
 let rec two_d_printer str_lst =
   match str_lst with
   | [] -> ""
-  | h :: t -> "[" ^ one_d_printer h ^ "];" ^ two_d_printer t
+  | h :: t -> "[" ^ one_d_printer h ^ "]; \n" ^ two_d_printer t
 
 let make_f_test name expected_output input =
   name >:: fun _ -> assert_equal expected_output input
@@ -151,6 +162,10 @@ let make_tuple_lst_test name expected_output input =
 let make_tuple_test name expected_output input =
   name >:: fun _ ->
   assert_equal expected_output input ~printer:tuple_printer
+
+let make_det_test name expected_output input =
+  name >:: fun _ ->
+  assert_equal expected_output input ~printer:det_printer
 
 let make_string_test name expected_output input =
   name >:: fun _ ->
@@ -1080,8 +1095,230 @@ let move_piece_tests =
       (get_name checkblackmove);
   ]
 
+(*You can see the more complicated boards in data file as .png*)
+let knightattackcheckboard =
+  let new_board = create_board 8 8 in
+  let () = put_piece (6, 4) (make_piece "black_knight") new_board in
+  new_board
+
+let bishopattackcheckboard =
+  let new_board = create_board 8 8 in
+  let new_board_pos_lst = positions_from_board new_board in
+  let _ =
+    check_move
+      (piece_of_position (7, 4) new_board_pos_lst)
+      (7, 4) (6, 4) new_board_pos_lst
+  in
+  let () = put_piece (4, 1) (make_piece "black_bishop") new_board in
+  new_board
+
+(*See data file Basically checks that capturing to get out of check is
+  not a legal move if it would put you under check*)
+let multipleattackerscheckboard =
+  let new_board = create_board 8 8 in
+  let new_board_pos_lst = positions_from_board new_board in
+  let _ =
+    check_move
+      (piece_of_position (2, 2) new_board_pos_lst)
+      (2, 2) (4, 2) new_board_pos_lst
+  in
+  let _ =
+    check_move
+      (piece_of_position (8, 3) new_board_pos_lst)
+      (8, 3) (4, 3) new_board_pos_lst
+  in
+  let _ =
+    check_move
+      (piece_of_position (8, 1) new_board_pos_lst)
+      (8, 1) (5, 3) new_board_pos_lst
+  in
+  let _ =
+    check_move
+      (piece_of_position (8, 7) new_board_pos_lst)
+      (8, 7) (4, 5) new_board_pos_lst
+  in
+  let _ =
+    check_move
+      (piece_of_position (8, 8) new_board_pos_lst)
+      (8, 8) (4, 6) new_board_pos_lst
+  in
+  let _ =
+    check_move
+      (piece_of_position (1, 5) new_board_pos_lst)
+      (1, 5) (5, 4) new_board_pos_lst
+  in
+  new_board
+
+let check_tests =
+  [
+    make_f_test "White under check by knight that can be captured" true
+      (check (positions_from_board knightattackcheckboard) "white" 8 8);
+    make_f_test "White under check by bishop that can be blocked" true
+      (check (positions_from_board bishopattackcheckboard) "white" 8 8);
+    make_f_test "White is not under check" false
+      (check (positions_from_board board8x8) "white" 8 8);
+    make_det_test "Determine all possible moves from 8x8board"
+      [
+        [
+          []; [ (6, 3); (6, 1) ]; []; []; []; []; [ (6, 8); (6, 6) ]; [];
+        ];
+        [
+          [ (5, 1); (6, 1) ];
+          [ (5, 2); (6, 2) ];
+          [ (5, 3); (6, 3) ];
+          [ (5, 4); (6, 4) ];
+          [ (5, 5); (6, 5) ];
+          [ (5, 6); (6, 6) ];
+          [ (5, 7); (6, 7) ];
+          [ (5, 8); (6, 8) ];
+        ];
+        [ []; []; []; []; []; []; []; [] ];
+        [ []; []; []; []; []; []; []; [] ];
+        [ []; []; []; []; []; []; []; [] ];
+        [ []; []; []; []; []; []; []; [] ];
+        [
+          [ (4, 1); (3, 1) ];
+          [ (4, 2); (3, 2) ];
+          [ (4, 3); (3, 3) ];
+          [ (4, 4); (3, 4) ];
+          [ (4, 5); (3, 5) ];
+          [ (4, 6); (3, 6) ];
+          [ (4, 7); (3, 7) ];
+          [ (4, 8); (3, 8) ];
+        ];
+        [
+          []; [ (3, 3); (3, 1) ]; []; []; []; []; [ (3, 8); (3, 6) ]; [];
+        ];
+      ]
+      (calc_possible_moves (positions_from_board board8x8) 8 8);
+    make_det_test
+      "Check that blocking check is a legal move against bishop"
+      [
+        [
+          []; [ (6, 3); (7, 4) ]; [ (7, 4) ]; [ (7, 4) ]; []; []; []; [];
+        ];
+        [ []; [ (5, 2) ]; [ (6, 3) ]; []; []; []; []; [] ];
+        [ []; []; []; []; []; []; []; [] ];
+        [ []; []; []; []; []; []; []; [] ];
+        [
+          [ (5, 2); (6, 3); (7, 4); (8, 5); (3, 2) ];
+          [];
+          [];
+          [];
+          [];
+          [];
+          [];
+          [];
+        ];
+        [ []; []; []; []; []; []; []; [] ];
+        [
+          [ (3, 1) ];
+          [ (4, 2); (3, 2) ];
+          [ (4, 3); (3, 3) ];
+          [ (4, 4); (3, 4) ];
+          [ (4, 5); (3, 5) ];
+          [ (4, 6); (3, 6) ];
+          [ (4, 7); (3, 7) ];
+          [ (4, 8); (3, 8) ];
+        ];
+        [
+          []; [ (3, 3); (3, 1) ]; []; []; []; []; [ (3, 8); (3, 6) ]; [];
+        ];
+      ]
+      (calc_possible_moves
+         (positions_from_board bishopattackcheckboard)
+         8 8);
+    make_det_test
+      "Check that only possible moves are capturing when under check"
+      [
+        [ []; []; []; []; []; []; []; [] ];
+        [ []; []; [ (6, 4) ]; []; [ (6, 4) ]; []; []; [] ];
+        [
+          [];
+          [];
+          [];
+          [
+            (4, 5);
+            (5, 6);
+            (7, 6);
+            (8, 5);
+            (4, 3);
+            (5, 2);
+            (7, 2);
+            (8, 3);
+          ];
+          [];
+          [];
+          [];
+          [];
+        ];
+        [ []; []; []; []; []; []; []; [] ];
+        [ []; []; []; []; []; []; []; [] ];
+        [ []; []; []; []; []; []; []; [] ];
+        [
+          [ (4, 1); (3, 1) ];
+          [ (4, 2); (3, 2) ];
+          [ (4, 3); (3, 3) ];
+          [ (4, 4); (3, 4) ];
+          [ (4, 5); (3, 5) ];
+          [ (4, 6); (3, 6) ];
+          [ (4, 7); (3, 7) ];
+          [ (4, 8); (3, 8) ];
+        ];
+        [
+          []; [ (3, 3); (3, 1) ]; []; []; []; []; [ (3, 8); (3, 6) ]; [];
+        ];
+      ]
+      (calc_possible_moves
+         (positions_from_board knightattackcheckboard)
+         8 8);
+    make_det_test
+      "Determine that if capturing would put you under check then the \
+       move would be illegal"
+      [
+        [ []; [ (6, 3); (6, 1) ]; []; [ (8, 3) ]; []; []; []; [] ];
+        [
+          [ (5, 1); (6, 1) ];
+          [ (5, 2); (6, 2) ];
+          [ (6, 3) ];
+          [ (6, 4) ];
+          [ (5, 5); (6, 5) ];
+          [ (5, 6); (6, 6) ];
+          [ (5, 7); (6, 7) ];
+          [ (5, 8); (6, 8) ];
+        ];
+        [ []; []; []; []; []; []; []; [] ];
+        [
+          [];
+          [];
+          [ (5, 4); (5, 2); (5, 1); (6, 3) ];
+          [ (4, 4) ];
+          [];
+          [];
+          [];
+          [];
+        ];
+        [
+          [];
+          [];
+          [ (5, 4); (5, 2); (6, 1); (3, 4); (2, 5); (3, 2); (2, 1) ];
+          [];
+          [ (2, 6); (3, 7); (5, 7); (6, 6); (2, 4); (3, 3); (6, 4) ];
+          [ (4, 7); (4, 8); (5, 6); (6, 6); (3, 6); (2, 6) ];
+          [];
+          [];
+        ];
+        [ []; []; []; []; []; []; []; [] ];
+        [ []; []; []; []; []; []; []; [] ];
+        [ []; []; []; []; []; []; []; [] ];
+      ]
+      (calc_possible_moves
+         (positions_from_board multipleattackerscheckboard)
+         8 8);
+  ]
+
 let suite =
   "test suite for Chess game 123"
-  >::: List.flatten [ board_tests; move_piece_tests ]
+  >::: List.flatten [ board_tests; move_piece_tests; check_tests ]
 
 let _ = run_test_tt_main suite
