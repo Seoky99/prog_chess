@@ -319,3 +319,25 @@ let rec determine_possibles board pos_lst acc num_cols num_rows =
 
 let calc_possible_moves board num_cols num_rows =
   determine_possibles board board [] num_cols num_rows
+  
+let team_of_space id board =
+  Piece.team_of (Board.piece_of_position id board)
+
+let rec team_moves_helper row board team row_num col_num =
+  match row with
+  | [] -> []
+  | h :: t ->
+      if team_of_space (row_num, col_num) board = team then
+        h :: team_moves_helper t board team row_num (col_num + 1)
+      else team_moves_helper t board team row_num (col_num + 1)
+
+let rec team_moves moves board team acc row =
+  match moves with
+  | [] -> acc
+  | h :: t ->
+      team_moves t board team
+        (team_moves_helper h board team row 1 :: acc)
+        (row + 1)
+
+let any_moves moves board team =
+  if team_moves moves board team [] 1 = [] then false else true

@@ -169,6 +169,8 @@ let rec get_obstacle_helper lst (id : id) : string =
   | [] -> failwith "Invalid id given"
   | h :: t -> if h.id = id then h.obstacle else get_obstacle_helper t id
 
+let get_piece (p : position) = p.piece
+
 (*[get_obstacle board id lst] outputs the obstacle at the specified id
   location on the board. Requires: id is a valid id location the given
   board.*)

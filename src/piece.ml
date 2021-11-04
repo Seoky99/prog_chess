@@ -74,3 +74,13 @@ let team_of piece =
 let piece_info_team pi =
   match pi with
   | { team; _ } -> team
+
+let money_increment_get piece team =
+  let black = ref 0 and white = ref 0 in
+
+  if team = "black" then (
+    black := !black + get_value piece;
+    !black)
+  else (
+    white := !white + get_value piece;
+    !white)
