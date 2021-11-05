@@ -123,6 +123,14 @@ let rec make_grid () num1 num2 cur size os_y =
     else ();
     make_grid () num1 num2 (cur - 1) size (os_y + size))
 
+let render_images () (height : int) (width : int) =
+  draw_texture
+    (load_texture_from_image white_knight_image)
+    (width / 3) (height / 3) Color.white;
+  draw_texture
+    (load_texture_from_image black_pawn_image)
+    (width * 2) (height * 2) Color.white
+
 (*(Make_board () num) Creates the grid board and closes window if user
   exits*)
 let rec make_board () num1 num2 =
@@ -133,6 +141,7 @@ let rec make_board () num1 num2 =
       clear_background Color.gray;
       if num1 <= num2 then make_grid () num1 num2 num1 (1000 / num2) 0
       else make_grid () num1 num2 num1 (1000 / num1) 0;
+      render_images () (1000 / num1) (1000 / num2);
       end_drawing ();
       make_board () num1 num2
 
@@ -161,6 +170,8 @@ let menu_helper () num1 num2 =
   entered*)
 let num_pressed_helper () num1 num2 =
   end_drawing ();
+  print_int num1;
+  print_int num2;
   menu_helper () num1 num2
 
 (*(Loop () num) Loops the menu creating the map when user clicks start
