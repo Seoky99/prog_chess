@@ -102,14 +102,14 @@ let rec make_even_row () num size os_x os_y =
   if num > 0 then (
     if num mod 2 = 0 then draw_rectangle os_x os_y size size Color.white
     else if num mod 2 = 1 then
-      draw_rectangle os_x os_y size size Color.black
+      draw_rectangle os_x os_y size size Color.green
     else ();
     make_even_row () (num - 1) size (os_x + size) os_y)
 
 (*(Make_odd_row () num size os_x os_y) creates an odd number row*)
 let rec make_odd_row () num size os_x os_y =
   if num > 0 then (
-    if num mod 2 = 0 then draw_rectangle os_x os_y size size Color.black
+    if num mod 2 = 0 then draw_rectangle os_x os_y size size Color.green
     else if num mod 2 = 1 then
       draw_rectangle os_x os_y size size Color.white
     else ();
@@ -123,13 +123,147 @@ let rec make_grid () num1 num2 cur size os_y =
     else ();
     make_grid () num1 num2 (cur - 1) size (os_y + size))
 
-let render_images () (height : int) (width : int) =
-  draw_texture
-    (load_texture_from_image white_knight_image)
-    (width / 3) (height / 3) Color.white;
-  draw_texture
-    (load_texture_from_image black_pawn_image)
-    (width * 2) (height * 2) Color.white
+let center_of_grid_box_x (x1 : int) (x2 : int) =
+  (float_of_int x1 +. float_of_int x2) /. 2.0
+
+let center_of_grid_box_y (y1 : int) (y2 : int) =
+  (float_of_int y1 +. float_of_int y2) /. 2.0
+
+let put_piece_on_board_helper_row
+    (piece_row : int)
+    (width : int)
+    (num_rows : int) =
+  let box_width = width / num_rows in
+  let end_of_the_box_x_coord = piece_row * box_width in
+  let beg_of_the_box_x_coord = (piece_row - 1) * box_width in
+  int_of_float
+    (center_of_grid_box_x beg_of_the_box_x_coord end_of_the_box_x_coord)
+
+let put_piece_on_board_helper_col
+    (piece_col : int)
+    (height : int)
+    (num_cols : int) =
+  let box_width = height / num_cols in
+  let given_piece_location = piece_col * box_width in
+  given_piece_location
+
+(*[top_left_corner_x x1 x2 width num_cols] outputs the left coordinate x
+  for the box which is denoted by x1*)
+let top_left_corner_x
+    (x1 : int)
+    (x2 : int)
+    (width : int)
+    (num_cols : int) =
+  let x2 = x2 - x2 in
+  let top_left_x = x1 + x2 in
+  float_of_int (top_left_x - 1)
+  *. (float_of_int width /. float_of_int num_cols)
+
+(*[top_left_corner_y]Outputs the top left y coordinate of the box which
+  is denoted by y1*)
+let top_left_corner_y
+    (y1 : int)
+    (y2 : int)
+    (height : int)
+    (num_rows : int) =
+  let y2 = y2 - y2 in
+  let top_left_y = y1 + y2 in
+  float_of_int (top_left_y - 1)
+  *. (float_of_int height /. float_of_int num_rows)
+
+(*[piece_to_image p]This method gives as ouput the correct image given
+  the piece name and the team of the piece*)
+let piece_to_image p =
+  let p_team = Piece.team_of p in
+  let type_of_piece = Piece.get_name p in
+  match type_of_piece with
+  | "black_pawn" -> black_pawn_image
+  | "white_pawn" -> white_pawn_image
+  | "rook" ->
+      if p_team = "black" then black_rook_image else white_rook_image
+  | "knight" ->
+      if p_team = "black" then black_knight_image
+      else white_knight_image
+  | "bishop" ->
+      if p_team = "black" then black_bishop_image
+      else white_bishop_image
+  | "queen" ->
+      if p_team = "black" then black_queen_image else white_queen_image
+  | "king" ->
+      if p_team = "black" then black_king_image else white_king_image
+  | _ -> error_image
+
+(*[render_images_helper p width height num_rows num_cols]This method is
+  a helper function for the render_images function. This method gives us
+  how large the image should be for a given board and the appropriate
+  image to render*)
+let render_images_helper (p : position) width height num_rows num_cols =
+  let id_location = Board.id_from_position p in
+  let current_piece = Board.get_piece p in
+  let image_for_piece = piece_to_image current_piece in
+  let image_multiplier =
+    match num_rows with
+    | 8
+    | 9 ->
+        2.0
+    | 10 -> 1.60
+    | 11 -> 1.45
+    | 12 -> 1.25
+    | 13
+    | 14 ->
+        1.10
+    | 15
+    | 16 ->
+        1.0
+    | 17
+    | 18 ->
+        0.8
+    | 19
+    | 20 ->
+        0.7
+    | 21
+    | 22 ->
+        0.6
+    | 23 -> 0.5
+    | 24
+    | 25 ->
+        0.45
+    | _ -> failwith "Invalid input"
+  in
+  if image_for_piece = error_image then ()
+  else
+    draw_texture_pro
+      (load_texture_from_image image_for_piece)
+      (Rectangle.create 0.0 0.0
+         (float_of_int (Image.width image_for_piece))
+         (float_of_int (Image.height image_for_piece)))
+      (Rectangle.create
+         (top_left_corner_x (snd id_location)
+            (fst id_location + 1)
+            width num_cols)
+         (top_left_corner_y (fst id_location)
+            (snd id_location + 1)
+            height num_rows)
+         (float_of_int (Image.width image_for_piece) *. image_multiplier)
+         (float_of_int (Image.height image_for_piece)
+         *. image_multiplier))
+      (Vector2.create 1.0 1.0)
+      0.0 Color.white
+
+(*[render_images board width height num_rows num_cols]Renders all the
+  pieces on the board when the game is started.*)
+let render_images () cur_board width height num_rows num_cols =
+  let position_list =
+    List.flatten (Board.positions_from_board cur_board)
+  in
+  let rec render p_list =
+    match p_list with
+    | [] -> ()
+    | h :: t ->
+        render_images_helper h width height num_rows num_cols;
+        render t
+  in
+  render position_list
 
 (*(Make_board () num) Creates the grid board and closes window if user
   exits*)
@@ -141,7 +275,9 @@ let rec make_board () num1 num2 =
       clear_background Color.gray;
       if num1 <= num2 then make_grid () num1 num2 num1 (1000 / num2) 0
       else make_grid () num1 num2 num1 (1000 / num1) 0;
-      render_images () (1000 / num1) (1000 / num2);
+      render_images ()
+        (Board.create_board num1 num2)
+        1000 1000 num1 num2;
       end_drawing ();
       make_board () num1 num2
 
