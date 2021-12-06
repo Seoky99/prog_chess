@@ -249,3 +249,15 @@ let check_move piece move_from_id move_to_id pos_lst =
       put_piece_pos_lst move_to_id piece pos_lst;
       remove_piece_pos_lst move_from_id pos_lst;
       pc
+
+let check_move_value piece move_from_id move_to_id pos_lst =
+  let piece_at_id = piece_of_position move_to_id pos_lst in
+  match piece_at_id with
+  | Nothing ->
+      put_piece_pos_lst move_to_id piece pos_lst;
+      remove_piece_pos_lst move_from_id pos_lst;
+      0
+  | pc ->
+      put_piece_pos_lst move_to_id piece pos_lst;
+      remove_piece_pos_lst move_from_id pos_lst;
+      get_value pc

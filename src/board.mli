@@ -109,5 +109,11 @@ val check_move :
     located at [move_to_id]. In addition, it moves the piece from
     [move_from_id] to [move_to_id]*)
 
+val check_move_value :
+  Piece.piece -> id -> id -> position list list -> int
+(** [check_move piece move_from_id move_to_id pos_lst] returns the value
+    of the piece located at [move_to_id]. In addition, it moves the
+    piece from [move_from_id] to [move_to_id]*)
+
 val get_piece : position -> Piece.piece
 (** [get_piece p] outputs the piece at the given position of the board.*)
