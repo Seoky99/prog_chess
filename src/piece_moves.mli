@@ -1,3 +1,9 @@
+val white_castle : bool ref
+(** true if white can castle *)
+
+val black_castle : bool ref
+(** true if black can castle *)
+
 val white_pawn_moves :
   Piece.piece ->
   int * int ->
