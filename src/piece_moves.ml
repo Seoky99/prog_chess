@@ -1,3 +1,18 @@
+(** [lastmove piece (row1,column1) (row2,column2)] is the last piece
+    that moved and where it moved from and to. If it is the first move,
+    then the lastmove is (0,0) (0,0) by Nothing. If the piece passed to
+    the method is Nothing, then the last move is returned. *)
+let lastmove piece (x1, y1) (x2, y2) =
+  let last = ref (Piece.Nothing, (0, 0), (0, 0)) in
+  if piece = Piece.Nothing then !last
+  else (
+    last := (piece, (x1, y1), (x2, y2));
+    !last)
+
+let white_castle = ref true
+
+let black_castle = ref true
+
 let move_back board original removed org_pos next_pos =
   let _ = Board.check_move original next_pos org_pos board in
   Board.put_piece_pos_lst next_pos removed board
@@ -111,10 +126,30 @@ let right_left_white_pawn piece pos pos_lst num_cols num_rows =
   in
   left @ right
 
+let white_passant piece pos pos_lst num_cols num_rows =
+  let next_piece, (x1, y1), (x2, y2) = lastmove Nothing (0, 0) (0, 0) in
+  match next_piece with
+  | Black_Pawn _ ->
+      if x1 != 2 || x2 != 4 then []
+      else if y1 != snd pos - 1 && y1 != snd pos + 1 then []
+      else
+        let _ = Board.check_move piece pos (x1 + 1, y1) pos_lst in
+        let _ = Board.check_move Nothing pos (x2, y2) pos_lst in
+        if Check.check pos_lst "white" num_cols num_rows then
+          let _ = Board.check_move next_piece pos (x2, y2) pos_lst in
+          let _ = Board.check_move piece (x1 + 1, y1) pos pos_lst in
+          []
+        else
+          let _ = Board.check_move next_piece pos (x2, y2) pos_lst in
+          let _ = Board.check_move piece (x1 + 1, y1) pos pos_lst in
+          [ (x1 + 1, y1) ]
+  | _ -> []
+
 let white_pawn_moves piece pos pos_lst num_cols num_rows =
   two_white_pawn piece pos pos_lst num_cols num_rows
   @ one_white_pawn piece pos pos_lst num_cols num_rows
   @ right_left_white_pawn piece pos pos_lst num_cols num_rows
+  @ white_passant piece pos pos_lst num_cols num_rows
 
 let two_black_pawn piece pos pos_lst num_cols num_rows =
   if fst pos = 2 then
@@ -187,10 +222,30 @@ let right_left_black_pawn piece pos pos_lst num_cols num_rows =
   in
   left @ right
 
+let black_passant piece pos pos_lst num_cols num_rows =
+  let next_piece, (x1, y1), (x2, y2) = lastmove Nothing (0, 0) (0, 0) in
+  match next_piece with
+  | White_Pawn _ ->
+      if x1 != 7 || x2 != 5 then []
+      else if y1 != snd pos - 1 && y1 != snd pos + 1 then []
+      else
+        let _ = Board.check_move piece pos (x1 - 1, y1) pos_lst in
+        let _ = Board.check_move Nothing pos (x2, y2) pos_lst in
+        if Check.check pos_lst "white" num_cols num_rows then
+          let _ = Board.check_move next_piece pos (x2, y2) pos_lst in
+          let _ = Board.check_move piece (x1 - 1, y1) pos pos_lst in
+          []
+        else
+          let _ = Board.check_move next_piece pos (x2, y2) pos_lst in
+          let _ = Board.check_move piece (x1 - 1, y1) pos pos_lst in
+          [ (x1 - 1, y1) ]
+  | _ -> []
+
 let black_pawn_det piece pos pos_lst num_cols num_rows =
   two_black_pawn piece pos pos_lst num_cols num_rows
   @ one_black_pawn piece pos pos_lst num_cols num_rows
   @ right_left_black_pawn piece pos pos_lst num_cols num_rows
+  @ black_passant piece pos pos_lst num_cols num_rows
 
 let black_pawn_moves pos board num_cols num_rows =
   black_pawn_det pos board num_cols num_rows
@@ -276,11 +331,72 @@ let diagonal_helper piece pos board num_cols num_rows team =
   in
   upright @ upleft @ downleft @ downright
 
+(** need to ensure rook is moved if king moved to castle position *)
+let castle_helper piece pos pos_lst num_cols num_rows team =
+  if !white_castle && pos = (8, 5) && team = "white" then
+    if
+      Board.piece_of_position (8, 6) pos_lst = Nothing
+      && Board.piece_of_position (8, 7) pos_lst = Nothing
+    then
+      let _ =
+        Board.check_move
+          (Board.piece_of_position (8, 8) pos_lst)
+          (8, 8) (8, 6) pos_lst
+      in
+      let _ = Board.check_move piece (8, 5) (8, 7) pos_lst in
+      if Check.check pos_lst team num_cols num_rows then
+        let _ =
+          Board.check_move
+            (Board.piece_of_position (8, 6) pos_lst)
+            (8, 6) (8, 8) pos_lst
+        in
+        let _ = Board.check_move piece (8, 7) (8, 5) pos_lst in
+        []
+      else
+        let _ =
+          Board.check_move
+            (Board.piece_of_position (8, 6) pos_lst)
+            (8, 6) (8, 8) pos_lst
+        in
+        let _ = Board.check_move piece (8, 7) (8, 5) pos_lst in
+        [ (8, 7) ]
+    else []
+  else if !black_castle && pos = (1, 5) && team = "black" then
+    if
+      Board.piece_of_position (1, 6) pos_lst = Nothing
+      && Board.piece_of_position (1, 7) pos_lst = Nothing
+    then
+      let _ =
+        Board.check_move
+          (Board.piece_of_position (1, 8) pos_lst)
+          (1, 8) (1, 6) pos_lst
+      in
+      let _ = Board.check_move piece (1, 5) (1, 7) pos_lst in
+      if Check.check pos_lst team num_cols num_rows then
+        let _ =
+          Board.check_move
+            (Board.piece_of_position (1, 6) pos_lst)
+            (1, 6) (1, 8) pos_lst
+        in
+        let _ = Board.check_move piece (1, 7) (1, 5) pos_lst in
+        []
+      else
+        let _ =
+          Board.check_move
+            (Board.piece_of_position (1, 6) pos_lst)
+            (1, 6) (1, 8) pos_lst
+        in
+        let _ = Board.check_move piece (1, 7) (1, 5) pos_lst in
+        [ (1, 7) ]
+    else []
+  else []
+
 let king_moves piece pos board num_cols num_rows =
   let team = Piece.team_of piece in
 
   cardinal_helper piece pos board num_cols num_rows team
   @ diagonal_helper piece pos board num_cols num_rows team
+  @ castle_helper piece pos board num_cols num_rows team
 
 let queen_moves piece pos board num_cols num_rows =
   rook_moves piece pos board num_cols num_rows
@@ -319,7 +435,7 @@ let rec determine_possibles board pos_lst acc num_cols num_rows =
 
 let calc_possible_moves board num_cols num_rows =
   determine_possibles board board [] num_cols num_rows
-  
+
 let team_of_space id board =
   Piece.team_of (Board.piece_of_position id board)
 
