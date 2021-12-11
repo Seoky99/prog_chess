@@ -1,5 +1,6 @@
 open Board
 open Piece_moves
+open Piece
 
 (*Idea: have a "State" object that you can continually check every loop
   iter*)
@@ -16,10 +17,15 @@ type play_state =
 
 type id = int * int
 
+(*Note: white_castle, black_castle is not ability to castle, but is a
+  check whether the rook or king has moved this game. Also note it's a
+  ref but will be dereferenced when you need to check you can castle*)
 type game_state = {
   game_board : board;
   mutable white_game_state : play_state;
   mutable black_game_state : play_state;
+  mutable white_castle : bool ref;
+  mutable black_castle : bool ref;
   mutable black_budget : int;
   mutable white_budget : int;
   mutable rounds : int;
@@ -31,6 +37,8 @@ let start_game h w =
     game_board = create_board h w;
     white_game_state = Normal;
     black_game_state = Normal;
+    white_castle = Piece_moves.white_castle;
+    black_castle = Piece_moves.black_castle;
     black_budget = 0;
     white_budget = 0;
     rounds = 0;
@@ -40,6 +48,22 @@ let get_play_state state team =
   match team with
   | "white" -> state.white_game_state
   | "black" -> state.black_game_state
+  | _ -> failwith team_error
+
+let get_budget state team =
+  match team with
+  | "white" -> state.white_budget
+  | "black" -> state.black_budget
+  | _ -> failwith team_error
+
+let get_rounds state = state.rounds
+
+let get_board state = state.game_board
+
+let get_castling state team =
+  match team with
+  | "white" -> !(state.white_castle)
+  | "black" -> !(state.black_castle)
   | _ -> failwith team_error
 
 (*TO DO: Check stalemate, check checkmate*)
@@ -90,6 +114,7 @@ let increment_white value state =
 let increment_black value state =
   state.black_budget <- state.black_budget + value
 
+(*TO DO: MOVE ROOK*)
 (*Fails or does nothing if nonlegal move?*)
 let move_piece start_id end_id team state =
   let brd = state.game_board in
@@ -109,7 +134,22 @@ let move_piece start_id end_id team state =
       check_move_value piece_at_start start_id end_id pos_lst
     in
 
+    (*CHECK HERE IF CASTLING*)
     let () = state.rounds <- state.rounds + 1 in
+
+    (*If the king or rook moves, set castling ability to false*)
+    let () =
+      match piece_at_start with
+      | Rook t when piece_info_team t = "white" ->
+          Piece_moves.white_castle := false
+      | King t when piece_info_team t = "black" ->
+          Piece_moves.black_castle := false
+      | Rook t when piece_info_team t = "white" ->
+          Piece_moves.white_castle := false
+      | King t when piece_info_team t = "black" ->
+          Piece_moves.black_castle := false
+      | _ -> ()
+    in
 
     (*Note: all you do is affect if OTHER team is stale/checkmated*)
     match team with
@@ -120,4 +160,4 @@ let move_piece start_id end_id team state =
         increment_black value state;
         perform_state_change state "white"
     | _ -> failwith team_error
-  else ()
+  else failwith "Nonlegal move"
