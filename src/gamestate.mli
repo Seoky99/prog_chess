@@ -23,6 +23,21 @@ val get_play_state : game_state -> string -> play_state
     inputed in. Basically a check whether a team is checkmated,
     stalemated, or not.*)
 
+val get_budget : game_state -> string -> int
+(** [get_budget state team] returns the budget of the team inputted in*)
+
+val get_rounds : game_state -> int
+(** [get_budget state team] returns the number of rounds that have
+    passed*)
+
+val get_board : game_state -> Board.board
+(** [get_budget state team] returns the board tracked in the state*)
+
+val get_castling : game_state -> string -> bool
+(** [get_budget state team] returns whether or not the team you input
+    still can castle. Note this does not check whether you have the
+    ability to MOVE to castle, but whether if you can can STILL castle*)
+
 val move_piece : id -> id -> string -> game_state -> unit
 (** [move_piece start_id end_id team state] does a lot of things. 1)
     Moves the piece at start_id to end_id, modifying the state's board

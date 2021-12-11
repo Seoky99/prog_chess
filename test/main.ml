@@ -4,6 +4,7 @@ open Board
 open Piece
 open Piece_moves
 open Check
+open Gamestate
 
 (*Now outdated, can keep if we ever decide to support smaller boards. *)
 let board3x3 = board_from_json (Yojson.Basic.from_file "data/3x3.json")
@@ -121,6 +122,90 @@ let col2board8x8 = n_col 2 board8x8
 
 let col3board8x8 = n_col 3 board8x8
 
+let pieces_of_8x8 =
+  [
+    [
+      "rook";
+      "knight";
+      "bishop";
+      "queen";
+      "king";
+      "bishop";
+      "knight";
+      "rook";
+    ];
+    [
+      "black_pawn";
+      "black_pawn";
+      "black_pawn";
+      "black_pawn";
+      "black_pawn";
+      "black_pawn";
+      "black_pawn";
+      "black_pawn";
+    ];
+    [
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+    ];
+    [
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+    ];
+    [
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+    ];
+    [
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+      "nothing";
+    ];
+    [
+      "white_pawn";
+      "white_pawn";
+      "white_pawn";
+      "white_pawn";
+      "white_pawn";
+      "white_pawn";
+      "white_pawn";
+      "white_pawn";
+    ];
+    [
+      "rook";
+      "knight";
+      "bishop";
+      "queen";
+      "king";
+      "bishop";
+      "knight";
+      "rook";
+    ];
+  ]
+
 let tuple_printer t =
   match t with
   | x, y -> "(" ^ string_of_int x ^ "," ^ string_of_int y ^ ")"
@@ -152,25 +237,37 @@ let rec two_d_printer str_lst =
   | [] -> ""
   | h :: t -> "[" ^ one_d_printer h ^ "]; \n" ^ two_d_printer t
 
+let state_printer state =
+  match state with
+  | Checkmate -> "Checkmate"
+  | Stalemate -> "Stalemate"
+  | Normal -> "Normal"
+
+let make_test name expected_output input printer =
+  name >:: fun _ -> assert_equal expected_output input ~printer
+
 let make_f_test name expected_output input =
   name >:: fun _ -> assert_equal expected_output input
 
 let make_tuple_lst_test name expected_output input =
-  name >:: fun _ ->
-  assert_equal expected_output input ~printer:tuple_lst_printer
+  make_test name expected_output input tuple_lst_printer
+
+let make_int_test name expected_output input =
+  make_test name expected_output input string_of_int
+
+let make_bool_test name expected_output input =
+  make_test name expected_output input string_of_bool
 
 let make_tuple_test name expected_output input =
-  name >:: fun _ ->
-  assert_equal expected_output input ~printer:tuple_printer
+  make_test name expected_output input tuple_printer
 
 let make_det_test name expected_output input =
-  name >:: fun _ ->
-  assert_equal expected_output input ~printer:det_printer
+  make_test name expected_output input det_printer
 
 let make_string_test name expected_output input =
-  name >:: fun _ ->
-  assert_equal expected_output input ~printer:String.escaped
+  make_test name expected_output input String.escaped
 
+(*FOR FUTURE USE OR DELETE*)
 let make_color_test name expected_output input =
   name >:: fun _ ->
   assert_equal expected_output input ~printer:String.escaped
@@ -180,12 +277,13 @@ let make_obstacle_test name expected_output input =
   assert_equal expected_output input ~printer:String.escaped
 
 let make_1d_test name expected_output input =
-  name >:: fun _ ->
-  assert_equal expected_output input ~printer:one_d_printer
+  make_test name expected_output input one_d_printer
 
 let make_2d_test name expected_output input =
-  name >:: fun _ ->
-  assert_equal expected_output input ~printer:two_d_printer
+  make_test name expected_output input two_d_printer
+
+let make_state_test name expected_output input =
+  make_test name expected_output input state_printer
 
 let board_tests =
   [
@@ -208,89 +306,7 @@ let board_tests =
     make_f_test "Col 3 of Board 8x8"
       [ (1, 3); (2, 3); (3, 3); (4, 3); (5, 3); (6, 3); (7, 3); (8, 3) ]
       (id_pos_lst col3board8x8);
-    make_2d_test "Board 8x8 pieces are correct"
-      [
-        [
-          "rook";
-          "knight";
-          "bishop";
-          "queen";
-          "king";
-          "bishop";
-          "knight";
-          "rook";
-        ];
-        [
-          "black_pawn";
-          "black_pawn";
-          "black_pawn";
-          "black_pawn";
-          "black_pawn";
-          "black_pawn";
-          "black_pawn";
-          "black_pawn";
-        ];
-        [
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-        ];
-        [
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-        ];
-        [
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-        ];
-        [
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-          "nothing";
-        ];
-        [
-          "white_pawn";
-          "white_pawn";
-          "white_pawn";
-          "white_pawn";
-          "white_pawn";
-          "white_pawn";
-          "white_pawn";
-          "white_pawn";
-        ];
-        [
-          "rook";
-          "knight";
-          "bishop";
-          "queen";
-          "king";
-          "bishop";
-          "knight";
-          "rook";
-        ];
-      ]
+    make_2d_test "Board 8x8 pieces are correct" pieces_of_8x8
       (piece_board board8x8);
     make_2d_test "Board 8x10 pieces are correct"
       [
@@ -1317,8 +1333,62 @@ let check_tests =
          8 8);
   ]
 
+(*Testing starting a new game*)
+let new_game = start_game 8 8
+
+let pieces_capture = start_game 8 8
+
+let () = move_piece (7, 5) (5, 5) "white" pieces_capture
+
+let () = move_piece (2, 4) (4, 4) "black" pieces_capture
+
+let () = move_piece (8, 6) (3, 1) "white" pieces_capture
+
+let () = move_piece (2, 2) (3, 1) "black" pieces_capture
+
+let () = move_piece (7, 8) (6, 8) "white" pieces_capture
+
+let () = move_piece (2, 8) (3, 8) "black" pieces_capture
+
+let () = move_piece (8, 8) (7, 8) "white" pieces_capture
+
+let gamestate_tests =
+  [
+    make_state_test "Initial state of normal board is normal" Normal
+      (get_play_state new_game "white");
+    make_state_test "Initial state of normal board is normal" Normal
+      (get_play_state new_game "black");
+    make_int_test "Initial state has both budgets 0" 0
+      (get_budget new_game "white");
+    make_int_test "Initial state has both budgets 0" 0
+      (get_budget new_game "black");
+    make_int_test "Initial state has rounds set to 0" 0
+      (get_rounds new_game);
+    make_2d_test "Initial board is set up correctly" pieces_of_8x8
+      (new_game |> get_board |> piece_board);
+    make_int_test "Pieces captured has seven rounds" 7
+      (get_rounds pieces_capture);
+    make_int_test "Pieces captured has white budget 0" 0
+      (get_budget pieces_capture "white");
+    make_int_test "Pieces captured has black budget 3" 3
+      (get_budget pieces_capture "black");
+    make_string_test "There is a black pawn on (3,1) now" "black_pawn"
+      (pieces_capture |> get_board
+      |> position_from_id (3, 1)
+      |> piece_direct |> get_name);
+    make_string_test "There is no white bishop now" "nothing"
+      (pieces_capture |> get_board
+      |> position_from_id (8, 6)
+      |> piece_direct |> get_name);
+    make_bool_test "White cannot castle now" false
+      (get_castling pieces_capture "white");
+    make_bool_test "Black can still castle now" true
+      (get_castling pieces_capture "black");
+  ]
+
 let suite =
   "test suite for Chess game 123"
-  >::: List.flatten [ board_tests; move_piece_tests; check_tests ]
+  >::: List.flatten
+         [ board_tests; move_piece_tests; check_tests; gamestate_tests ]
 
 let _ = run_test_tt_main suite
