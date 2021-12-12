@@ -333,6 +333,8 @@ let diagonal_helper piece pos board num_cols num_rows team =
 
 (** need to ensure rook is moved if king moved to castle position *)
 let castle_helper piece pos pos_lst num_cols num_rows team =
+  let () = print_endline (string_of_bool !white_castle) in
+
   if !white_castle && pos = (8, 5) && team = "white" then
     if
       Board.piece_of_position (8, 6) pos_lst = Nothing
@@ -391,12 +393,74 @@ let castle_helper piece pos pos_lst num_cols num_rows team =
     else []
   else []
 
+let castle_helper2 piece pos pos_lst num_cols num_rows team =
+  if !white_castle && pos = (8, 5) && team = "white" then
+    if
+      Board.piece_of_position (8, 4) pos_lst = Nothing
+      && Board.piece_of_position (8, 3) pos_lst = Nothing
+      && Board.piece_of_position (8, 2) pos_lst = Nothing
+    then
+      let _ =
+        Board.check_move
+          (Board.piece_of_position (8, 1) pos_lst)
+          (8, 1) (8, 4) pos_lst
+      in
+      let _ = Board.check_move piece (8, 5) (8, 3) pos_lst in
+      if Check.check pos_lst team num_cols num_rows then
+        let _ =
+          Board.check_move
+            (Board.piece_of_position (8, 4) pos_lst)
+            (8, 4) (8, 1) pos_lst
+        in
+        let _ = Board.check_move piece (8, 3) (8, 5) pos_lst in
+        []
+      else
+        let _ =
+          Board.check_move
+            (Board.piece_of_position (8, 4) pos_lst)
+            (8, 4) (8, 1) pos_lst
+        in
+        let _ = Board.check_move piece (8, 3) (8, 5) pos_lst in
+        [ (8, 3) ]
+    else []
+  else if !black_castle && pos = (1, 5) && team = "black" then
+    if
+      Board.piece_of_position (1, 2) pos_lst = Nothing
+      && Board.piece_of_position (1, 3) pos_lst = Nothing
+      && Board.piece_of_position (1, 4) pos_lst = Nothing
+    then
+      let _ =
+        Board.check_move
+          (Board.piece_of_position (1, 1) pos_lst)
+          (1, 1) (1, 4) pos_lst
+      in
+      let _ = Board.check_move piece (1, 5) (1, 3) pos_lst in
+      if Check.check pos_lst team num_cols num_rows then
+        let _ =
+          Board.check_move
+            (Board.piece_of_position (1, 4) pos_lst)
+            (1, 4) (1, 1) pos_lst
+        in
+        let _ = Board.check_move piece (1, 3) (1, 5) pos_lst in
+        []
+      else
+        let _ =
+          Board.check_move
+            (Board.piece_of_position (1, 4) pos_lst)
+            (1, 4) (1, 1) pos_lst
+        in
+        let _ = Board.check_move piece (1, 3) (1, 5) pos_lst in
+        [ (1, 3) ]
+    else []
+  else []
+
 let king_moves piece pos board num_cols num_rows =
   let team = Piece.team_of piece in
 
   cardinal_helper piece pos board num_cols num_rows team
   @ diagonal_helper piece pos board num_cols num_rows team
   @ castle_helper piece pos board num_cols num_rows team
+  @ castle_helper2 piece pos board num_cols num_rows team
 
 let queen_moves piece pos board num_cols num_rows =
   rook_moves piece pos board num_cols num_rows
