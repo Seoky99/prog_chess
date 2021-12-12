@@ -1384,11 +1384,66 @@ let gamestate_tests =
       (get_castling pieces_capture "white");
     make_bool_test "Black can still castle now" true
       (get_castling pieces_capture "black");
+    (*TESTING CASTLING*)
+  ]
+
+let () = reset_castling ()
+
+let testing_castling = start_game 8 8
+
+let () = move_piece (8, 7) (6, 6) "white" testing_castling
+
+let () = move_piece (1, 2) (3, 3) "black" testing_castling
+
+let () = move_piece (7, 7) (6, 7) "white" testing_castling
+
+let () = move_piece (2, 2) (3, 2) "black" testing_castling
+
+let () = move_piece (8, 6) (7, 7) "white" testing_castling
+
+let () = move_piece (1, 3) (2, 2) "black" testing_castling
+
+let () = move_piece (8, 5) (8, 7) "white" testing_castling
+
+let () = move_piece (2, 5) (3, 5) "black" testing_castling
+
+let () = move_piece (8, 7) (8, 8) "white" testing_castling
+
+let () = move_piece (1, 4) (2, 5) "black" testing_castling
+
+let () = move_piece (8, 8) (8, 7) "white" testing_castling
+
+let () = move_piece (1, 5) (1, 3) "black" testing_castling
+
+let castling_tests =
+  [
+    make_string_test "Rook is in correct place after casting" "rook"
+      (testing_castling |> get_board
+      |> position_from_id (8, 6)
+      |> piece_direct |> get_name);
+    make_string_test "King is in correct place after casting" "king"
+      (testing_castling |> get_board
+      |> position_from_id (8, 7)
+      |> piece_direct |> get_name);
+    make_string_test "Rook is in correct place after casting2" "rook"
+      (testing_castling |> get_board
+      |> position_from_id (1, 4)
+      |> piece_direct |> get_name);
+    make_string_test "King is in correct place after casting2" "king"
+      (testing_castling |> get_board
+      |> position_from_id (1, 3)
+      |> piece_direct |> get_name);
   ]
 
 let suite =
   "test suite for Chess game 123"
   >::: List.flatten
-         [ board_tests; move_piece_tests; check_tests; gamestate_tests ]
+         [
+           board_tests;
+           move_piece_tests;
+           check_tests;
+           gamestate_tests;
+           castling_tests;
+         ]
 
 let _ = run_test_tt_main suite

@@ -44,6 +44,10 @@ let start_game h w =
     rounds = 0;
   }
 
+let reset_castling () =
+  Piece_moves.white_castle := true;
+  Piece_moves.black_castle := true
+
 let get_play_state state team =
   match team with
   | "white" -> state.white_game_state
@@ -114,6 +118,34 @@ let increment_white value state =
 let increment_black value state =
   state.black_budget <- state.black_budget + value
 
+let rec tuple_lst_printer tlst =
+  match tlst with
+  | [] -> ""
+  | (x, y) :: t ->
+      "(" ^ string_of_int x ^ "," ^ string_of_int y ^ ") "
+      ^ tuple_lst_printer t
+
+(*if the king moves 2 squares to left or right then appropiately move
+  the rook*)
+let perform_castle pc state start_id end_id =
+  let board = state.game_board in
+
+  match pc with
+  | King _ ->
+      (*castling long*)
+      if snd end_id - snd start_id = 2 then
+        let rook = position_from_id (8, 8) board |> piece_direct in
+        let pos_lst = positions_from_board board in
+        let _ = check_move rook (8, 8) (8, 6) pos_lst in
+        () (*castling short*)
+      else if snd end_id - snd start_id = -2 then
+        let rook = position_from_id (1, 1) board |> piece_direct in
+        let pos_lst = positions_from_board board in
+        let _ = check_move rook (1, 1) (1, 4) pos_lst in
+        ()
+      else ()
+  | _ -> ()
+
 (*TO DO: MOVE ROOK*)
 (*Fails or does nothing if nonlegal move?*)
 let move_piece start_id end_id team state =
@@ -130,11 +162,15 @@ let move_piece start_id end_id team state =
 
   if is_in_list end_id poss_moves && team = Piece.team_of piece_at_start
   then
+    (*move the piece and gain budgetary units*)
     let value =
       check_move_value piece_at_start start_id end_id pos_lst
     in
 
-    (*CHECK HERE IF CASTLING*)
+    (*PERFORM CASTLING*)
+    let () = perform_castle piece_at_start state start_id end_id in
+
+    (*INCREMENT ROUNDS*)
     let () = state.rounds <- state.rounds + 1 in
 
     (*If the king or rook moves, set castling ability to false*)
@@ -160,4 +196,7 @@ let move_piece start_id end_id team state =
         increment_black value state;
         perform_state_change state "white"
     | _ -> failwith team_error
-  else failwith "Nonlegal move"
+  else
+    let s = tuple_lst_printer poss_moves in
+    print_endline s;
+    failwith "Nonlegal move"

@@ -38,6 +38,9 @@ val get_castling : game_state -> string -> bool
     still can castle. Note this does not check whether you have the
     ability to MOVE to castle, but whether if you can can STILL castle*)
 
+val reset_castling : unit -> unit
+(** [reset_castling ()] resets the castling counter*)
+
 val move_piece : id -> id -> string -> game_state -> unit
 (** [move_piece start_id end_id team state] does a lot of things. 1)
     Moves the piece at start_id to end_id, modifying the state's board
